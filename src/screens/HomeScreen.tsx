@@ -5,12 +5,8 @@ import { HabitCard } from '../components/HabitCard';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/StackNavigator';
-
-const habits = [
-  { id: '1', title: 'Drink water' },
-  { id: '2', title: 'Play game' },
-  { id: '3', title: 'Write clean code' },
-];
+import { Habit } from '../types/Habit';
+import { useHabit } from '../hooks/useHabit';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -19,6 +15,7 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 
 export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { habits } = useHabit();
 
   const toAddHabitScreen = () => navigation.navigate('AddHabit');
 
