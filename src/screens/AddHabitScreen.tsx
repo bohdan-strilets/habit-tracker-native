@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/StackNavigator';
 import { useHabit } from '../hooks/useHabit';
 import { StyledTextInput } from '../components/StyledTextInput';
+import { Habit } from '../types/Habit';
 
 type AddHabitScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -22,9 +23,10 @@ export const AddHabitScreen = () => {
   const createHabit = () => {
     navigate.navigate('Home');
 
-    const newHabit = {
+    const newHabit: Habit = {
       id: generateId(),
       title: title,
+      logs: [],
     };
 
     return addHabit(newHabit);
