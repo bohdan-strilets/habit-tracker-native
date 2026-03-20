@@ -1,41 +1,65 @@
-import { TextInput, View } from 'react-native';
-import { Btn } from '../components/Btn';
 import { useState } from 'react';
-import { generateId } from '../utils/generateId';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/StackNavigator';
+import { AddHabitForm } from '../components/AddHabitForm';
 import { useHabit } from '../hooks/useHabit';
-import { StyledTextInput } from '../components/StyledTextInput';
 import { Habit } from '../types/Habit';
-
-type AddHabitScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'AddHabit'
->;
+import { generateId } from '../utils/generateId';
+import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
 
 export const AddHabitScreen = () => {
   const [title, setTitle] = useState('');
 
-  const navigate = useNavigation<AddHabitScreenNavigationProp>();
+  const navigate = useNavigation();
   const { addHabit } = useHabit();
 
   const createHabit = () => {
-    navigate.navigate('Home');
+    const name = title.trim();
+    if (!name) return;
 
     const newHabit: Habit = {
       id: generateId(),
-      title: title,
+      title: name,
       logs: [],
+      createdAt: getCurrentLocalDateString(),
     };
 
-    return addHabit(newHabit);
+    addHabit(newHabit);
+    navigate.goBack();
   };
 
   return (
-    <View>
-      <StyledTextInput value={title} onChangeText={setTitle} />
-      <Btn title="Save" onPress={createHabit} />
+    <View style={styles.screen}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <AddHabitForm
+          title={title}
+          onChangeTitle={setTitle}
+          onSave={createHabit}
+        />
+      </ScrollView>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+
+    padding: 12,
+  },
+
+  scroll: {
+    flex: 1,
+  },
+
+  scrollContent: {
+    flexGrow: 1,
+
+    paddingBottom: 32,
+  },
+});
