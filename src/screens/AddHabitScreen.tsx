@@ -1,83 +1,21 @@
-import { useCallback, useRef, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import type { MainTabParamList } from '../navigation/types';
 import { AddHabitForm } from '../components/AddHabitForm';
-import { ScreenBackground } from '../components/ScreenBackground';
-import { useHabit } from '../hooks/useHabit';
-import { Habit } from '../types/Habit';
-import { space } from '../theme';
-import { generateId } from '../utils/generateId';
-import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
+import { AddHabitScreenFrame } from '../components/AddHabitScreenFrame';
+import { AddHabitScreenScroll } from '../components/AddHabitScreenScroll';
+import { useAddHabitScreen } from '../hooks/useAddHabitScreen';
 
 export const AddHabitScreen = () => {
-  const [title, setTitle] = useState('');
-  const [entranceKey, setEntranceKey] = useState(0);
-  const skipEntranceBump = useRef(true);
-
-  const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
-  const { addHabit } = useHabit();
-
-  useFocusEffect(
-    useCallback(() => {
-      if (skipEntranceBump.current) {
-        skipEntranceBump.current = false;
-        return;
-      }
-      setEntranceKey((k) => k + 1);
-    }, []),
-  );
-
-  const createHabit = () => {
-    const name = title.trim();
-    if (!name) return;
-
-    const newHabit: Habit = {
-      id: generateId(),
-      title: name,
-      logs: [],
-      createdAt: getCurrentLocalDateString(),
-    };
-
-    addHabit(newHabit);
-    setTitle('');
-    navigation.navigate('HomeTab', { screen: 'Home' });
-  };
+  const { title, setTitle, entranceKey, submitNewHabit } = useAddHabitScreen();
 
   return (
-    <ScreenBackground style={styles.screen}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
+    <AddHabitScreenFrame>
+      <AddHabitScreenScroll>
         <AddHabitForm
           title={title}
           onChangeTitle={setTitle}
-          onSave={createHabit}
+          onSave={submitNewHabit}
           entrancePlayKey={entranceKey}
         />
-      </ScrollView>
-    </ScreenBackground>
+      </AddHabitScreenScroll>
+    </AddHabitScreenFrame>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-
-    padding: space.base,
-  },
-
-  scroll: {
-    flex: 1,
-  },
-
-  scrollContent: {
-    flexGrow: 1,
-
-    paddingBottom: space['7xl'],
-  },
-});
