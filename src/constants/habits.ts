@@ -1,0 +1,3 @@
+export const HABIT_TITLE_MAX_LENGTH = 80;
+
+export const HABIT_DETAILS_TIMELINE_DAYS = 7;
