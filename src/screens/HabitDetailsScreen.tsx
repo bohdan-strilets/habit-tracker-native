@@ -1,12 +1,13 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  Alert,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import {
   RouteProp,
   useFocusEffect,
@@ -14,6 +15,16 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Animated, {
+  Easing,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 import { HabitProgressSection } from '../components/HabitProgressSection';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Stack } from '../components/Stack';
@@ -28,6 +39,57 @@ type HabitDetailsNav = NativeStackNavigationProp<
   RootStackParamList,
   'HabitDetails'
 >;
+
+const ENTRANCE = {
+  duration: 520,
+  stagger: 88,
+  offsetY: 16,
+  easing: Easing.out(Easing.cubic),
+} as const;
+
+function FadeSlideIn({
+  children,
+  index,
+  style,
+}: {
+  children: ReactNode;
+  index: number;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const opacity = useSharedValue(0);
+  const translateY = useSharedValue<number>(ENTRANCE.offsetY);
+
+  useEffect(() => {
+    opacity.value = 0;
+    translateY.value = ENTRANCE.offsetY;
+    const delay = index * ENTRANCE.stagger;
+    opacity.value = withDelay(
+      delay,
+      withTiming(1, {
+        duration: ENTRANCE.duration,
+        easing: ENTRANCE.easing,
+      }),
+    );
+    translateY.value = withDelay(
+      delay,
+      withTiming(0, {
+        duration: ENTRANCE.duration,
+        easing: ENTRANCE.easing,
+      }),
+    );
+  }, [index, opacity, translateY]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ translateY: translateY.value }],
+  }));
+
+  return (
+    <Animated.View style={[style, animatedStyle]}>{children}</Animated.View>
+  );
+}
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const HabitDetailsScreen = () => {
   const { habitId } = useRoute<HabitDetailsRoute>().params;
@@ -47,6 +109,80 @@ export const HabitDetailsScreen = () => {
   );
 
   const { isDoneToday, streak, completionRate } = useHabitStats(habit?.logs);
+
+  const blendHabitKey = habit
+    ? String(habitId)
+    : `pending-${String(habitId)}`;
+
+  const statusBlend = useSharedValue(habit ? (isDoneToday ? 1 : 0) : 0);
+  const prevBlendKeyRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const prev = prevBlendKeyRef.current;
+    prevBlendKeyRef.current = blendHabitKey;
+
+    if (prev !== blendHabitKey) {
+      statusBlend.value = habit ? (isDoneToday ? 1 : 0) : 0;
+      return;
+    }
+
+    if (!habit) return;
+
+    statusBlend.value = withTiming(isDoneToday ? 1 : 0, {
+      duration: 440,
+      easing: Easing.bezier(0.33, 1, 0.68, 1),
+    });
+  }, [blendHabitKey, habit, isDoneToday, statusBlend]);
+
+  const badgeAnimatedStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      statusBlend.value,
+      [0, 1],
+      ['#fdecec', '#e6f7ee'],
+    ),
+  }));
+
+  const badgeTextAnimatedStyle = useAnimatedStyle(() => ({
+    color: interpolateColor(
+      statusBlend.value,
+      [0, 1],
+      ['#b71c1c', '#1b5e20'],
+    ),
+  }));
+
+  const statPulse = useSharedValue(1);
+  const skipStatPulse = useRef(true);
+  useEffect(() => {
+    skipStatPulse.current = true;
+  }, [habitId]);
+
+  useEffect(() => {
+    if (skipStatPulse.current) {
+      skipStatPulse.current = false;
+      return;
+    }
+    statPulse.value = 1;
+    statPulse.value = withSequence(
+      withTiming(1.045, {
+        duration: 140,
+        easing: Easing.out(Easing.quad),
+      }),
+      withSpring(1, {
+        stiffness: 320,
+        damping: 20,
+        mass: 0.35,
+      }),
+    );
+  }, [streak, completionRate, statPulse]);
+
+  const statPulseStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: statPulse.value }],
+  }));
+
+  const dangerScale = useSharedValue(1);
+  const dangerAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: dangerScale.value }],
+  }));
 
   useEffect(() => {
     if (habit) {
@@ -77,15 +213,17 @@ export const HabitDetailsScreen = () => {
   if (!habit) {
     return (
       <View style={styles.screen}>
-        <Card>
-          <Stack spacing={16} padding={0}>
-            <Text style={styles.missing}>Habit not found</Text>
-            <PrimaryButton
-              title="Go back"
-              onPress={() => navigation.goBack()}
-            />
-          </Stack>
-        </Card>
+        <FadeSlideIn index={0}>
+          <Card>
+            <Stack spacing={16} padding={0}>
+              <Text style={styles.missing}>Habit not found</Text>
+              <PrimaryButton
+                title="Go back"
+                onPress={() => navigation.goBack()}
+              />
+            </Stack>
+          </Card>
+        </FadeSlideIn>
       </View>
     );
   }
@@ -98,67 +236,81 @@ export const HabitDetailsScreen = () => {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <Card>
-          <Text style={styles.sectionHeading}>Overview</Text>
-          <View style={styles.createdBlock}>
-            <Text style={styles.createdLabel}>Created</Text>
-            <Text style={styles.createdValue}>
-              {habit.createdAt
-                ? formatYyyyMmDdLong(habit.createdAt)
-                : '—'}
-            </Text>
-          </View>
-
-          <View style={styles.statsRow}>
-            <View style={styles.statItem}>
-              <Text style={styles.statValue}>🔥 {streak}</Text>
-              <Text style={styles.statLabel}>Streak</Text>
+        <FadeSlideIn index={0}>
+          <Card>
+            <Text style={styles.sectionHeading}>Overview</Text>
+            <View style={styles.createdBlock}>
+              <Text style={styles.createdLabel}>Created</Text>
+              <Text style={styles.createdValue}>
+                {habit.createdAt ? formatYyyyMmDdLong(habit.createdAt) : '—'}
+              </Text>
             </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statValue}>📊 {completionRate}%</Text>
-              <Text style={styles.statLabel}>Completion</Text>
-            </View>
-          </View>
 
-          <View
-            style={[
-              styles.statusBadge,
-              isDoneToday ? styles.done : styles.notDone,
-            ]}
-          >
-            <Text style={styles.statusText}>
-              {isDoneToday ? 'Done today' : 'Not done'}
-            </Text>
-          </View>
-        </Card>
+            <Animated.View style={statPulseStyle}>
+              <View style={styles.statsRow}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statValue}>🔥 {streak}</Text>
+                  <Text style={styles.statLabel}>Streak</Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statValue}>📊 {completionRate}%</Text>
+                  <Text style={styles.statLabel}>Completion</Text>
+                </View>
+              </View>
+            </Animated.View>
 
-        <Card>
-          <HabitProgressSection logs={habit.logs} />
-        </Card>
+            <Animated.View style={[styles.statusBadge, badgeAnimatedStyle]}>
+              <Animated.Text
+                style={[styles.statusText, badgeTextAnimatedStyle]}
+              >
+                {isDoneToday ? 'Done today' : 'Not done'}
+              </Animated.Text>
+            </Animated.View>
+          </Card>
+        </FadeSlideIn>
 
-        <Card>
-          <Text style={styles.sectionHeading}>Actions</Text>
-          <Stack spacing={14} padding={0}>
-            <PrimaryButton
-              title={
-                isDoneToday ? 'Already completed today' : 'Mark as completed'
-              }
-              onPress={handleMarkCompleted}
-              disabled={isDoneToday}
-            />
+        <FadeSlideIn index={1}>
+          <Card>
+            <HabitProgressSection logs={habit.logs} />
+          </Card>
+        </FadeSlideIn>
 
-            <Pressable
-              accessibilityRole="button"
-              onPress={handleDelete}
-              style={({ pressed }) => [
-                styles.dangerButton,
-                pressed && styles.dangerPressed,
-              ]}
-            >
-              <Text style={styles.dangerText}>Delete habit</Text>
-            </Pressable>
-          </Stack>
-        </Card>
+        <FadeSlideIn index={2}>
+          <Card>
+            <Text style={styles.sectionHeading}>Actions</Text>
+            <Stack spacing={14} padding={0}>
+              <PrimaryButton
+                title={
+                  isDoneToday ? 'Already completed today' : 'Mark as completed'
+                }
+                onPress={handleMarkCompleted}
+                disabled={isDoneToday}
+              />
+
+              <AnimatedPressable
+                accessibilityRole="button"
+                onPress={handleDelete}
+                onPressIn={() => {
+                  dangerScale.value = withSpring(0.97, {
+                    stiffness: 420,
+                    damping: 22,
+                    mass: 0.25,
+                  });
+                }}
+                onPressOut={() => {
+                  dangerScale.value = withSpring(1, {
+                    stiffness: 420,
+                    damping: 22,
+                    mass: 0.25,
+                  });
+                }}
+                style={[styles.dangerButton, dangerAnimatedStyle]}
+              >
+                <Text style={styles.dangerText}>Delete habit</Text>
+              </AnimatedPressable>
+            </Stack>
+          </Card>
+        </FadeSlideIn>
       </ScrollView>
     </View>
   );
@@ -257,14 +409,6 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
 
-  done: {
-    backgroundColor: '#e6f7ee',
-  },
-
-  notDone: {
-    backgroundColor: '#fdecec',
-  },
-
   statusText: {
     fontSize: 12,
     fontWeight: '500',
@@ -281,10 +425,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fdecec',
 
     borderColor: '#f0b4b4',
-  },
-
-  dangerPressed: {
-    opacity: 0.85,
   },
 
   dangerText: {
