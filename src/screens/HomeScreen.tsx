@@ -1,6 +1,8 @@
+import { useCallback, useRef, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { FadeSlideIn } from '../components/FadeSlideIn';
 import { HabitsList } from '../components/HabitsList';
 import { HomeHabitsHeader } from '../components/HomeHabitsHeader';
 import { RootStackParamList } from '../navigation/StackNavigator';
@@ -12,6 +14,18 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 
 export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const [entranceKey, setEntranceKey] = useState(0);
+  const skipEntranceBump = useRef(true);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (skipEntranceBump.current) {
+        skipEntranceBump.current = false;
+        return;
+      }
+      setEntranceKey((k) => k + 1);
+    }, []),
+  );
 
   const toAddHabitScreen = () => navigation.navigate('AddHabit');
 
@@ -22,9 +36,13 @@ export const HomeScreen = () => {
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
-      <HomeHabitsHeader onAddHabit={toAddHabitScreen} />
+      <FadeSlideIn index={0} playKey={entranceKey}>
+        <HomeHabitsHeader onAddHabit={toAddHabitScreen} />
+      </FadeSlideIn>
 
-      <HabitsList />
+      <FadeSlideIn index={1} playKey={entranceKey}>
+        <HabitsList />
+      </FadeSlideIn>
     </ScrollView>
   );
 };
