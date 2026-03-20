@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {
+  DEFAULT_COUNT_TARGET,
   DEFAULT_HABIT_ACCENT_HEX,
   DEFAULT_HABIT_CATEGORY,
   DEFAULT_HABIT_ICON,
@@ -13,8 +14,6 @@ import type { Habit, HabitCategoryId, HabitFrequency } from '../types/Habit';
 import { useHabit } from './useHabit';
 import { generateId } from '../utils/generateId';
 import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
-
-const DEFAULT_COUNT_TARGET = '8';
 
 function isPresetIcon(icon: string) {
   return (HABIT_ICON_PRESETS as readonly string[]).includes(icon);

@@ -1,6 +1,9 @@
 import type { HabitCategoryId, HabitFrequency } from '../../types/Habit';
 
+export type AddHabitFormMode = 'create' | 'edit';
+
 export type AddHabitFormProps = {
+  formMode?: AddHabitFormMode;
   title: string;
   onChangeTitle: (text: string) => void;
   selectedIcon: string;
@@ -18,5 +21,5 @@ export type AddHabitFormProps = {
   targetStr: string;
   onChangeTargetStr: (text: string) => void;
   onSave: () => void;
-  entrancePlayKey?: number;
+  entrancePlayKey?: number | string;
 };

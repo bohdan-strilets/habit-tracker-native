@@ -17,6 +17,7 @@ export const HabitDetailsScreen = () => {
     badgeTextAnimatedStyle,
     statPulseStyle,
     goBack,
+    goToEdit,
     markCompleted,
     confirmDelete,
   } = useHabitDetailsScreen();
@@ -51,6 +52,7 @@ export const HabitDetailsScreen = () => {
         <FadeSlideIn index={2} playKey={habit.id}>
           <HabitDetailsActionsCard
             isDoneToday={isDoneToday}
+            onEdit={goToEdit}
             onMarkCompleted={markCompleted}
             onDelete={confirmDelete}
           />

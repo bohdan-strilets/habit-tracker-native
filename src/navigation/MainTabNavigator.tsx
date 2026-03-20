@@ -3,8 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useMemo } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { AppTabBar } from '../components/AppTabBar';
-import { AddHabitScreen } from '../screens/AddHabitScreen';
-import { SettingsScreen } from '../screens/SettingsScreen';
+import { AddHabitScreen, SettingsScreen } from '../screens';
 import {
   getTabBarContainerStyle,
   layout,

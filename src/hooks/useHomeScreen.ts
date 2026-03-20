@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import {
+  Alert,
   LayoutAnimation,
   Platform,
   UIManager,
@@ -37,7 +38,7 @@ function greetingLabel(hour: number) {
 
 export const useHomeScreen = () => {
   const navigation = useNavigation<HomeNav>();
-  const { habits, toggleHabit, incrementCountToday } = useHabit();
+  const { habits, toggleHabit, incrementCountToday, removeHabit } = useHabit();
 
   useEffect(() => {
     if (
@@ -95,9 +96,33 @@ export const useHomeScreen = () => {
     [navigation],
   );
 
+  const onEditHabit = useCallback(
+    (id: string) => {
+      navigation.navigate('EditHabit', { habitId: id });
+    },
+    [navigation],
+  );
+
   const onCreateFirstHabit = useCallback(() => {
     navigation.navigate('AddHabit');
   }, [navigation]);
+
+  const onDeleteHabit = useCallback(
+    (id: string) => {
+      Alert.alert('Delete habit', 'This cannot be undone.', [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            removeHabit(id);
+          },
+        },
+      ]);
+    },
+    [removeHabit],
+  );
 
   return {
     userName: USER_NAME,
@@ -111,6 +136,8 @@ export const useHomeScreen = () => {
     total,
     onToggleDone,
     onOpenDetails,
+    onEditHabit,
     onCreateFirstHabit,
+    onDeleteHabit,
   };
 };

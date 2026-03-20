@@ -1,7 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useMemo } from 'react';
-import { HabitDetailsScreen } from '../screens/HabitDetailsScreen';
-import { HomeScreen } from '../screens/HomeScreen';
+import {
+  EditHabitScreen,
+  HabitDetailsScreen,
+  HomeScreen,
+} from '../screens';
 import { fontWeight, useAppTheme } from '../theme';
 import type { HomeStackParamList } from './types';
 
@@ -30,6 +33,11 @@ export const HomeStackNavigator = () => {
       <Stack.Screen
         name="HabitDetails"
         component={HabitDetailsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditHabit"
+        component={EditHabitScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

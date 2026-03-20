@@ -137,6 +137,10 @@ export const useHabitDetailsScreen = () => {
     navigation.goBack();
   }, [navigation]);
 
+  const goToEdit = useCallback(() => {
+    navigation.navigate('EditHabit', { habitId });
+  }, [habitId, navigation]);
+
   const markCompleted = useCallback(() => {
     const h = habits.find((x) => String(x.id) === String(habitId));
     const kind = h?.kind ?? 'boolean';
@@ -170,6 +174,7 @@ export const useHabitDetailsScreen = () => {
     badgeTextAnimatedStyle,
     statPulseStyle,
     goBack,
+    goToEdit,
     markCompleted,
     confirmDelete,
   };

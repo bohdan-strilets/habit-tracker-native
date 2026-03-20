@@ -10,6 +10,7 @@ import type { HabitDetailsActionsCardProps } from './HabitDetailsActionsCard.typ
 
 export const HabitDetailsActionsCard = ({
   isDoneToday,
+  onEdit,
   onMarkCompleted,
   onDelete,
 }: HabitDetailsActionsCardProps) => {
@@ -29,6 +30,8 @@ export const HabitDetailsActionsCard = ({
         padding={0}
         style={habitDetailsActionsCardStyles.stack}
       >
+        <PrimaryButton title="Edit habit" onPress={onEdit} />
+
         <PrimaryButton title={primaryTitle} onPress={onMarkCompleted} />
 
         <PrimaryButton variant="danger" title="Delete habit" onPress={onDelete} />

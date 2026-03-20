@@ -30,6 +30,7 @@ import type { AddHabitFormProps } from './AddHabitForm.types';
 import { createAddHabitFormStyles } from './AddHabitForm.styles';
 
 export const AddHabitForm = ({
+  formMode = 'create',
   title,
   onChangeTitle,
   selectedIcon,
@@ -59,6 +60,7 @@ export const AddHabitForm = ({
     [theme.colors],
   );
 
+  const isEdit = formMode === 'edit';
   const trimmed = title.trim();
   const canSave = trimmed.length > 0;
   const parsedTarget = parseInt(targetStr.replace(/\s/g, ''), 10);
@@ -79,12 +81,21 @@ export const AddHabitForm = ({
       <FadeSlideIn index={0} playKey={entrancePlayKey}>
         <View style={styles.formStack}>
           <Card>
-            <Text style={styles.headline}>New habit</Text>
-            <Text style={styles.lead}>
-              Only habit name is required. Icon, color, category, notes,
-              frequency, and number goal all have defaults or are optional —
-              badges show which is which.
+            <Text style={styles.headline}>
+              {isEdit ? 'Edit habit' : 'New habit'}
             </Text>
+            {!isEdit ? (
+              <Text style={styles.lead}>
+                Only habit name is required. Icon, color, category, notes,
+                frequency, and number goal all have defaults or are optional —
+                badges show which is which.
+              </Text>
+            ) : (
+              <Text style={styles.lead}>
+                Update name, appearance, or schedule. Your history and
+                check-ins stay as they are.
+              </Text>
+            )}
           </Card>
 
           <Card>
@@ -300,12 +311,14 @@ export const AddHabitForm = ({
             <Stack spacing={space.lg} padding={0}>
               {!canSave && title.length === 0 ? (
                 <Text style={styles.inlineHint}>
-                  Enter a name in Basics, then tap Create habit.
+                  {isEdit
+                    ? 'Enter a name in Basics, then save your changes.'
+                    : 'Enter a name in Basics, then tap Create habit.'}
                 </Text>
               ) : null}
 
               <PrimaryButton
-                title="Create habit"
+                title={isEdit ? 'Save changes' : 'Create habit'}
                 onPress={handleSave}
                 disabled={!canSave || !targetOk}
               />
@@ -314,24 +327,27 @@ export const AddHabitForm = ({
         </View>
       </FadeSlideIn>
 
-      <FadeSlideIn index={1} playKey={entrancePlayKey}>
-        <Card variant="muted">
-          <Text style={styles.tipsTitle}>Quick tips</Text>
-          <Text style={styles.tipLine}>
-            • Tap a habit on the home list to toggle today, or open details for
-            the {HABIT_DETAILS_TIMELINE_DAYS}-day timeline.
-          </Text>
-          <Text style={styles.tipLine}>
-            • On the details screen, use &quot;Mark as completed&quot; for today.
-            After you&apos;ve marked today, the button stays disabled until
-            tomorrow.
-          </Text>
-          <Text style={[styles.tipLine, styles.tipLineLast]}>
-            • Frequency is saved on the habit (daily vs weekly) so you can filter
-            or remind yourself later; marking today works the same either way.
-          </Text>
-        </Card>
-      </FadeSlideIn>
+      {!isEdit ? (
+        <FadeSlideIn index={1} playKey={entrancePlayKey}>
+          <Card variant="muted">
+            <Text style={styles.tipsTitle}>Quick tips</Text>
+            <Text style={styles.tipLine}>
+              • Tap a habit on the home list to toggle today, or open details for
+              the {HABIT_DETAILS_TIMELINE_DAYS}-day timeline.
+            </Text>
+            <Text style={styles.tipLine}>
+              • On the details screen, use &quot;Mark as completed&quot; for
+              today. After you&apos;ve marked today, the button stays disabled
+              until tomorrow.
+            </Text>
+            <Text style={[styles.tipLine, styles.tipLineLast]}>
+              • Frequency is saved on the habit (daily vs weekly) so you can
+              filter or remind yourself later; marking today works the same
+              either way.
+            </Text>
+          </Card>
+        </FadeSlideIn>
+      ) : null}
     </View>
   );
 };

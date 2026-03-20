@@ -58,3 +58,5 @@ export const HABIT_CATEGORY_OPTIONS: HabitCategoryOption[] = [
 ];
 
 export const DEFAULT_HABIT_CATEGORY: HabitCategoryId = 'other';
+
+export const DEFAULT_COUNT_TARGET = '8';
