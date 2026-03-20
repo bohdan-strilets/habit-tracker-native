@@ -1,64 +1,107 @@
 import { StyleSheet } from 'react-native';
 import type { AppTheme } from '../../theme';
-import { fontSize, fontWeight, radii, space } from '../../theme';
+import { fontSize, fontWeight, layout, radii, space } from '../../theme';
 
 export const createHabitCardStyles = (theme: AppTheme) =>
   StyleSheet.create({
-    card: {
-      padding: space.xl,
-      borderRadius: radii.xl,
-      overflow: 'hidden',
-
-      backgroundColor: theme.colors.background.surface,
-
-      ...theme.shadows.cardShadow,
-    },
-
-    cardPlain: {
-      padding: 0,
-      borderRadius: 0,
-
-      backgroundColor: theme.colors.background.transparent,
-
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      shadowOffset: { width: 0, height: 0 },
-
-      elevation: 0,
-    },
-
-    title: {
+    wrap: {
       marginBottom: space.base,
-
-      fontSize: fontSize['2xl'],
+    },
+    card: {
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      borderRadius: radii.md,
+      backgroundColor: theme.colors.background.surface,
+      ...theme.shadows.cardShadow,
+      overflow: 'hidden',
+    },
+    cardDone: {
+      opacity: 0.55,
+    },
+    cardMain: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      padding: space.base,
+      minWidth: 0,
+    },
+    iconWrap: {
+      width: 44,
+      height: 44,
+      borderRadius: radii.sm,
+      backgroundColor: theme.colors.background.surfaceMuted,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: space.base,
+    },
+    icon: {
+      fontSize: fontSize['3xl'],
+    },
+    body: {
+      flex: 1,
+      minWidth: 0,
+    },
+    titleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: space.sm,
+      marginBottom: space.sm,
+    },
+    title: {
+      flex: 1,
+      fontSize: fontSize.lg,
       fontWeight: fontWeight.semibold,
-
       color: theme.colors.text.primary,
     },
-
-    statsRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+    categoryMeta: {
+      fontSize: fontSize.xs,
+      fontWeight: fontWeight.medium,
+      color: theme.colors.text.hint,
+      marginBottom: space.xs,
+      textTransform: 'uppercase',
+      letterSpacing: 0.4,
     },
-
-    statItem: {
-      alignItems: 'center',
-    },
-
-    statValue: {
-      fontSize: fontSize.xl,
-      fontWeight: fontWeight.semibold,
-
-      color: theme.colors.text.secondary,
-    },
-
-    statLabel: {
+    notesMeta: {
       fontSize: fontSize.sm,
-
+      color: theme.colors.text.subtle,
+      marginBottom: space.sm,
+    },
+    statusDone: {
+      fontSize: fontSize.sm,
+      fontWeight: fontWeight.semibold,
+      color: theme.colors.primary.dark,
+    },
+    statusTodo: {
+      fontSize: fontSize.sm,
+      fontWeight: fontWeight.medium,
       color: theme.colors.text.hint,
     },
-
-    pressableWrapper: {
+    countLabel: {
+      fontSize: fontSize.xs,
+      fontWeight: fontWeight.medium,
+      color: theme.colors.text.hint,
+      marginBottom: space.xs,
+    },
+    doneColumn: {
+      alignSelf: 'stretch',
+      width: layout.habitCardDoneColumnWidth,
+      borderLeftWidth: StyleSheet.hairlineWidth,
+      borderLeftColor: theme.colors.border.hairline,
+    },
+    doneButton: {
       flex: 1,
+      alignSelf: 'stretch',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderTopRightRadius: radii.md,
+      borderBottomRightRadius: radii.md,
+      backgroundColor: theme.colors.primary.main,
+    },
+    doneButtonMuted: {
+      backgroundColor: theme.colors.background.surfaceMuted,
+    },
+    doneButtonPressed: {
+      opacity: 0.88,
     },
   });

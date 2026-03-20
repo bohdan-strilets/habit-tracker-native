@@ -1,8 +1,7 @@
-import type { Log } from '../../types/Habit';
+import type { HomeScreenHabit } from '../../types/homeScreenHabit';
 
 export type HabitCardProps = {
-  title: string;
-  logs: Log[];
-  onPress: () => void;
-  variant?: 'elevated' | 'plain';
+  habit: HomeScreenHabit;
+  onOpenDetails: (id: string) => void;
+  onToggleDone: (id: string) => void;
 };

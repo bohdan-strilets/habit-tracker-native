@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Card } from '../Card';
-import { HabitCard } from '../HabitCard';
+import { HabitSummaryCard } from '../HabitSummaryCard';
 import { HabitsListEmptyState } from '../HabitsListEmptyState';
 import { useHabit } from '../../hooks/useHabit';
 import type { HabitsListNavigation } from './HabitsList.types';
@@ -35,10 +35,9 @@ export const HabitsList = () => {
       ListEmptyComponent={HabitsListEmptyState}
       renderItem={({ item }) => (
         <Card>
-          <HabitCard
+          <HabitSummaryCard
             variant="plain"
-            title={item.title}
-            logs={item.logs}
+            habit={item}
             onPress={() =>
               navigation.navigate('HabitDetails', { habitId: item.id })
             }
