@@ -1,12 +1,9 @@
-import { FlatList, View } from 'react-native';
-import { Title } from '../components/Title';
-import { Btn } from '../components/Btn';
-import { HabitCard } from '../components/HabitCard';
+import { ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HabitsList } from '../components/HabitsList';
+import { HomeHabitsHeader } from '../components/HomeHabitsHeader';
 import { RootStackParamList } from '../navigation/StackNavigator';
-import { Habit } from '../types/Habit';
-import { useHabit } from '../hooks/useHabit';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -15,26 +12,32 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 
 export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { habits } = useHabit();
 
   const toAddHabitScreen = () => navigation.navigate('AddHabit');
 
   return (
-    <>
-      <View>
-        <Title title="My Habits" />
-        <Btn title="+ Add Habit" onPress={toAddHabitScreen} />
-      </View>
+    <ScrollView
+      style={styles.scroll}
+      contentContainerStyle={styles.scrollContent}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
+      <HomeHabitsHeader onAddHabit={toAddHabitScreen} />
 
-      <View>
-        <FlatList
-          data={habits}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <HabitCard title={item.title} onToggle={() => {}} />
-          )}
-        />
-      </View>
-    </>
+      <HabitsList />
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+  },
+
+  scrollContent: {
+    gap: 28,
+
+    padding: 12,
+    paddingBottom: 32,
+  },
+});
