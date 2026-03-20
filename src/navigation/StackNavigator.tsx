@@ -15,7 +15,14 @@ export const StackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="AddHabit" component={AddHabitScreen} />
+      <Stack.Screen
+        name="AddHabit"
+        component={AddHabitScreen}
+        options={{
+          title: 'New habit',
+          headerBackTitle: 'Back',
+        }}
+      />
       <Stack.Screen name="HabitDetails" component={HabitDetailsScreen} />
     </Stack.Navigator>
   );
