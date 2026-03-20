@@ -29,12 +29,12 @@ import { Stack } from '../components/Stack';
 import { Card } from '../components/Card';
 import { useHabit } from '../hooks/useHabit';
 import { useHabitStats } from '../hooks/useHabitStats';
-import type { RootStackParamList } from '../navigation/StackNavigator';
+import type { HomeStackParamList } from '../navigation/types';
 import { formatYyyyMmDdLong } from '../utils/date';
 
-type HabitDetailsRoute = RouteProp<RootStackParamList, 'HabitDetails'>;
+type HabitDetailsRoute = RouteProp<HomeStackParamList, 'HabitDetails'>;
 type HabitDetailsNav = NativeStackNavigationProp<
-  RootStackParamList,
+  HomeStackParamList,
   'HabitDetails'
 >;
 

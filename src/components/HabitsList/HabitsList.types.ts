@@ -1,7 +1,7 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../navigation/StackNavigator';
+import type { HomeStackParamList } from '../../navigation/types';
 
 export type HabitsListNavigation = NativeStackNavigationProp<
-  RootStackParamList,
+  HomeStackParamList,
   'Home'
 >;

@@ -1,10 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { StackNavigator } from './navigation/StackNavigator';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { MainTabNavigator } from './navigation/MainTabNavigator';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StackNavigator />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <MainTabNavigator />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }

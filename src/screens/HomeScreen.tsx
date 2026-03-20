@@ -1,19 +1,21 @@
 import { useCallback, useRef, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
+import type { CompositeNavigationProp } from '@react-navigation/native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FadeSlideIn } from '../components/FadeSlideIn';
 import { HabitsList } from '../components/HabitsList';
 import { HomeHabitsHeader } from '../components/HomeHabitsHeader';
-import { RootStackParamList } from '../navigation/StackNavigator';
+import type { HomeStackParamList, MainTabParamList } from '../navigation/types';
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
+type HomeScreenNav = CompositeNavigationProp<
+  NativeStackNavigationProp<HomeStackParamList, 'Home'>,
+  BottomTabNavigationProp<MainTabParamList>
 >;
 
 export const HomeScreen = () => {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const navigation = useNavigation<HomeScreenNav>();
   const [entranceKey, setEntranceKey] = useState(0);
   const skipEntranceBump = useRef(true);
 
@@ -27,7 +29,9 @@ export const HomeScreen = () => {
     }, []),
   );
 
-  const toAddHabitScreen = () => navigation.navigate('AddHabit');
+  const toAddHabitScreen = () => {
+    navigation.navigate('AddHabit');
+  };
 
   return (
     <ScrollView
@@ -50,6 +54,8 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
+
+    backgroundColor: '#f2f3f5',
   },
 
   scrollContent: {

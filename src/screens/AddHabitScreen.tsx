@@ -1,6 +1,8 @@
 import { useCallback, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import type { MainTabParamList } from '../navigation/types';
 import { AddHabitForm } from '../components/AddHabitForm';
 import { useHabit } from '../hooks/useHabit';
 import { Habit } from '../types/Habit';
@@ -12,7 +14,7 @@ export const AddHabitScreen = () => {
   const [entranceKey, setEntranceKey] = useState(0);
   const skipEntranceBump = useRef(true);
 
-  const navigate = useNavigation();
+  const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
   const { addHabit } = useHabit();
 
   useFocusEffect(
@@ -37,7 +39,7 @@ export const AddHabitScreen = () => {
     };
 
     addHabit(newHabit);
-    navigate.goBack();
+    navigation.navigate('HomeTab', { screen: 'Home' });
   };
 
   return (
@@ -64,6 +66,8 @@ const styles = StyleSheet.create({
     flex: 1,
 
     padding: 12,
+
+    backgroundColor: '#f2f3f5',
   },
 
   scroll: {
