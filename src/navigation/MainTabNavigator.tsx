@@ -4,27 +4,29 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { AppHeader } from '../components/AppHeader';
 import { AppTabBar } from '../components/AppTabBar';
 import { AddHabitScreen } from '../screens/AddHabitScreen';
+import {
+  colors,
+  layout,
+  tabBarContainerStyle,
+  tabBarIconStyle,
+  tabBarItemStyle,
+} from '../theme';
 import { HomeStackNavigator } from './HomeStackNavigator';
 import type { MainTabParamList } from './types';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
-
-const TAB_BAR_ACTIVE = '#2e7d32';
-const TAB_BAR_INACTIVE = '#888';
-const TAB_ICON_SIZE = 26;
 
 export const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       tabBar={(props) => <AppTabBar {...props} />}
       screenOptions={{
-        tabBarActiveTintColor: TAB_BAR_ACTIVE,
-        tabBarInactiveTintColor: TAB_BAR_INACTIVE,
+        tabBarActiveTintColor: colors.tab.active,
+        tabBarInactiveTintColor: colors.tab.inactive,
         tabBarShowLabel: false,
-        tabBarItemStyle: { paddingTop: 8, paddingBottom: 8 },
-        tabBarStyle: {
-          backgroundColor: '#fff',
-        },
+        tabBarItemStyle,
+        tabBarIconStyle,
+        tabBarStyle: tabBarContainerStyle,
       }}
     >
       <Tab.Screen
@@ -40,14 +42,10 @@ export const MainTabNavigator = () => {
             tabBarIcon: ({ color, focused }) => (
               <Ionicons
                 name={focused ? 'home' : 'home-outline'}
-                size={TAB_ICON_SIZE}
+                size={layout.tabIconSize}
                 color={color}
               />
             ),
-            tabBarStyle:
-              focused === 'HabitDetails'
-                ? { display: 'none' }
-                : { backgroundColor: '#fff' },
           };
         }}
       />
@@ -62,7 +60,7 @@ export const MainTabNavigator = () => {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'add-circle' : 'add-circle-outline'}
-              size={TAB_ICON_SIZE}
+              size={layout.tabIconSize}
               color={color}
             />
           ),
