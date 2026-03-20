@@ -1,15 +1,16 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { useMemo } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { AppTabBar } from '../components/AppTabBar';
 import { AddHabitScreen } from '../screens/AddHabitScreen';
 import {
-  colors,
+  getTabBarContainerStyle,
   layout,
-  tabBarContainerStyle,
   tabBarIconStyle,
   tabBarItemStyle,
+  useAppTheme,
 } from '../theme';
 import { HomeStackNavigator } from './HomeStackNavigator';
 import type { MainTabParamList } from './types';
@@ -17,17 +18,24 @@ import type { MainTabParamList } from './types';
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 export const MainTabNavigator = () => {
+  const { theme } = useAppTheme();
+
+  const screenOptions = useMemo(
+    () => ({
+      tabBarActiveTintColor: theme.colors.tab.active,
+      tabBarInactiveTintColor: theme.colors.tab.inactive,
+      tabBarShowLabel: false,
+      tabBarItemStyle,
+      tabBarIconStyle,
+      tabBarStyle: getTabBarContainerStyle(theme.colors),
+    }),
+    [theme.colors],
+  );
+
   return (
     <Tab.Navigator
       tabBar={(props) => <AppTabBar {...props} />}
-      screenOptions={{
-        tabBarActiveTintColor: colors.tab.active,
-        tabBarInactiveTintColor: colors.tab.inactive,
-        tabBarShowLabel: false,
-        tabBarItemStyle,
-        tabBarIconStyle,
-        tabBarStyle: tabBarContainerStyle,
-      }}
+      screenOptions={screenOptions}
     >
       <Tab.Screen
         name="HomeTab"
