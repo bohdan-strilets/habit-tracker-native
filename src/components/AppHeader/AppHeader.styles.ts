@@ -34,6 +34,21 @@ export const createAppHeaderStyles = (colors: ColorPalette) =>
       gap: space.base,
     },
 
+    backSlot: {
+      overflow: 'hidden',
+      alignSelf: 'stretch',
+      justifyContent: 'center',
+    },
+
+    backHit: {
+      padding: 8,
+      marginLeft: -8,
+    },
+
+    backPressed: {
+      opacity: 0.65,
+    },
+
     logo: {
       width: layout.logoSize,
       height: layout.logoSize,

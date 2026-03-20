@@ -133,14 +133,6 @@ export const useHabitDetailsScreen = () => {
     transform: [{ scale: statPulse.value }],
   }));
 
-  useEffect(() => {
-    if (habit) {
-      navigation.setOptions({ title: habit.title });
-    } else {
-      navigation.setOptions({ title: 'Habit' });
-    }
-  }, [habit, navigation]);
-
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);

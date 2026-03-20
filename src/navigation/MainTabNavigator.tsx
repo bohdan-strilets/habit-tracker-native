@@ -1,6 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { useMemo } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { AppTabBar } from '../components/AppTabBar';
@@ -40,22 +39,19 @@ export const MainTabNavigator = () => {
       <Tab.Screen
         name="HomeTab"
         component={HomeStackNavigator}
-        options={({ route }) => {
-          const focused = getFocusedRouteNameFromRoute(route) ?? 'Home';
-          return {
-            headerShown: focused === 'Home',
-            header: () => <AppHeader />,
-            title: 'Home',
-            tabBarAccessibilityLabel: 'Home',
-            tabBarIcon: ({ color, focused }) => (
-              <Ionicons
-                name={focused ? 'home' : 'home-outline'}
-                size={layout.tabIconSize}
-                color={color}
-              />
-            ),
-          };
-        }}
+        options={() => ({
+          headerShown: true,
+          header: () => <AppHeader />,
+          title: 'Home',
+          tabBarAccessibilityLabel: 'Home',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'home' : 'home-outline'}
+              size={layout.tabIconSize}
+              color={color}
+            />
+          ),
+        })}
       />
       <Tab.Screen
         name="AddHabit"

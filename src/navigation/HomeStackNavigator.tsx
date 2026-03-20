@@ -27,7 +27,11 @@ export const HomeStackNavigator = () => {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="HabitDetails" component={HabitDetailsScreen} />
+      <Stack.Screen
+        name="HabitDetails"
+        component={HabitDetailsScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
