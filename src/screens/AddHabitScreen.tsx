@@ -39,6 +39,7 @@ export const AddHabitScreen = () => {
     };
 
     addHabit(newHabit);
+    setTitle('');
     navigation.navigate('HomeTab', { screen: 'Home' });
   };
 
