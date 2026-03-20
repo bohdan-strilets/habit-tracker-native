@@ -1,8 +1,6 @@
 import { useMemo } from 'react';
 import { getCompletionRate, getStreak, getTodayStatus } from '../domain/habit';
-import { Log } from '../types/Habit';
-
-const EMPTY_LOGS: Log[] = [];
+import type { Habit } from '../types/Habit';
 
 export type HabitStats = {
   isDoneToday: boolean;
@@ -10,15 +8,15 @@ export type HabitStats = {
   completionRate: number;
 };
 
-export const useHabitStats = (logs: Log[] | undefined): HabitStats => {
-  const safeLogs = logs ?? EMPTY_LOGS;
-
-  return useMemo(
-    () => ({
-      isDoneToday: getTodayStatus(safeLogs),
-      streak: getStreak(safeLogs),
-      completionRate: getCompletionRate(safeLogs),
-    }),
-    [safeLogs],
-  );
+export const useHabitStats = (habit: Habit | undefined): HabitStats => {
+  return useMemo(() => {
+    if (!habit) {
+      return { isDoneToday: false, streak: 0, completionRate: 0 };
+    }
+    return {
+      isDoneToday: getTodayStatus(habit),
+      streak: getStreak(habit),
+      completionRate: getCompletionRate(habit),
+    };
+  }, [habit, habit?.logs]);
 };

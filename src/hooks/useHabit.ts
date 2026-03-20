@@ -8,6 +8,7 @@ export const useHabit = () => {
   const addHabit = useHabitStore((state) => state.add);
   const removeHabit = useHabitStore((state) => state.remove);
   const toggleHabit = useHabitStore((state) => state.toggle);
+  const incrementCountToday = useHabitStore((state) => state.incrementCountToday);
   const cleanHabits = useHabitStore((state) => state.clean);
   const retryHydration = useHabitStore((state) => state.retryHydration);
 
@@ -18,6 +19,7 @@ export const useHabit = () => {
     addHabit,
     removeHabit,
     toggleHabit,
+    incrementCountToday,
     cleanHabits,
     retryHydration,
   };
