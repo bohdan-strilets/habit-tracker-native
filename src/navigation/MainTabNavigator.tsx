@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { AppTabBar } from '../components/AppTabBar';
 import { AddHabitScreen } from '../screens/AddHabitScreen';
+import { SettingsScreen } from '../screens/SettingsScreen';
 import {
   getTabBarContainerStyle,
   layout,
@@ -64,6 +65,23 @@ export const MainTabNavigator = () => {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'add-circle' : 'add-circle-outline'}
+              size={layout.tabIconSize}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          header: () => <AppHeader subtitle="Settings" />,
+          title: 'Settings',
+          tabBarAccessibilityLabel: 'Settings',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'settings' : 'settings-outline'}
               size={layout.tabIconSize}
               color={color}
             />
