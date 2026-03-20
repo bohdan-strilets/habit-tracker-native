@@ -1,3 +1,5 @@
 export const HABIT_TITLE_MAX_LENGTH = 80;
 
+export const HABIT_NOTES_MAX_LENGTH = 240;
+
 export const HABIT_DETAILS_TIMELINE_DAYS = 7;

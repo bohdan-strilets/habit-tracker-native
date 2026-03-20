@@ -2,43 +2,64 @@ import type {
   DayTimelineCell,
   ProgressDaySummary,
 } from '../types/HabitActivity';
-import type { Log } from '../types/Habit';
+import type { Habit } from '../types/Habit';
 import { APP_LOCALE } from '../constants/locale';
 import {
   dateToLocalParts,
   localPartsToYyyyMmDd,
   normalizeToYyyyMmDd,
 } from '../utils/date';
-import { getStreakDateKeys } from './habit';
+import { getStreakDateKeys, isHabitSatisfiedOnDate } from './habit';
 
-export const getProgressDaysSummary = (logs: Log[]): ProgressDaySummary[] => {
-  const map = new Map<string, number>();
+export const getProgressDaysSummary = (habit: Habit): ProgressDaySummary[] => {
+  const kind = habit.kind ?? 'boolean';
+  const target = Math.max(1, habit.target ?? 1);
 
-  for (const log of logs) {
-    if (!log.completed) continue;
+  const byDay = new Map<string, typeof habit.logs>();
+  for (const log of habit.logs) {
     const key = normalizeToYyyyMmDd(log.date);
     if (!key) continue;
-    map.set(key, (map.get(key) ?? 0) + 1);
+    const arr = byDay.get(key) ?? [];
+    arr.push(log);
+    byDay.set(key, arr);
   }
 
-  return [...map.entries()]
-    .map(([dateYyyyMmDd, tapCount]) => ({ dateYyyyMmDd, tapCount }))
-    .sort((a, b) => b.dateYyyyMmDd.localeCompare(a.dateYyyyMmDd));
+  const rows: ProgressDaySummary[] = [];
+  for (const [dateYyyyMmDd, dayLogs] of byDay) {
+    if (kind === 'count') {
+      const maxP = Math.max(...dayLogs.map((l) => l.progress ?? 0));
+      const satisfied = maxP >= target;
+      rows.push({
+        dateYyyyMmDd,
+        detail: satisfied ? `${maxP}/${target} · Done` : `${maxP}/${target}`,
+      });
+    } else {
+      const n = dayLogs.length;
+      rows.push({
+        dateYyyyMmDd,
+        detail: n === 1 ? 'Done' : `${n} check-ins`,
+      });
+    }
+  }
+
+  return rows.sort((a, b) => b.dateYyyyMmDd.localeCompare(a.dateYyyyMmDd));
 };
 
 export const getDayTimeline = (
-  logs: Log[],
+  habit: Habit,
   daysBack: number,
 ): DayTimelineCell[] => {
   const safeDays = Math.max(1, Math.min(daysBack, 62));
-  const streakKeys = getStreakDateKeys(logs);
+  const streakKeys = getStreakDateKeys(habit);
   const tapByDay = new Map<string, number>();
+  const maxProgressByDay = new Map<string, number>();
 
-  for (const log of logs) {
-    if (!log.completed) continue;
+  for (const log of habit.logs) {
     const key = normalizeToYyyyMmDd(log.date);
     if (!key) continue;
     tapByDay.set(key, (tapByDay.get(key) ?? 0) + 1);
+    const p = log.progress ?? 0;
+    maxProgressByDay.set(key, Math.max(maxProgressByDay.get(key) ?? 0, p));
   }
 
   const out: DayTimelineCell[] = [];
@@ -50,13 +71,15 @@ export const getDayTimeline = (
     d.setDate(d.getDate() - offset);
     const key = localPartsToYyyyMmDd(dateToLocalParts(d));
     const tapCount = tapByDay.get(key) ?? 0;
+    const dayMaxProgress = maxProgressByDay.get(key) ?? 0;
 
     out.push({
       dateYyyyMmDd: key,
       weekdayShort: d.toLocaleDateString(APP_LOCALE, { weekday: 'short' }),
       dayOfMonth: d.getDate(),
-      completed: tapCount > 0,
+      completed: isHabitSatisfiedOnDate(habit, key),
       tapCount,
+      dayMaxProgress,
       streakDay: streakKeys.has(key),
     });
   }
