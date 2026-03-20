@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { space } from '../../theme';
 
 export const styles = StyleSheet.create({
   list: {
@@ -7,8 +8,8 @@ export const styles = StyleSheet.create({
 
   content: {
     flexGrow: 0,
-    gap: 20,
+    gap: space['3xl'],
 
-    paddingBottom: 8,
+    paddingBottom: space.md,
   },
 });

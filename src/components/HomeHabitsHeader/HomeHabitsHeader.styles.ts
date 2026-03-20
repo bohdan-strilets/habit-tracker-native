@@ -1,22 +1,30 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  letterSpacing,
+  lineHeight,
+  space,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   headline: {
-    marginBottom: 10,
+    marginBottom: space.mdPlus,
 
-    fontSize: 24,
-    fontWeight: '700',
-    letterSpacing: -0.3,
+    fontSize: fontSize['5xl'],
+    fontWeight: fontWeight.bold,
+    letterSpacing: letterSpacing.headline,
 
-    color: '#111',
+    color: colors.text.primary,
   },
 
   lead: {
-    marginBottom: 20,
+    marginBottom: space['3xl'],
 
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: fontSize.lg,
+    lineHeight: lineHeight.relaxed,
 
-    color: '#555',
+    color: colors.text.muted,
   },
 });

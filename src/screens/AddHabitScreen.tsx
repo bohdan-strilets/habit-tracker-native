@@ -1,11 +1,13 @@
 import { useCallback, useRef, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { MainTabParamList } from '../navigation/types';
 import { AddHabitForm } from '../components/AddHabitForm';
+import { ScreenBackground } from '../components/ScreenBackground';
 import { useHabit } from '../hooks/useHabit';
 import { Habit } from '../types/Habit';
+import { space } from '../theme';
 import { generateId } from '../utils/generateId';
 import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
 
@@ -44,7 +46,7 @@ export const AddHabitScreen = () => {
   };
 
   return (
-    <View style={styles.screen}>
+    <ScreenBackground style={styles.screen}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -58,7 +60,7 @@ export const AddHabitScreen = () => {
           entrancePlayKey={entranceKey}
         />
       </ScrollView>
-    </View>
+    </ScreenBackground>
   );
 };
 
@@ -66,9 +68,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
 
-    padding: 12,
-
-    backgroundColor: '#f2f3f5',
+    padding: space.base,
   },
 
   scroll: {
@@ -78,6 +78,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
 
-    paddingBottom: 32,
+    paddingBottom: space['7xl'],
   },
 });

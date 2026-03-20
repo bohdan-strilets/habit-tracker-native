@@ -1,28 +1,37 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  lineHeight,
+  radii,
+  space,
+  layout,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   wrapper: {
-    marginTop: 4,
+    marginTop: space.sm,
   },
 
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.bold,
 
-    color: '#111',
+    color: colors.text.primary,
   },
 
   secondTitle: {
-    marginTop: 20,
+    marginTop: space['3xl'],
   },
 
   sectionHint: {
-    marginTop: 6,
+    marginTop: space.smPlus,
 
-    fontSize: 12,
-    lineHeight: 16,
+    fontSize: fontSize.sm,
+    lineHeight: lineHeight.tight,
 
-    color: '#888',
+    color: colors.text.hint,
   },
 
   timelineRow: {
@@ -30,7 +39,7 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'space-between',
 
-    paddingVertical: 12,
+    paddingVertical: space.base,
     width: '100%',
   },
 
@@ -39,95 +48,95 @@ export const styles = StyleSheet.create({
     minWidth: 0,
     alignItems: 'center',
 
-    paddingHorizontal: 2,
+    paddingHorizontal: space.xs,
   },
 
   dayCellToday: {
-    marginHorizontal: 1,
-    paddingVertical: 6,
-    borderRadius: 10,
+    marginHorizontal: space.xxs,
+    paddingVertical: space.smPlus,
+    borderRadius: radii.sm,
 
-    backgroundColor: '#f5f9ff',
+    backgroundColor: colors.accent.todayBg,
   },
 
   weekday: {
-    fontSize: 9,
+    fontSize: fontSize.tiny,
     textAlign: 'center',
     textTransform: 'capitalize',
 
-    color: '#888',
+    color: colors.text.hint,
   },
 
   weekdayTodayLabel: {
-    fontSize: 8,
-    fontWeight: '700',
+    fontSize: fontSize.micro,
+    fontWeight: fontWeight.bold,
     textTransform: 'none',
 
-    color: '#1565c0',
+    color: colors.accent.todayLabel,
   },
 
   dayNum: {
-    marginTop: 2,
+    marginTop: space.xs,
 
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.semibold,
 
-    color: '#222',
+    color: colors.text.secondary,
   },
 
   dot: {
-    width: 12,
-    height: 12,
-    marginTop: 5,
+    width: layout.dotSize,
+    height: layout.dotSize,
+    marginTop: space.smMid,
     borderWidth: 2,
-    borderRadius: 6,
+    borderRadius: radii.xs,
   },
 
   dotEmpty: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: colors.progress.dotEmpty,
 
-    borderColor: '#e0e0e0',
+    borderColor: colors.progress.dotEmptyBorder,
   },
 
   dotDone: {
-    backgroundColor: '#c8e6c9',
+    backgroundColor: colors.progress.dotDone,
 
-    borderColor: '#81c784',
+    borderColor: colors.progress.dotDoneBorder,
   },
 
   dotStreakRing: {
     borderWidth: 2,
 
-    borderColor: '#2e7d32',
+    borderColor: colors.progress.streakRing,
   },
 
   tapBadge: {
-    marginTop: 4,
-    height: 14,
+    marginTop: space.sm,
+    height: layout.tapBadgeHeight,
 
-    fontSize: 10,
+    fontSize: fontSize.xs,
 
-    color: '#666',
+    color: colors.text.subtle,
   },
 
   tapBadgePlaceholder: {
-    marginTop: 4,
-    height: 14,
+    marginTop: space.sm,
+    height: layout.tapBadgeHeight,
   },
 
   emptyList: {
-    marginTop: 8,
+    marginTop: space.md,
 
-    fontSize: 14,
+    fontSize: fontSize.base,
 
-    color: '#999',
+    color: colors.text.faint,
   },
 
   list: {
-    marginTop: 8,
+    marginTop: space.md,
 
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#e8e8e8',
+    borderTopColor: colors.border.subtle,
   },
 
   listRow: {
@@ -135,25 +144,25 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
 
-    paddingVertical: 10,
+    paddingVertical: space.mdPlus,
 
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.border.hairline,
   },
 
   listDate: {
     flex: 1,
-    paddingRight: 8,
+    paddingRight: space.md,
 
-    fontSize: 14,
+    fontSize: fontSize.base,
 
-    color: '#222',
+    color: colors.text.secondary,
   },
 
   listMeta: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.semibold,
 
-    color: '#4CAF50',
+    color: colors.primary.main,
   },
 });

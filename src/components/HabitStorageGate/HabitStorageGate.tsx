@@ -1,11 +1,11 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHabit } from '../../hooks/useHabit';
+import { colors, gradients } from '../../theme';
 import { PrimaryButton } from '../PrimaryButton';
 import { styles } from './HabitStorageGate.styles';
-
-const LOADING_COLOR = '#4CAF50';
 
 export type HabitStorageGateProps = {
   children: ReactNode;
@@ -17,8 +17,14 @@ export const HabitStorageGate = ({ children }: HabitStorageGateProps) => {
   if (isLoading) {
     return (
       <SafeAreaView style={styles.gateRoot} edges={['top', 'bottom']}>
+        <LinearGradient
+          colors={[...gradients.surfaceWash]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
         <View style={styles.gate} accessibilityLabel="Loading saved habits">
-          <ActivityIndicator size="large" color={LOADING_COLOR} />
+          <ActivityIndicator size="large" color={colors.primary.main} />
         </View>
       </SafeAreaView>
     );
@@ -27,6 +33,12 @@ export const HabitStorageGate = ({ children }: HabitStorageGateProps) => {
   if (hydrationError) {
     return (
       <SafeAreaView style={styles.gateRoot} edges={['top', 'bottom']}>
+        <LinearGradient
+          colors={[...gradients.surfaceWash]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
         <View style={styles.gate}>
           <Text style={styles.errorTitle}>Couldn&apos;t load saved habits</Text>
           <Text style={styles.errorBody}>{hydrationError}</Text>

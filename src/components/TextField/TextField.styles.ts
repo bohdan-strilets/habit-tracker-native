@@ -1,29 +1,25 @@
 import { StyleSheet } from 'react-native';
+import { colors, fontSize, inputShadow, layout, radii, space } from '../../theme';
 
 export const styles = StyleSheet.create({
   input: {
     width: '100%',
-    height: 48,
+    height: layout.buttonHeight,
 
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    paddingHorizontal: space.lg,
+    paddingVertical: space.mdPlus,
 
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: radii.md,
 
-    fontSize: 16,
+    fontSize: fontSize.xl,
 
-    color: '#222',
+    color: colors.text.secondary,
 
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.input,
 
-    borderColor: '#e0e0e0',
+    borderColor: colors.border.default,
 
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-
-    elevation: 2,
+    ...inputShadow,
   },
 });

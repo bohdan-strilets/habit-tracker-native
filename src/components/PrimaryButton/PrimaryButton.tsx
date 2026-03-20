@@ -1,11 +1,18 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { ActivityIndicator, Pressable, Text } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import { PRESS_SPRING } from '../../constants/pressSpring';
+import { colors, gradients } from '../../theme';
 import type { PrimaryButtonProps } from './PrimaryButton.types';
 import { styles } from './PrimaryButton.styles';
 
@@ -19,6 +26,7 @@ export const PrimaryButton = ({
   const scale = useSharedValue(1);
   const inactive = Boolean(disabled || loading);
   const isDanger = variant === 'danger';
+  const showPrimaryFill = !isDanger && !inactive;
 
   useEffect(() => {
     if (inactive) {
@@ -56,8 +64,19 @@ export const PrimaryButton = ({
           animatedStyle,
         ]}
       >
+        {showPrimaryFill ? (
+          <LinearGradient
+            colors={[...gradients.primaryButton]}
+            locations={[...gradients.primaryButtonLocations]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+        ) : null}
         {loading ? (
-          <ActivityIndicator color={isDanger ? '#c62828' : '#fff'} />
+          <ActivityIndicator
+            color={isDanger ? colors.semantic.danger : colors.text.inverse}
+          />
         ) : (
           <Text
             style={[

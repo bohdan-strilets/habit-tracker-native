@@ -1,19 +1,26 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  lineHeight,
+  space,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   title: {
-    marginBottom: 10,
+    marginBottom: space.mdPlus,
 
-    fontSize: 17,
-    fontWeight: '600',
+    fontSize: fontSize['2xl'],
+    fontWeight: fontWeight.semibold,
 
-    color: '#111',
+    color: colors.text.primary,
   },
 
   hint: {
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: fontSize.lg,
+    lineHeight: lineHeight.relaxed,
 
-    color: '#555',
+    color: colors.text.muted,
   },
 });

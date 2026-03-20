@@ -1,14 +1,15 @@
 import { View } from 'react-native';
+import { colors, radii, space } from '../../theme';
 import type { SurfaceProps } from './Surface.types';
 import { elevationStyles, styles } from './Surface.styles';
 
 export const Surface = ({
   children,
   style,
-  padding = 16,
-  radius = 16,
+  padding = space.xl,
+  radius = radii.lg,
   elevation = 1,
-  background = '#fff',
+  background = colors.background.surface,
 }: SurfaceProps) => {
   return (
     <View

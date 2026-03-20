@@ -1,30 +1,38 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  space,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   gateRoot: {
     flex: 1,
-    backgroundColor: '#fff',
+    position: 'relative',
+
+    backgroundColor: colors.background.transparent,
   },
 
   gate: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,
-    gap: 16,
+    padding: space['5xl'],
+    gap: space.xl,
   },
 
   errorTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#111',
+    fontSize: fontSize['3xl'],
+    fontWeight: fontWeight.semibold,
+    color: colors.text.primary,
     textAlign: 'center',
   },
 
   errorBody: {
-    fontSize: 15,
-    color: '#666',
+    fontSize: fontSize.lg,
+    color: colors.text.subtle,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: space.md,
   },
 });

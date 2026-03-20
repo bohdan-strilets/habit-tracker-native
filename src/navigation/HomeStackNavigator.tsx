@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '../screens/HomeScreen';
 import { HabitDetailsScreen } from '../screens/HabitDetailsScreen';
+import { HomeScreen } from '../screens/HomeScreen';
+import { colors, fontWeight } from '../theme';
 import type { HomeStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -10,9 +11,9 @@ export const HomeStackNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerBackTitle: 'Back',
-        headerTintColor: '#1b5e20',
-        headerTitleStyle: { fontWeight: '600' },
-        contentStyle: { backgroundColor: '#f2f3f5' },
+        headerTintColor: colors.primary.headerTint,
+        headerTitleStyle: { fontWeight: fontWeight.semibold },
+        contentStyle: { backgroundColor: colors.background.screen },
       }}
     >
       <Stack.Screen

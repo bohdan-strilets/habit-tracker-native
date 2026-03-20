@@ -7,7 +7,9 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FadeSlideIn } from '../components/FadeSlideIn';
 import { HabitsList } from '../components/HabitsList';
 import { HomeHabitsHeader } from '../components/HomeHabitsHeader';
+import { ScreenBackground } from '../components/ScreenBackground';
 import type { HomeStackParamList, MainTabParamList } from '../navigation/types';
+import { colors, space } from '../theme';
 
 type HomeScreenNav = CompositeNavigationProp<
   NativeStackNavigationProp<HomeStackParamList, 'Home'>,
@@ -34,20 +36,22 @@ export const HomeScreen = () => {
   };
 
   return (
-    <ScrollView
-      style={styles.scroll}
-      contentContainerStyle={styles.scrollContent}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-    >
-      <FadeSlideIn index={0} playKey={entranceKey}>
-        <HomeHabitsHeader onAddHabit={toAddHabitScreen} />
-      </FadeSlideIn>
+    <ScreenBackground>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <FadeSlideIn index={0} playKey={entranceKey}>
+          <HomeHabitsHeader onAddHabit={toAddHabitScreen} />
+        </FadeSlideIn>
 
-      <FadeSlideIn index={1} playKey={entranceKey}>
-        <HabitsList />
-      </FadeSlideIn>
-    </ScrollView>
+        <FadeSlideIn index={1} playKey={entranceKey}>
+          <HabitsList />
+        </FadeSlideIn>
+      </ScrollView>
+    </ScreenBackground>
   );
 };
 
@@ -55,13 +59,13 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
 
-    backgroundColor: '#f2f3f5',
+    backgroundColor: colors.background.transparent,
   },
 
   scrollContent: {
-    gap: 28,
+    gap: space['6xl'],
 
-    padding: 12,
-    paddingBottom: 32,
+    padding: space.base,
+    paddingBottom: space['7xl'],
   },
 });

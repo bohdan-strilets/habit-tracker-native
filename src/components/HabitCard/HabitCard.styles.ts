@@ -1,26 +1,29 @@
 import { StyleSheet } from 'react-native';
+import {
+  cardShadow,
+  colors,
+  fontSize,
+  fontWeight,
+  radii,
+  space,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   card: {
-    padding: 16,
-    borderRadius: 20,
+    padding: space.xl,
+    borderRadius: radii.xl,
     overflow: 'hidden',
 
-    backgroundColor: '#fff',
+    backgroundColor: colors.background.surface,
 
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-
-    elevation: 3,
+    ...cardShadow,
   },
 
   cardPlain: {
     padding: 0,
     borderRadius: 0,
 
-    backgroundColor: 'transparent',
+    backgroundColor: colors.background.transparent,
 
     shadowOpacity: 0,
     shadowRadius: 0,
@@ -30,12 +33,12 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    marginBottom: 12,
+    marginBottom: space.base,
 
-    fontSize: 17,
-    fontWeight: '600',
+    fontSize: fontSize['2xl'],
+    fontWeight: fontWeight.semibold,
 
-    color: '#111',
+    color: colors.text.primary,
   },
 
   statsRow: {
@@ -48,16 +51,16 @@ export const styles = StyleSheet.create({
   },
 
   statValue: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.semibold,
 
-    color: '#222',
+    color: colors.text.secondary,
   },
 
   statLabel: {
-    fontSize: 12,
+    fontSize: fontSize.sm,
 
-    color: '#888',
+    color: colors.text.hint,
   },
 
   pressableWrapper: {

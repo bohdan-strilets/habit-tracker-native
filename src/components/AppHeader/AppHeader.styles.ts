@@ -1,29 +1,41 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  letterSpacing,
+  layout,
+  space,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   safe: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.background.transparent,
+  },
+
+  headerFill: {
+    width: '100%',
   },
 
   inner: {
-    paddingHorizontal: 16,
-    paddingBottom: 12,
+    paddingHorizontal: space.xl,
+    paddingBottom: space.base,
 
     borderBottomWidth: StyleSheet.hairlineWidth,
 
-    backgroundColor: '#fff',
-    borderBottomColor: '#e0e0e0',
+    backgroundColor: colors.background.transparent,
+    borderBottomColor: colors.border.default,
   },
 
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: space.base,
   },
 
   logo: {
-    width: 40,
-    height: 40,
+    width: layout.logoSize,
+    height: layout.logoSize,
   },
 
   titleBlock: {
@@ -32,19 +44,19 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 22,
-    fontWeight: '700',
-    letterSpacing: -0.4,
+    fontSize: fontSize['3xl'],
+    fontWeight: fontWeight.bold,
+    letterSpacing: letterSpacing.title,
 
-    color: '#111',
+    color: colors.text.primary,
   },
 
   subtitle: {
-    marginTop: 2,
+    marginTop: space.xs,
 
-    fontSize: 13,
-    fontWeight: '500',
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.medium,
 
-    color: '#666',
+    color: colors.text.subtle,
   },
 });

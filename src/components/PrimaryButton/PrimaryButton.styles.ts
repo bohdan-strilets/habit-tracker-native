@@ -1,4 +1,12 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  layout,
+  radii,
+  space,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   pressable: {
@@ -9,43 +17,43 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    height: 48,
-    paddingHorizontal: 16,
-    borderRadius: 12,
+    height: layout.buttonHeight,
+    paddingHorizontal: space.xl,
+    borderRadius: radii.md,
 
-    backgroundColor: '#4CAF50',
+    overflow: 'hidden',
   },
 
   text: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.semibold,
 
-    color: '#fff',
+    color: colors.text.inverse,
   },
 
   disabled: {
-    backgroundColor: '#cfcfcf',
+    backgroundColor: colors.background.disabled,
   },
 
   danger: {
-    backgroundColor: '#fdecec',
+    backgroundColor: colors.semantic.dangerLight,
 
     borderWidth: 1,
-    borderColor: '#f0b4b4',
+    borderColor: colors.semantic.dangerBorder,
   },
 
   textDanger: {
-    color: '#c62828',
+    color: colors.semantic.danger,
   },
 
   textDangerDisabled: {
-    color: '#888',
+    color: colors.text.hint,
   },
 
   disabledDanger: {
-    backgroundColor: '#eee',
+    backgroundColor: colors.background.disabledMuted,
 
-    borderColor: '#ddd',
+    borderColor: colors.border.light,
 
     opacity: 0.85,
   },

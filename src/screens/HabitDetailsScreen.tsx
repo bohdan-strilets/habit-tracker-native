@@ -27,9 +27,18 @@ import { HabitProgressSection } from '../components/HabitProgressSection';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Stack } from '../components/Stack';
 import { Card } from '../components/Card';
+import { ScreenBackground } from '../components/ScreenBackground';
 import { useHabit } from '../hooks/useHabit';
 import { useHabitStats } from '../hooks/useHabitStats';
 import type { HomeStackParamList } from '../navigation/types';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  letterSpacing,
+  radii,
+  space,
+} from '../theme';
 import { formatYyyyMmDdLong } from '../utils/date';
 
 type HabitDetailsRoute = RouteProp<HomeStackParamList, 'HabitDetails'>;
@@ -85,7 +94,7 @@ export const HabitDetailsScreen = () => {
     backgroundColor: interpolateColor(
       statusBlend.value,
       [0, 1],
-      ['#fdecec', '#e6f7ee'],
+      [colors.semantic.dangerLight, colors.semantic.successLight],
     ),
   }));
 
@@ -93,7 +102,7 @@ export const HabitDetailsScreen = () => {
     color: interpolateColor(
       statusBlend.value,
       [0, 1],
-      ['#b71c1c', '#1b5e20'],
+      [colors.semantic.dangerDark, colors.semantic.successDark],
     ),
   }));
 
@@ -154,10 +163,10 @@ export const HabitDetailsScreen = () => {
 
   if (!habit) {
     return (
-      <View style={styles.screen}>
+      <ScreenBackground style={styles.screen}>
         <FadeSlideIn index={0}>
           <Card>
-            <Stack spacing={16} padding={0}>
+            <Stack spacing={space.xl} padding={0}>
               <Text style={styles.missing}>Habit not found</Text>
               <PrimaryButton
                 title="Go back"
@@ -166,12 +175,12 @@ export const HabitDetailsScreen = () => {
             </Stack>
           </Card>
         </FadeSlideIn>
-      </View>
+      </ScreenBackground>
     );
   }
 
   return (
-    <View style={styles.screen}>
+    <ScreenBackground style={styles.screen}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -220,7 +229,7 @@ export const HabitDetailsScreen = () => {
         <FadeSlideIn index={2}>
           <Card>
             <Text style={styles.sectionHeading}>Actions</Text>
-            <Stack spacing={14} padding={0}>
+            <Stack spacing={space.lg} padding={0}>
               <PrimaryButton
                 title={
                   isDoneToday ? 'Already completed today' : 'Mark as completed'
@@ -238,7 +247,7 @@ export const HabitDetailsScreen = () => {
           </Card>
         </FadeSlideIn>
       </ScrollView>
-    </View>
+    </ScreenBackground>
   );
 };
 
@@ -246,7 +255,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
 
-    padding: 12,
+    padding: space.base,
   },
 
   scroll: {
@@ -255,57 +264,57 @@ const styles = StyleSheet.create({
 
   scrollContent: {
     flexGrow: 1,
-    gap: 20,
+    gap: space['3xl'],
 
-    paddingBottom: 32,
+    paddingBottom: space['7xl'],
   },
 
   sectionHeading: {
-    marginBottom: 14,
+    marginBottom: space.lg,
 
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.bold,
     textTransform: 'uppercase',
-    letterSpacing: 0.6,
+    letterSpacing: letterSpacing.section,
 
-    color: '#666',
+    color: colors.text.subtle,
   },
 
   missing: {
-    paddingVertical: 24,
+    paddingVertical: space['5xl'],
 
     textAlign: 'center',
 
-    color: '#888',
+    color: colors.text.hint,
   },
 
   createdBlock: {
-    marginBottom: 18,
+    marginBottom: space.xxl,
   },
 
   createdLabel: {
-    marginBottom: 4,
+    marginBottom: space.sm,
 
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.semibold,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: letterSpacing.label,
 
-    color: '#888',
+    color: colors.text.hint,
   },
 
   createdValue: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.medium,
 
-    color: '#222',
+    color: colors.text.secondary,
   },
 
   statsRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
 
-    marginBottom: 16,
+    marginBottom: space.xl,
   },
 
   statItem: {
@@ -313,31 +322,31 @@ const styles = StyleSheet.create({
   },
 
   statValue: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: fontSize['3xl'],
+    fontWeight: fontWeight.semibold,
 
-    color: '#222',
+    color: colors.text.secondary,
   },
 
   statLabel: {
-    marginTop: 4,
+    marginTop: space.sm,
 
-    fontSize: 12,
+    fontSize: fontSize.sm,
 
-    color: '#888',
+    color: colors.text.hint,
   },
 
   statusBadge: {
     alignSelf: 'flex-start',
 
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
+    paddingHorizontal: space.mdPlus,
+    paddingVertical: space.smPlus,
+    borderRadius: radii.pill,
   },
 
   statusText: {
-    fontSize: 12,
-    fontWeight: '500',
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.medium,
   },
 
 });

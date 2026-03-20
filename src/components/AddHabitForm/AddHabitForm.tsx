@@ -3,6 +3,7 @@ import {
   HABIT_DETAILS_TIMELINE_DAYS,
   HABIT_TITLE_MAX_LENGTH,
 } from '../../constants/habits';
+import { space } from '../../theme';
 import { Card } from '../Card';
 import { FadeSlideIn } from '../FadeSlideIn';
 import { PrimaryButton } from '../PrimaryButton';
@@ -36,7 +37,7 @@ export const AddHabitForm = ({
             streak, completion, and mark progress for each day.
           </Text>
 
-          <Stack spacing={10} padding={0}>
+          <Stack spacing={space.mdPlus} padding={0}>
             <View>
               <Text style={styles.fieldLabel}>Habit name</Text>
               <TextField

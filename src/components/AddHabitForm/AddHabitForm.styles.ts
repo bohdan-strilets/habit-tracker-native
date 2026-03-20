@@ -1,77 +1,85 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  fontSize,
+  fontWeight,
+  letterSpacing,
+  lineHeight,
+  space,
+} from '../../theme';
 
 export const styles = StyleSheet.create({
   root: {
-    gap: 20,
+    gap: space['3xl'],
 
     width: '100%',
   },
 
   headline: {
-    marginBottom: 10,
+    marginBottom: space.mdPlus,
 
-    fontSize: 24,
-    fontWeight: '700',
-    letterSpacing: -0.3,
+    fontSize: fontSize['5xl'],
+    fontWeight: fontWeight.bold,
+    letterSpacing: letterSpacing.headline,
 
-    color: '#111',
+    color: colors.text.primary,
   },
 
   lead: {
-    marginBottom: 22,
+    marginBottom: space['4xl'],
 
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: fontSize.lg,
+    lineHeight: lineHeight.relaxed,
 
-    color: '#555',
+    color: colors.text.muted,
   },
 
   fieldLabel: {
-    marginBottom: 8,
+    marginBottom: space.md,
 
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.semibold,
 
-    color: '#444',
+    color: colors.text.tertiary,
   },
 
   counter: {
-    marginTop: 6,
+    marginTop: space.smPlus,
 
-    fontSize: 12,
+    fontSize: fontSize.sm,
     textAlign: 'right',
 
-    color: '#999',
+    color: colors.text.faint,
   },
 
   inlineHint: {
-    fontSize: 13,
+    fontSize: fontSize.md,
     fontStyle: 'italic',
 
-    color: '#888',
+    color: colors.text.hint,
   },
 
   tipsTitle: {
-    marginBottom: 12,
+    marginBottom: space.base,
 
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.bold,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: letterSpacing.label,
 
-    color: '#444',
+    color: colors.text.tertiary,
   },
 
   tipLine: {
-    marginBottom: 10,
+    marginBottom: space.mdPlus,
 
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: fontSize.base,
+    lineHeight: lineHeight.body,
 
-    color: '#666',
+    color: colors.text.subtle,
   },
 
   tipLineLast: {
-    marginBottom: 0,
+    marginBottom: space.none,
   },
 });
