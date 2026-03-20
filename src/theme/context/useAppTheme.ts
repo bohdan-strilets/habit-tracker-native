@@ -1,14 +1,13 @@
-import { useShallow } from 'zustand/react/shallow';
-import { themeByScheme, useThemeStore } from '../../store';
+import { useTheme } from '../../hooks/useTheme';
+import { themeByScheme } from '../../store';
 
 export function useAppTheme() {
-  return useThemeStore(
-    useShallow((s) => ({
-      scheme: s.scheme,
-      ready: s.ready,
-      setScheme: s.setScheme,
-      toggleScheme: s.toggleScheme,
-      theme: themeByScheme[s.scheme],
-    })),
-  );
+  const { scheme, ready, setScheme, toggleScheme } = useTheme();
+  return {
+    scheme,
+    ready,
+    setScheme,
+    toggleScheme,
+    theme: themeByScheme[scheme],
+  };
 }

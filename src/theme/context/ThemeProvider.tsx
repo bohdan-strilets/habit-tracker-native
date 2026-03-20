@@ -1,12 +1,12 @@
 import { useEffect, type ReactNode } from 'react';
-import { useThemeStore } from '../../store';
+import { useTheme } from '../../hooks/useTheme';
 
 type ThemeProviderProps = {
   children: ReactNode;
 };
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const hydrateFromStorage = useThemeStore((s) => s.hydrateFromStorage);
+  const { hydrateFromStorage } = useTheme();
 
   useEffect(() => {
     void hydrateFromStorage();

@@ -3,21 +3,14 @@ import { create } from 'zustand';
 import { THEME_STORAGE_KEY } from '../constants/storageKeys';
 import { buildTheme } from '../theme/model/buildTheme';
 import type { AppTheme, ColorScheme } from '../theme/types';
+import type { ThemeStore } from '../types/ThemeStore';
 
 export const themeByScheme: Record<ColorScheme, AppTheme> = {
   light: buildTheme('light'),
   dark: buildTheme('dark'),
 };
 
-type ThemeState = {
-  scheme: ColorScheme;
-  ready: boolean;
-  setScheme: (s: ColorScheme) => void;
-  toggleScheme: () => void;
-  hydrateFromStorage: () => Promise<void>;
-};
-
-export const useThemeStore = create<ThemeState>((set, get) => ({
+export const useThemeStore = create<ThemeStore>((set, get) => ({
   scheme: 'light',
   ready: false,
 
