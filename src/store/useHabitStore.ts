@@ -12,14 +12,15 @@ export const useHabitStore = create<HabitStore>((set) => ({
 
   remove: (id) =>
     set((state) => ({
-      habits: state.habits.filter((item) => item.id !== id),
+      habits: state.habits.filter((item) => String(item.id) !== String(id)),
     })),
 
   toggle: (id) =>
     set((state) => ({
       habits: state.habits.map((item) => {
         const newLog = { date: getCurrentLocalDateString(), completed: true };
-        if (item.id === id) return { ...item, logs: [...item.logs, newLog] };
+        if (String(item.id) === String(id))
+          return { ...item, logs: [...item.logs, newLog] };
 
         return item;
       }),
