@@ -1,5 +1,5 @@
-import type { Log } from '../../types/Habit';
+import type { Habit } from '../../types/Habit';
 
 export type HabitProgressSectionProps = {
-  logs: Log[];
+  habit: Habit;
 };

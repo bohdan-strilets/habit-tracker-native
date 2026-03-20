@@ -12,7 +12,7 @@ import {
 export const createHabitProgressSectionStyles = (colors: ColorPalette) =>
   StyleSheet.create({
     wrapper: {
-      marginTop: space.sm,
+      marginTop: space.none,
     },
 
     sectionTitle: {
@@ -161,8 +161,12 @@ export const createHabitProgressSectionStyles = (colors: ColorPalette) =>
     },
 
     listMeta: {
+      flexShrink: 1,
+      maxWidth: '52%',
+
       fontSize: fontSize.base,
       fontWeight: fontWeight.semibold,
+      textAlign: 'right',
 
       color: colors.primary.main,
     },

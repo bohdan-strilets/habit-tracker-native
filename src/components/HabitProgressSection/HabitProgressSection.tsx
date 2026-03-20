@@ -6,30 +6,38 @@ import {
   getProgressDaysSummary,
 } from '../../domain/habitActivity';
 import { formatYyyyMmDdDateOnly } from '../../utils/date';
-import { formatTapLabel } from '../../utils/formatTapLabel';
 import { useAppTheme } from '../../theme';
 import type { HabitProgressSectionProps } from './HabitProgressSection.types';
 import { createHabitProgressSectionStyles } from './HabitProgressSection.styles';
 
-export const HabitProgressSection = ({ logs }: HabitProgressSectionProps) => {
+export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
   const { theme } = useAppTheme();
   const styles = useMemo(
     () => createHabitProgressSectionStyles(theme.colors),
     [theme.colors],
   );
 
-  const progressDays = useMemo(() => getProgressDaysSummary(logs), [logs]);
-  const timeline = useMemo(
-    () => getDayTimeline(logs, HABIT_DETAILS_TIMELINE_DAYS),
-    [logs],
+  const progressDays = useMemo(
+    () => getProgressDaysSummary(habit),
+    [habit],
   );
+  const timeline = useMemo(
+    () => getDayTimeline(habit, HABIT_DETAILS_TIMELINE_DAYS),
+    [habit],
+  );
+
+  const kind = habit.kind ?? 'boolean';
+  const target = Math.max(1, habit.target ?? 1);
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.sectionTitle}>Daily progress</Text>
+      <Text style={styles.sectionTitle}>Last {HABIT_DETAILS_TIMELINE_DAYS} days</Text>
       <Text style={styles.sectionHint}>
-        Last {HABIT_DETAILS_TIMELINE_DAYS} days (left → right, today on the
-        right): green — marked, gray — not marked. Ring — day in current streak.
+        Oldest on the left, today on the right. Solid dot = goal met that day.
+        Ring = part of your current streak.
+        {kind === 'count' && target > 1
+          ? ' Under the dot: progress toward today’s target.'
+          : ''}
       </Text>
 
       <View style={styles.timelineRow}>
@@ -54,7 +62,11 @@ export const HabitProgressSection = ({ logs }: HabitProgressSectionProps) => {
                   cell.streakDay && styles.dotStreakRing,
                 ]}
               />
-              {cell.tapCount > 1 ? (
+              {kind === 'count' && target > 1 && cell.dayMaxProgress > 0 ? (
+                <Text style={styles.tapBadge}>
+                  {cell.dayMaxProgress}/{target}
+                </Text>
+              ) : cell.tapCount > 1 ? (
                 <Text style={styles.tapBadge}>×{cell.tapCount}</Text>
               ) : (
                 <View style={styles.tapBadgePlaceholder} />
@@ -65,10 +77,12 @@ export const HabitProgressSection = ({ logs }: HabitProgressSectionProps) => {
       </View>
 
       <Text style={[styles.sectionTitle, styles.secondTitle]}>
-        Days with check-ins
+        Saved log entries
       </Text>
       <Text style={styles.sectionHint}>
-        When you marked progress (number of taps per day).
+        {kind === 'count'
+          ? 'Newest first. Each row is a day you logged progress; the value is your count toward the daily goal.'
+          : 'Newest first. Each row is a day you marked this habit done.'}
       </Text>
 
       {progressDays.length === 0 ? (
@@ -80,7 +94,9 @@ export const HabitProgressSection = ({ logs }: HabitProgressSectionProps) => {
               <Text style={styles.listDate}>
                 {formatYyyyMmDdDateOnly(row.dateYyyyMmDd)}
               </Text>
-              <Text style={styles.listMeta}>{formatTapLabel(row.tapCount)}</Text>
+              <Text style={styles.listMeta} numberOfLines={2}>
+                {row.detail}
+              </Text>
             </View>
           ))}
         </View>

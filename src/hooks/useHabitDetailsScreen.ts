@@ -36,7 +36,7 @@ type HabitDetailsNav = NativeStackNavigationProp<
 export const useHabitDetailsScreen = () => {
   const { habitId } = useRoute<HabitDetailsRoute>().params;
   const navigation = useNavigation<HabitDetailsNav>();
-  const { habits, toggleHabit, removeHabit } = useHabit();
+  const { habits, toggleHabit, incrementCountToday, removeHabit } = useHabit();
   const [focusEpoch, setFocusEpoch] = useState(0);
   const { theme } = useAppTheme();
 
@@ -56,7 +56,7 @@ export const useHabitDetailsScreen = () => {
     [habits, habitId, focusEpoch],
   );
 
-  const { isDoneToday, streak, completionRate } = useHabitStats(habit?.logs);
+  const { isDoneToday, streak, completionRate } = useHabitStats(habit);
 
   const blendHabitKey = habit
     ? String(habitId)
@@ -138,8 +138,14 @@ export const useHabitDetailsScreen = () => {
   }, [navigation]);
 
   const markCompleted = useCallback(() => {
-    toggleHabit(habitId);
-  }, [habitId, toggleHabit]);
+    const h = habits.find((x) => String(x.id) === String(habitId));
+    const kind = h?.kind ?? 'boolean';
+    if (kind === 'count') {
+      incrementCountToday(habitId);
+    } else {
+      toggleHabit(habitId);
+    }
+  }, [habitId, habits, incrementCountToday, toggleHabit]);
 
   const confirmDelete = useCallback(() => {
     Alert.alert('Delete habit', 'This cannot be undone.', [

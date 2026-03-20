@@ -19,6 +19,8 @@ export const HabitDetailsActionsCard = ({
     [theme.colors],
   );
 
+  const primaryTitle = isDoneToday ? 'Undo today' : 'Mark done';
+
   return (
     <Card>
       <Text style={shared.sectionHeading}>Actions</Text>
@@ -27,13 +29,7 @@ export const HabitDetailsActionsCard = ({
         padding={0}
         style={habitDetailsActionsCardStyles.stack}
       >
-        <PrimaryButton
-          title={
-            isDoneToday ? 'Already completed today' : 'Mark as completed'
-          }
-          onPress={onMarkCompleted}
-          disabled={isDoneToday}
-        />
+        <PrimaryButton title={primaryTitle} onPress={onMarkCompleted} />
 
         <PrimaryButton variant="danger" title="Delete habit" onPress={onDelete} />
       </Stack>

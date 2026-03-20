@@ -32,7 +32,7 @@ export const HabitDetailsScreen = () => {
   return (
     <HabitDetailsScreenFrame>
       <HabitDetailsScrollView>
-        <FadeSlideIn index={0}>
+        <FadeSlideIn index={0} playKey={habit.id}>
           <HabitDetailsOverviewCard
             habit={habit}
             streak={streak}
@@ -44,11 +44,11 @@ export const HabitDetailsScreen = () => {
           />
         </FadeSlideIn>
 
-        <FadeSlideIn index={1}>
-          <HabitDetailsProgressCard logs={habit.logs} />
+        <FadeSlideIn index={1} playKey={habit.id}>
+          <HabitDetailsProgressCard habit={habit} />
         </FadeSlideIn>
 
-        <FadeSlideIn index={2}>
+        <FadeSlideIn index={2} playKey={habit.id}>
           <HabitDetailsActionsCard
             isDoneToday={isDoneToday}
             onMarkCompleted={markCompleted}
