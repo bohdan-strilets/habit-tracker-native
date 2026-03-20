@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
   RouteProp,
   useFocusEffect,
@@ -37,8 +37,6 @@ type HabitDetailsNav = NativeStackNavigationProp<
   RootStackParamList,
   'HabitDetails'
 >;
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const HabitDetailsScreen = () => {
   const { habitId } = useRoute<HabitDetailsRoute>().params;
@@ -126,11 +124,6 @@ export const HabitDetailsScreen = () => {
 
   const statPulseStyle = useAnimatedStyle(() => ({
     transform: [{ scale: statPulse.value }],
-  }));
-
-  const dangerScale = useSharedValue(1);
-  const dangerAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: dangerScale.value }],
   }));
 
   useEffect(() => {
@@ -236,27 +229,11 @@ export const HabitDetailsScreen = () => {
                 disabled={isDoneToday}
               />
 
-              <AnimatedPressable
-                accessibilityRole="button"
+              <PrimaryButton
+                variant="danger"
+                title="Delete habit"
                 onPress={handleDelete}
-                onPressIn={() => {
-                  dangerScale.value = withSpring(0.97, {
-                    stiffness: 420,
-                    damping: 22,
-                    mass: 0.25,
-                  });
-                }}
-                onPressOut={() => {
-                  dangerScale.value = withSpring(1, {
-                    stiffness: 420,
-                    damping: 22,
-                    mass: 0.25,
-                  });
-                }}
-                style={[styles.dangerButton, dangerAnimatedStyle]}
-              >
-                <Text style={styles.dangerText}>Delete habit</Text>
-              </AnimatedPressable>
+              />
             </Stack>
           </Card>
         </FadeSlideIn>
@@ -363,23 +340,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 
-  dangerButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    height: 48,
-    borderRadius: 12,
-    borderWidth: 1,
-
-    backgroundColor: '#fdecec',
-
-    borderColor: '#f0b4b4',
-  },
-
-  dangerText: {
-    fontSize: 16,
-    fontWeight: '600',
-
-    color: '#c62828',
-  },
 });

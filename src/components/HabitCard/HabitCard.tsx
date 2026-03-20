@@ -1,5 +1,10 @@
-import { useRef } from 'react';
-import { View, Text, Pressable, Animated } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { PRESS_SPRING } from '../../constants/pressSpring';
 import { useHabitStats } from '../../hooks/useHabitStats';
 import type { HabitCardProps } from './HabitCard.types';
 import { styles } from './HabitCard.styles';
@@ -12,21 +17,17 @@ export const HabitCard = ({
 }: HabitCardProps) => {
   const { streak, completionRate } = useHabitStats(logs);
 
-  const scale = useRef(new Animated.Value(1)).current;
-  const animatedCardStyle = { transform: [{ scale }] };
+  const scale = useSharedValue(1);
+  const cardAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   const handlePressIn = () => {
-    Animated.spring(scale, {
-      toValue: 0.97,
-      useNativeDriver: true,
-    }).start();
+    scale.value = withSpring(0.97, PRESS_SPRING);
   };
 
   const handlePressOut = () => {
-    Animated.spring(scale, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
+    scale.value = withSpring(1, PRESS_SPRING);
   };
 
   return (
@@ -42,7 +43,7 @@ export const HabitCard = ({
         style={[
           styles.card,
           variant === 'plain' && styles.cardPlain,
-          animatedCardStyle,
+          cardAnimatedStyle,
         ]}
       >
         <Text style={styles.title}>{title}</Text>

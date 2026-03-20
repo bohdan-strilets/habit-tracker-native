@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  pressable: {
+    alignSelf: 'stretch',
+  },
+
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -23,7 +27,26 @@ export const styles = StyleSheet.create({
     backgroundColor: '#cfcfcf',
   },
 
-  pressed: {
-    opacity: 0.8,
+  danger: {
+    backgroundColor: '#fdecec',
+
+    borderWidth: 1,
+    borderColor: '#f0b4b4',
+  },
+
+  textDanger: {
+    color: '#c62828',
+  },
+
+  textDangerDisabled: {
+    color: '#888',
+  },
+
+  disabledDanger: {
+    backgroundColor: '#eee',
+
+    borderColor: '#ddd',
+
+    opacity: 0.85,
   },
 });
