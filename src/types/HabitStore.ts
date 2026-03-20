@@ -8,6 +8,7 @@ export type HabitStore = {
   add: (habit: Habit) => void;
   remove: (id: string) => void;
   toggle: (id: string) => void;
+  incrementCountToday: (id: string) => void;
   clean: () => void;
   retryHydration: () => void;
 };
