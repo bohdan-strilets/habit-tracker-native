@@ -1,53 +1,39 @@
 import { BlurView } from 'expo-blur';
 import { Platform, StyleSheet, View } from 'react-native';
+import { BottomTabBar } from '@react-navigation/bottom-tabs';
+import { useAppTheme } from '../../theme';
 import {
-  BottomTabBar,
-  type BottomTabBarProps,
-} from '@react-navigation/bottom-tabs';
-import { colors } from '../../theme';
+  APP_TAB_BAR_BLUR_INTENSITY,
+  appTabBarStyles as styles,
+} from './AppTabBar.styles';
+import type { AppTabBarProps } from './AppTabBar.types';
 
-const BLUR_INTENSITY = Platform.select({ ios: 88, android: 40, default: 80 });
+export const AppTabBar = (props: AppTabBarProps) => {
+  const { scheme, theme } = useAppTheme();
+  const blurTint = scheme === 'dark' ? 'dark' : 'light';
 
-/**
- * Blur + hairline sit behind BottomTabBar. Safe area bottom is applied only inside
- * BottomTabBar (paddingBottom) — do not add outer paddingBottom here or it doubles.
- */
-export const AppTabBar = (props: BottomTabBarProps) => {
   return (
     <View style={styles.shell}>
       {Platform.OS === 'android' ? (
-        <View style={[StyleSheet.absoluteFill, styles.androidFallback]} />
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            scheme === 'dark'
+              ? styles.androidFallbackDark
+              : styles.androidFallbackLight,
+          ]}
+        />
       ) : null}
       <BlurView
-        intensity={BLUR_INTENSITY}
-        tint="light"
+        intensity={APP_TAB_BAR_BLUR_INTENSITY}
+        tint={blurTint}
         style={StyleSheet.absoluteFill}
       />
-      <View style={styles.hairline} pointerEvents="none" />
+      <View
+        style={[styles.hairline, { backgroundColor: theme.colors.tab.hairline }]}
+        pointerEvents="none"
+      />
       <BottomTabBar {...props} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  shell: {
-    position: 'relative',
-    overflow: 'hidden',
-
-    backgroundColor: colors.background.transparent,
-  },
-
-  androidFallback: {
-    backgroundColor: 'rgba(250, 250, 252, 0.97)',
-  },
-
-  hairline: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: colors.tab.hairline,
-    zIndex: 1,
-  },
-});

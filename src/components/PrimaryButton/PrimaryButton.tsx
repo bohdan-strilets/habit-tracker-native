@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -12,9 +12,9 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { PRESS_SPRING } from '../../constants/pressSpring';
-import { colors, gradients } from '../../theme';
+import { useAppTheme } from '../../theme';
 import type { PrimaryButtonProps } from './PrimaryButton.types';
-import { styles } from './PrimaryButton.styles';
+import { createPrimaryButtonStyles } from './PrimaryButton.styles';
 
 export const PrimaryButton = ({
   title,
@@ -23,6 +23,12 @@ export const PrimaryButton = ({
   loading,
   variant = 'primary',
 }: PrimaryButtonProps) => {
+  const { theme } = useAppTheme();
+  const styles = useMemo(
+    () => createPrimaryButtonStyles(theme.colors),
+    [theme.colors],
+  );
+
   const scale = useSharedValue(1);
   const inactive = Boolean(disabled || loading);
   const isDanger = variant === 'danger';
@@ -66,8 +72,8 @@ export const PrimaryButton = ({
       >
         {showPrimaryFill ? (
           <LinearGradient
-            colors={[...gradients.primaryButton]}
-            locations={[...gradients.primaryButtonLocations]}
+            colors={[...theme.gradients.primaryButton]}
+            locations={[...theme.gradients.primaryButtonLocations]}
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
             style={StyleSheet.absoluteFill}
@@ -75,7 +81,9 @@ export const PrimaryButton = ({
         ) : null}
         {loading ? (
           <ActivityIndicator
-            color={isDanger ? colors.semantic.danger : colors.text.inverse}
+            color={
+              isDanger ? theme.colors.semantic.danger : theme.colors.text.inverse
+            }
           />
         ) : (
           <Text

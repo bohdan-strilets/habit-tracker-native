@@ -1,69 +1,64 @@
 import { StyleSheet } from 'react-native';
-import {
-  cardShadow,
-  colors,
-  fontSize,
-  fontWeight,
-  radii,
-  space,
-} from '../../theme';
+import type { AppTheme } from '../../theme';
+import { fontSize, fontWeight, radii, space } from '../../theme';
 
-export const styles = StyleSheet.create({
-  card: {
-    padding: space.xl,
-    borderRadius: radii.xl,
-    overflow: 'hidden',
+export const createHabitCardStyles = (theme: AppTheme) =>
+  StyleSheet.create({
+    card: {
+      padding: space.xl,
+      borderRadius: radii.xl,
+      overflow: 'hidden',
 
-    backgroundColor: colors.background.surface,
+      backgroundColor: theme.colors.background.surface,
 
-    ...cardShadow,
-  },
+      ...theme.shadows.cardShadow,
+    },
 
-  cardPlain: {
-    padding: 0,
-    borderRadius: 0,
+    cardPlain: {
+      padding: 0,
+      borderRadius: 0,
 
-    backgroundColor: colors.background.transparent,
+      backgroundColor: theme.colors.background.transparent,
 
-    shadowOpacity: 0,
-    shadowRadius: 0,
-    shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0,
+      shadowRadius: 0,
+      shadowOffset: { width: 0, height: 0 },
 
-    elevation: 0,
-  },
+      elevation: 0,
+    },
 
-  title: {
-    marginBottom: space.base,
+    title: {
+      marginBottom: space.base,
 
-    fontSize: fontSize['2xl'],
-    fontWeight: fontWeight.semibold,
+      fontSize: fontSize['2xl'],
+      fontWeight: fontWeight.semibold,
 
-    color: colors.text.primary,
-  },
+      color: theme.colors.text.primary,
+    },
 
-  statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
+    statsRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
 
-  statItem: {
-    alignItems: 'center',
-  },
+    statItem: {
+      alignItems: 'center',
+    },
 
-  statValue: {
-    fontSize: fontSize.xl,
-    fontWeight: fontWeight.semibold,
+    statValue: {
+      fontSize: fontSize.xl,
+      fontWeight: fontWeight.semibold,
 
-    color: colors.text.secondary,
-  },
+      color: theme.colors.text.secondary,
+    },
 
-  statLabel: {
-    fontSize: fontSize.sm,
+    statLabel: {
+      fontSize: fontSize.sm,
 
-    color: colors.text.hint,
-  },
+      color: theme.colors.text.hint,
+    },
 
-  pressableWrapper: {
-    flex: 1,
-  },
-});
+    pressableWrapper: {
+      flex: 1,
+    },
+  });

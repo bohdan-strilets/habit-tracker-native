@@ -1,38 +1,37 @@
 import { StyleSheet } from 'react-native';
-import {
-  colors,
-  fontSize,
-  fontWeight,
-  space,
-} from '../../theme';
+import type { ColorPalette } from '../../theme';
+import { fontSize, fontWeight, space } from '../../theme';
 
-export const styles = StyleSheet.create({
-  gateRoot: {
-    flex: 1,
-    position: 'relative',
+export const habitStorageGateGradientFill = StyleSheet.absoluteFill;
 
-    backgroundColor: colors.background.transparent,
-  },
+export const createHabitStorageGateStyles = (colors: ColorPalette) =>
+  StyleSheet.create({
+    gateRoot: {
+      flex: 1,
+      position: 'relative',
 
-  gate: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: space['5xl'],
-    gap: space.xl,
-  },
+      backgroundColor: colors.background.transparent,
+    },
 
-  errorTitle: {
-    fontSize: fontSize['3xl'],
-    fontWeight: fontWeight.semibold,
-    color: colors.text.primary,
-    textAlign: 'center',
-  },
+    gate: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: space['5xl'],
+      gap: space.xl,
+    },
 
-  errorBody: {
-    fontSize: fontSize.lg,
-    color: colors.text.subtle,
-    textAlign: 'center',
-    marginBottom: space.md,
-  },
-});
+    errorTitle: {
+      fontSize: fontSize['3xl'],
+      fontWeight: fontWeight.semibold,
+      color: colors.text.primary,
+      textAlign: 'center',
+    },
+
+    errorBody: {
+      fontSize: fontSize.lg,
+      color: colors.text.subtle,
+      textAlign: 'center',
+      marginBottom: space.md,
+    },
+  });

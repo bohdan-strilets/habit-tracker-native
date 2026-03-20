@@ -1,22 +1,18 @@
 import { StyleSheet } from 'react-native';
-import {
-  colors,
-  fontSize,
-  fontWeight,
-  letterSpacing,
-  space,
-} from '../../theme';
+import type { ColorPalette } from '../../theme';
+import { fontSize, fontWeight, letterSpacing, space } from '../../theme';
 
-export const styles = StyleSheet.create({
-  title: {
-    marginBottom: space.xl,
+export const createTitleStyles = (colors: ColorPalette) =>
+  StyleSheet.create({
+    title: {
+      marginBottom: space.xl,
 
-    fontSize: fontSize.hero,
-    fontWeight: fontWeight.bold,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    letterSpacing: letterSpacing.display,
+      fontSize: fontSize.hero,
+      fontWeight: fontWeight.bold,
+      textAlign: 'center',
+      textTransform: 'uppercase',
+      letterSpacing: letterSpacing.display,
 
-    color: colors.text.display,
-  },
-});
+      color: colors.text.display,
+    },
+  });

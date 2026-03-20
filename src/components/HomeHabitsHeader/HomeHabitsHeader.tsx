@@ -1,11 +1,19 @@
+import { useMemo } from 'react';
 import { Text } from 'react-native';
 import { HABIT_DETAILS_TIMELINE_DAYS } from '../../constants/habits';
+import { useAppTheme } from '../../theme';
 import { Card } from '../Card';
 import { PrimaryButton } from '../PrimaryButton';
 import type { HomeHabitsHeaderProps } from './HomeHabitsHeader.types';
-import { styles } from './HomeHabitsHeader.styles';
+import { createHomeHabitsHeaderStyles } from './HomeHabitsHeader.styles';
 
 export const HomeHabitsHeader = ({ onAddHabit }: HomeHabitsHeaderProps) => {
+  const { theme } = useAppTheme();
+  const styles = useMemo(
+    () => createHomeHabitsHeaderStyles(theme.colors),
+    [theme.colors],
+  );
+
   return (
     <Card>
       <Text style={styles.headline}>My habits</Text>

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -6,8 +7,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PRESS_SPRING } from '../../constants/pressSpring';
 import { useHabitStats } from '../../hooks/useHabitStats';
+import { useAppTheme } from '../../theme';
 import type { HabitCardProps } from './HabitCard.types';
-import { styles } from './HabitCard.styles';
+import { createHabitCardStyles } from './HabitCard.styles';
 
 export const HabitCard = ({
   title,
@@ -15,6 +17,9 @@ export const HabitCard = ({
   onPress,
   variant = 'elevated',
 }: HabitCardProps) => {
+  const { theme } = useAppTheme();
+  const styles = useMemo(() => createHabitCardStyles(theme), [theme]);
+
   const { streak, completionRate } = useHabitStats(logs);
 
   const scale = useSharedValue(1);

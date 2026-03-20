@@ -1,30 +1,23 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import type { ReactNode } from 'react';
-import { StyleSheet, type ViewStyle } from 'react-native';
-import { gradients } from '../../theme';
-
-type ScreenBackgroundProps = {
-  children: ReactNode;
-  style?: ViewStyle;
-};
+import { useAppTheme } from '../../theme';
+import { screenBackgroundStyles as styles } from './ScreenBackground.styles';
+import type { ScreenBackgroundProps } from './ScreenBackground.types';
 
 export const ScreenBackground = ({
   children,
   style,
-}: ScreenBackgroundProps) => (
-  <LinearGradient
-    colors={[...gradients.screen]}
-    locations={[...gradients.screenLocations]}
-    start={{ x: 0.5, y: 0 }}
-    end={{ x: 0.5, y: 1 }}
-    style={[styles.root, style]}
-  >
-    {children}
-  </LinearGradient>
-);
+}: ScreenBackgroundProps) => {
+  const { theme } = useAppTheme();
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-});
+  return (
+    <LinearGradient
+      colors={[...theme.gradients.screen]}
+      locations={[...theme.gradients.screenLocations]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      style={[styles.root, style]}
+    >
+      {children}
+    </LinearGradient>
+  );
+};

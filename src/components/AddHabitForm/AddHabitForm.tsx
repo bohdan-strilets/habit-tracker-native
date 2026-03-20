@@ -1,16 +1,17 @@
+import { useMemo } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import {
   HABIT_DETAILS_TIMELINE_DAYS,
   HABIT_TITLE_MAX_LENGTH,
 } from '../../constants/habits';
-import { space } from '../../theme';
+import { space, useAppTheme } from '../../theme';
 import { Card } from '../Card';
 import { FadeSlideIn } from '../FadeSlideIn';
 import { PrimaryButton } from '../PrimaryButton';
 import { Stack } from '../Stack';
 import { TextField } from '../TextField';
 import type { AddHabitFormProps } from './AddHabitForm.types';
-import { styles } from './AddHabitForm.styles';
+import { createAddHabitFormStyles } from './AddHabitForm.styles';
 
 export const AddHabitForm = ({
   title,
@@ -18,6 +19,12 @@ export const AddHabitForm = ({
   onSave,
   entrancePlayKey,
 }: AddHabitFormProps) => {
+  const { theme } = useAppTheme();
+  const styles = useMemo(
+    () => createAddHabitFormStyles(theme.colors),
+    [theme.colors],
+  );
+
   const trimmed = title.trim();
   const canSave = trimmed.length > 0;
 

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
+import type { ColorPalette } from '../../theme';
 import {
-  colors,
   fontSize,
   fontWeight,
   letterSpacing,
@@ -8,78 +8,79 @@ import {
   space,
 } from '../../theme';
 
-export const styles = StyleSheet.create({
-  root: {
-    gap: space['3xl'],
+export const createAddHabitFormStyles = (colors: ColorPalette) =>
+  StyleSheet.create({
+    root: {
+      gap: space['3xl'],
 
-    width: '100%',
-  },
+      width: '100%',
+    },
 
-  headline: {
-    marginBottom: space.mdPlus,
+    headline: {
+      marginBottom: space.mdPlus,
 
-    fontSize: fontSize['5xl'],
-    fontWeight: fontWeight.bold,
-    letterSpacing: letterSpacing.headline,
+      fontSize: fontSize['5xl'],
+      fontWeight: fontWeight.bold,
+      letterSpacing: letterSpacing.headline,
 
-    color: colors.text.primary,
-  },
+      color: colors.text.primary,
+    },
 
-  lead: {
-    marginBottom: space['4xl'],
+    lead: {
+      marginBottom: space['4xl'],
 
-    fontSize: fontSize.lg,
-    lineHeight: lineHeight.relaxed,
+      fontSize: fontSize.lg,
+      lineHeight: lineHeight.relaxed,
 
-    color: colors.text.muted,
-  },
+      color: colors.text.muted,
+    },
 
-  fieldLabel: {
-    marginBottom: space.md,
+    fieldLabel: {
+      marginBottom: space.md,
 
-    fontSize: fontSize.md,
-    fontWeight: fontWeight.semibold,
+      fontSize: fontSize.md,
+      fontWeight: fontWeight.semibold,
 
-    color: colors.text.tertiary,
-  },
+      color: colors.text.tertiary,
+    },
 
-  counter: {
-    marginTop: space.smPlus,
+    counter: {
+      marginTop: space.smPlus,
 
-    fontSize: fontSize.sm,
-    textAlign: 'right',
+      fontSize: fontSize.sm,
+      textAlign: 'right',
 
-    color: colors.text.faint,
-  },
+      color: colors.text.faint,
+    },
 
-  inlineHint: {
-    fontSize: fontSize.md,
-    fontStyle: 'italic',
+    inlineHint: {
+      fontSize: fontSize.md,
+      fontStyle: 'italic',
 
-    color: colors.text.hint,
-  },
+      color: colors.text.hint,
+    },
 
-  tipsTitle: {
-    marginBottom: space.base,
+    tipsTitle: {
+      marginBottom: space.base,
 
-    fontSize: fontSize.base,
-    fontWeight: fontWeight.bold,
-    textTransform: 'uppercase',
-    letterSpacing: letterSpacing.label,
+      fontSize: fontSize.base,
+      fontWeight: fontWeight.bold,
+      textTransform: 'uppercase',
+      letterSpacing: letterSpacing.label,
 
-    color: colors.text.tertiary,
-  },
+      color: colors.text.tertiary,
+    },
 
-  tipLine: {
-    marginBottom: space.mdPlus,
+    tipLine: {
+      marginBottom: space.mdPlus,
 
-    fontSize: fontSize.base,
-    lineHeight: lineHeight.body,
+      fontSize: fontSize.base,
+      lineHeight: lineHeight.body,
 
-    color: colors.text.subtle,
-  },
+      color: colors.text.subtle,
+    },
 
-  tipLineLast: {
-    marginBottom: space.none,
-  },
-});
+    tipLineLast: {
+      marginBottom: space.none,
+    },
+  });

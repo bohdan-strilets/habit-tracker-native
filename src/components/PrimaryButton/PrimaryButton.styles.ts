@@ -1,60 +1,55 @@
 import { StyleSheet } from 'react-native';
-import {
-  colors,
-  fontSize,
-  fontWeight,
-  layout,
-  radii,
-  space,
-} from '../../theme';
+import type { ColorPalette } from '../../theme';
+import { fontSize, fontWeight, layout, radii, space } from '../../theme';
 
-export const styles = StyleSheet.create({
-  pressable: {
-    alignSelf: 'stretch',
-  },
+export const createPrimaryButtonStyles = (colors: ColorPalette) =>
+  StyleSheet.create({
+    pressable: {
+      alignSelf: 'stretch',
+    },
 
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
 
-    height: layout.buttonHeight,
-    paddingHorizontal: space.xl,
-    borderRadius: radii.md,
+      height: layout.buttonHeight,
+      paddingHorizontal: space.xl,
+      borderRadius: radii.md,
 
-    overflow: 'hidden',
-  },
+      overflow: 'hidden',
+    },
 
-  text: {
-    fontSize: fontSize.xl,
-    fontWeight: fontWeight.semibold,
+    text: {
+      fontSize: fontSize.xl,
+      fontWeight: fontWeight.semibold,
 
-    color: colors.text.inverse,
-  },
+      color: colors.text.inverse,
+    },
 
-  disabled: {
-    backgroundColor: colors.background.disabled,
-  },
+    disabled: {
+      backgroundColor: colors.background.disabled,
+    },
 
-  danger: {
-    backgroundColor: colors.semantic.dangerLight,
+    danger: {
+      backgroundColor: colors.semantic.dangerLight,
 
-    borderWidth: 1,
-    borderColor: colors.semantic.dangerBorder,
-  },
+      borderWidth: 1,
+      borderColor: colors.semantic.dangerBorder,
+    },
 
-  textDanger: {
-    color: colors.semantic.danger,
-  },
+    textDanger: {
+      color: colors.semantic.danger,
+    },
 
-  textDangerDisabled: {
-    color: colors.text.hint,
-  },
+    textDangerDisabled: {
+      color: colors.text.hint,
+    },
 
-  disabledDanger: {
-    backgroundColor: colors.background.disabledMuted,
+    disabledDanger: {
+      backgroundColor: colors.background.disabledMuted,
 
-    borderColor: colors.border.light,
+      borderColor: colors.border.light,
 
-    opacity: 0.85,
-  },
-});
+      opacity: 0.85,
+    },
+  });

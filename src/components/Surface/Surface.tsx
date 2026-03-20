@@ -1,7 +1,7 @@
 import { View } from 'react-native';
-import { colors, radii, space } from '../../theme';
+import { radii, space, useAppTheme } from '../../theme';
 import type { SurfaceProps } from './Surface.types';
-import { elevationStyles, styles } from './Surface.styles';
+import { styles } from './Surface.styles';
 
 export const Surface = ({
   children,
@@ -9,8 +9,11 @@ export const Surface = ({
   padding = space.xl,
   radius = radii.lg,
   elevation = 1,
-  background = colors.background.surface,
+  background,
 }: SurfaceProps) => {
+  const { theme } = useAppTheme();
+  const bg = background ?? theme.colors.background.surface;
+
   return (
     <View
       style={[
@@ -18,9 +21,9 @@ export const Surface = ({
         {
           padding,
           borderRadius: radius,
-          backgroundColor: background,
+          backgroundColor: bg,
         },
-        elevationStyles[elevation],
+        theme.shadows.elevationStyles[elevation],
         style,
       ]}
     >

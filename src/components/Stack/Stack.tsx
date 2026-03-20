@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { stackLayoutStyle } from './Stack.styles';
 import type { StackProps } from './Stack.types';
 
 export const Stack = ({
@@ -22,24 +23,15 @@ export const Stack = ({
     </View>
   ));
 
+  const containerStyle = stackLayoutStyle(padding, align, justify, style);
+
   if (scrollable) {
     return (
-      <ScrollView
-        contentContainerStyle={[
-          { padding, alignItems: align, justifyContent: justify },
-          style,
-        ]}
-      >
+      <ScrollView contentContainerStyle={containerStyle}>
         {childrenWithSpacing}
       </ScrollView>
     );
   }
 
-  return (
-    <View
-      style={[{ padding, alignItems: align, justifyContent: justify }, style]}
-    >
-      {childrenWithSpacing}
-    </View>
-  );
+  return <View style={containerStyle}>{childrenWithSpacing}</View>;
 };

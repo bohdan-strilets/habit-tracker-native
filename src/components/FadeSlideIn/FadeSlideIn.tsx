@@ -1,27 +1,12 @@
-import { useEffect, type ReactNode } from 'react';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { useEffect } from 'react';
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-
-const ENTRANCE = {
-  duration: 520,
-  stagger: 88,
-  offsetY: 16,
-  easing: Easing.out(Easing.cubic),
-} as const;
-
-export type FadeSlideInProps = {
-  children: ReactNode;
-  index: number;
-  style?: StyleProp<ViewStyle>;
-  /** When this value changes, the entrance animation runs again. */
-  playKey?: number | string;
-};
+import { fadeSlideInEntrance as ENTRANCE } from './FadeSlideIn.styles';
+import type { FadeSlideInProps } from './FadeSlideIn.types';
 
 export function FadeSlideIn({
   children,

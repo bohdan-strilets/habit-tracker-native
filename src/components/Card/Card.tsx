@@ -1,12 +1,7 @@
-import { colors, radii, space } from '../../theme';
+import { radii, space, useAppTheme } from '../../theme';
 import { Surface } from '../Surface';
 import type { CardProps } from './Card.types';
 import { styles } from './Card.styles';
-
-const variantSurface = {
-  default: { elevation: 2 as const, background: colors.background.surface },
-  muted: { elevation: 1 as const, background: colors.background.surfaceMuted },
-};
 
 export const Card = ({
   children,
@@ -15,6 +10,19 @@ export const Card = ({
   padding = space.xl,
   radius = radii.xl,
 }: CardProps) => {
+  const { theme } = useAppTheme();
+
+  const variantSurface = {
+    default: {
+      elevation: 2 as const,
+      background: theme.colors.background.surface,
+    },
+    muted: {
+      elevation: 1 as const,
+      background: theme.colors.background.surfaceMuted,
+    },
+  };
+
   const v = variantSurface[variant];
 
   return (

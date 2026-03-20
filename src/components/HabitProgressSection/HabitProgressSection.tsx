@@ -7,10 +7,17 @@ import {
 } from '../../domain/habitActivity';
 import { formatYyyyMmDdDateOnly } from '../../utils/date';
 import { formatTapLabel } from '../../utils/formatTapLabel';
+import { useAppTheme } from '../../theme';
 import type { HabitProgressSectionProps } from './HabitProgressSection.types';
-import { styles } from './HabitProgressSection.styles';
+import { createHabitProgressSectionStyles } from './HabitProgressSection.styles';
 
 export const HabitProgressSection = ({ logs }: HabitProgressSectionProps) => {
+  const { theme } = useAppTheme();
+  const styles = useMemo(
+    () => createHabitProgressSectionStyles(theme.colors),
+    [theme.colors],
+  );
+
   const progressDays = useMemo(() => getProgressDaysSummary(logs), [logs]);
   const timeline = useMemo(
     () => getDayTimeline(logs, HABIT_DETAILS_TIMELINE_DAYS),
