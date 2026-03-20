@@ -1,13 +1,5 @@
 import { create } from 'zustand';
-import type { SetStateAction } from 'react';
-
-type ActiveRowId = string | null;
-
-type HomeSwipeStore = {
-  activeRowId: ActiveRowId;
-  setActiveRowId: (value: SetStateAction<ActiveRowId>) => void;
-  dismissOpenSwipe: () => void;
-};
+import type { ActiveRowId, HomeSwipeStore } from '../types/HomeSwipeStore';
 
 export const useHomeSwipeStore = create<HomeSwipeStore>((set) => ({
   activeRowId: null,
