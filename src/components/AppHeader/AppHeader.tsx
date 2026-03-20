@@ -15,15 +15,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import logoSource from '../../assets/logo.png';
 import { APP_DISPLAY_NAME } from '../../constants/branding';
 import { useHabit } from '../../hooks/useHabit';
 import type { MainTabParamList } from '../../navigation/types';
 import { useAppTheme } from '../../theme';
 import { ThemeToggle } from '../ThemeToggle';
 import { createAppHeaderStyles } from './AppHeader.styles';
-import type { AppHeaderProps } from './AppHeader.types';
-
-const LOGO = require('../../assets/logo.png');
+import type { AppHeaderProps, HomeStackOverlay } from './AppHeader.types';
 
 const DETAILS_CHROME_MS = 280;
 const BACK_SLOT_WIDTH = 40;
@@ -37,50 +36,74 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
     [theme.colors],
   );
 
-  const { isHabitDetails, habitId } = useNavigationState((state) => {
-    if (!state?.routes || typeof state.index !== 'number') {
-      return { isHabitDetails: false, habitId: null as string | null };
-    }
-    const tab = state.routes[state.index];
-    if (tab.name !== 'HomeTab') {
-      return { isHabitDetails: false, habitId: null as string | null };
-    }
-    const stack = tab.state;
-    if (!stack?.routes || typeof stack.index !== 'number') {
-      return { isHabitDetails: false, habitId: null as string | null };
-    }
-    const r = stack.routes[stack.index];
-    if (r.name !== 'HabitDetails') {
-      return { isHabitDetails: false, habitId: null as string | null };
-    }
-    const id = (r.params as { habitId?: string } | undefined)?.habitId;
-    return {
-      isHabitDetails: true,
-      habitId: id != null ? String(id) : null,
-    };
-  });
+  const { homeStackOverlay, homeStackHabitId } = useNavigationState(
+    (state): { homeStackOverlay: HomeStackOverlay; homeStackHabitId: string | null } => {
+      if (!state?.routes || typeof state.index !== 'number') {
+        return { homeStackOverlay: 'none', homeStackHabitId: null };
+      }
+      const tab = state.routes[state.index];
+      if (tab.name !== 'HomeTab') {
+        return { homeStackOverlay: 'none', homeStackHabitId: null };
+      }
+      const stack = tab.state;
+      if (!stack?.routes || typeof stack.index !== 'number') {
+        return { homeStackOverlay: 'none', homeStackHabitId: null };
+      }
+      const r = stack.routes[stack.index];
+      if (r.name === 'HabitDetails') {
+        const id = (r.params as { habitId?: string } | undefined)?.habitId;
+        return {
+          homeStackOverlay: 'details',
+          homeStackHabitId: id != null ? String(id) : null,
+        };
+      }
+      if (r.name === 'EditHabit') {
+        const id = (r.params as { habitId?: string } | undefined)?.habitId;
+        return {
+          homeStackOverlay: 'edit',
+          homeStackHabitId: id != null ? String(id) : null,
+        };
+      }
+      return { homeStackOverlay: 'none', homeStackHabitId: null };
+    },
+  );
 
-  const [detailsSubtitle, setDetailsSubtitle] = useState<string | null>(null);
+  const showStackChrome = homeStackOverlay !== 'none';
+
+  const [stackPrimary, setStackPrimary] = useState<string | null>(null);
+  const [stackSecondary, setStackSecondary] = useState<string | null>(null);
   const detailsChrome = useSharedValue(0);
 
   useEffect(() => {
-    detailsChrome.value = withTiming(isHabitDetails ? 1 : 0, {
+    detailsChrome.value = withTiming(showStackChrome ? 1 : 0, {
       duration: DETAILS_CHROME_MS,
       easing: Easing.bezier(0.33, 1, 0.68, 1),
     });
-  }, [detailsChrome, isHabitDetails]);
+  }, [detailsChrome, showStackChrome]);
 
   useEffect(() => {
-    if (!isHabitDetails || habitId == null) return;
-    const h = habits.find((x) => String(x.id) === habitId);
-    setDetailsSubtitle(h?.title?.trim() || 'Habit');
-  }, [habits, habitId, isHabitDetails]);
+    if (homeStackOverlay === 'details' && homeStackHabitId != null) {
+      const h = habits.find((x) => String(x.id) === homeStackHabitId);
+      setStackPrimary(h?.title?.trim() || 'Habit');
+      setStackSecondary(null);
+      return;
+    }
+    if (homeStackOverlay === 'edit' && homeStackHabitId != null) {
+      const h = habits.find((x) => String(x.id) === homeStackHabitId);
+      setStackPrimary('Edit habit');
+      setStackSecondary(h?.title?.trim() || '');
+      return;
+    }
+  }, [habits, homeStackHabitId, homeStackOverlay]);
 
   useEffect(() => {
-    if (isHabitDetails || detailsSubtitle == null) return;
-    const id = setTimeout(() => setDetailsSubtitle(null), DETAILS_CHROME_MS);
+    if (showStackChrome || stackPrimary == null) return;
+    const id = setTimeout(() => {
+      setStackPrimary(null);
+      setStackSecondary(null);
+    }, DETAILS_CHROME_MS);
     return () => clearTimeout(id);
-  }, [detailsSubtitle, isHabitDetails]);
+  }, [showStackChrome, stackPrimary]);
 
   const backSlotStyle = useAnimatedStyle(() => {
     const p = detailsChrome.value;
@@ -99,11 +122,17 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
     };
   });
 
-  const onBackFromDetails = () => {
-    navigation.navigate('HomeTab', { screen: 'Home' });
+  const onBackFromStackOverlay = () => {
+    if (homeStackOverlay === 'edit') {
+      navigation.goBack();
+      return;
+    }
+    if (homeStackOverlay === 'details') {
+      navigation.navigate('HomeTab', { screen: 'Home' });
+    }
   };
 
-  const showDetailsSubtitle = !subtitle && detailsSubtitle != null;
+  const showStackSubtitleText = !subtitle && stackPrimary != null;
 
   return (
     <SafeAreaView edges={['top']} style={styles.safe}>
@@ -120,8 +149,8 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="Go back"
-                disabled={!isHabitDetails}
-                onPress={onBackFromDetails}
+                disabled={!showStackChrome}
+                onPress={onBackFromStackOverlay}
                 style={({ pressed }) => [
                   styles.backHit,
                   pressed && styles.backPressed,
@@ -135,7 +164,7 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
               </Pressable>
             </Animated.View>
             <Image
-              source={LOGO}
+              source={logoSource}
               style={styles.logo}
               accessible={false}
               importantForAccessibility="no"
@@ -145,13 +174,19 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
               <Text style={styles.title}>{APP_DISPLAY_NAME}</Text>
               {subtitle ? (
                 <Text style={styles.subtitle}>{subtitle}</Text>
-              ) : showDetailsSubtitle ? (
-                <Animated.Text
-                  style={[styles.subtitle, detailsSubtitleStyle]}
-                  numberOfLines={2}
-                >
-                  {detailsSubtitle}
-                </Animated.Text>
+              ) : showStackSubtitleText ? (
+                <Animated.View style={detailsSubtitleStyle}>
+                  <Text style={styles.subtitle}>{stackPrimary}</Text>
+                  {stackSecondary ? (
+                    <Text
+                      style={styles.subtitleSecondary}
+                      numberOfLines={2}
+                      accessibilityLabel={`Habit name ${stackSecondary}`}
+                    >
+                      {stackSecondary}
+                    </Text>
+                  ) : null}
+                </Animated.View>
               ) : null}
             </View>
             <ThemeToggle />

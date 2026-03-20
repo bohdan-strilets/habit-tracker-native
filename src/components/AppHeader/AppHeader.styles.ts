@@ -75,4 +75,13 @@ export const createAppHeaderStyles = (colors: ColorPalette) =>
 
       color: colors.text.subtle,
     },
+
+    subtitleSecondary: {
+      marginTop: 2,
+
+      fontSize: fontSize.sm,
+      fontWeight: fontWeight.medium,
+
+      color: colors.text.hint,
+    },
   });
