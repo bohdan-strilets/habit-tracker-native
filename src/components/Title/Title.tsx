@@ -1,19 +1,7 @@
-import { Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
+import type { TitleProps } from './Title.types';
+import { styles } from './Title.styles';
 
-export const styles = StyleSheet.create({
-  title: {
-    fontSize: 44,
-    fontWeight: 700,
-
-    textTransform: 'uppercase',
-    textAlign: 'center',
-  },
-});
-
-export type Props = {
-  title: string;
-};
-
-export const Title = ({ title }: Props) => {
+export const Title = ({ title }: TitleProps) => {
   return <Text style={styles.title}>{title}</Text>;
 };
