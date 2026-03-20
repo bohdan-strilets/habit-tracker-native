@@ -1,8 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { getTodayStatus } from '../domain/habit';
 import { HabitStore } from '../types/HabitStore';
 import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
+import { normalizeToYyyyMmDd } from '../utils/date';
 
 const hydrationErrorMessage = (err: unknown): string =>
   err instanceof Error ? err.message : String(err);
@@ -32,11 +34,86 @@ export const useHabitStore = create<HabitStore>()(
       toggle: (id) =>
         set((state) => ({
           habits: state.habits.map((item) => {
-            const newLog = { date: getCurrentLocalDateString(), completed: true };
-            if (String(item.id) === String(id))
-              return { ...item, logs: [...item.logs, newLog] };
+            if (String(item.id) !== String(id)) return item;
+            const today = getCurrentLocalDateString();
+            const kind = item.kind ?? 'boolean';
+            const target = Math.max(1, item.target ?? 1);
 
-            return item;
+            const withoutToday = item.logs.filter(
+              (l) => normalizeToYyyyMmDd(l.date) !== today,
+            );
+
+            if (kind === 'boolean') {
+              if (getTodayStatus(item)) {
+                return { ...item, logs: withoutToday };
+              }
+              return {
+                ...item,
+                logs: [...withoutToday, { date: today, completed: true }],
+              };
+            }
+
+            const todayLogs = item.logs.filter(
+              (l) => normalizeToYyyyMmDd(l.date) === today,
+            );
+            const maxP =
+              todayLogs.length > 0
+                ? Math.max(...todayLogs.map((l) => l.progress ?? 0))
+                : 0;
+            const done = maxP >= target;
+
+            if (done) {
+              return { ...item, logs: withoutToday };
+            }
+            return {
+              ...item,
+              logs: [
+                ...withoutToday,
+                {
+                  date: today,
+                  completed: true,
+                  progress: target,
+                },
+              ],
+            };
+          }),
+        })),
+
+      incrementCountToday: (id) =>
+        set((state) => ({
+          habits: state.habits.map((item) => {
+            if (String(item.id) !== String(id)) return item;
+            if ((item.kind ?? 'boolean') !== 'count') return item;
+
+            const today = getCurrentLocalDateString();
+            const target = Math.max(1, item.target ?? 1);
+            const withoutToday = item.logs.filter(
+              (l) => normalizeToYyyyMmDd(l.date) !== today,
+            );
+            const todayLogs = item.logs.filter(
+              (l) => normalizeToYyyyMmDd(l.date) === today,
+            );
+            const maxP =
+              todayLogs.length > 0
+                ? Math.max(...todayLogs.map((l) => l.progress ?? 0))
+                : 0;
+
+            if (maxP >= target) {
+              return { ...item, logs: withoutToday };
+            }
+
+            const next = Math.min(maxP + 1, target);
+            return {
+              ...item,
+              logs: [
+                ...withoutToday,
+                {
+                  date: today,
+                  completed: next >= target,
+                  progress: next,
+                },
+              ],
+            };
           }),
         })),
 
