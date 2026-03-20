@@ -1,1 +1,3 @@
-export const getCurrentLocalDateString = () => new Date().toLocaleDateString();
+import { toTodayYyyyMmDd } from './date';
+
+export const getCurrentLocalDateString = (): string => toTodayYyyyMmDd();
