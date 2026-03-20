@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AddHabitForm } from '../components/AddHabitForm';
 import { useHabit } from '../hooks/useHabit';
 import { Habit } from '../types/Habit';
@@ -9,9 +9,21 @@ import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
 
 export const AddHabitScreen = () => {
   const [title, setTitle] = useState('');
+  const [entranceKey, setEntranceKey] = useState(0);
+  const skipEntranceBump = useRef(true);
 
   const navigate = useNavigation();
   const { addHabit } = useHabit();
+
+  useFocusEffect(
+    useCallback(() => {
+      if (skipEntranceBump.current) {
+        skipEntranceBump.current = false;
+        return;
+      }
+      setEntranceKey((k) => k + 1);
+    }, []),
+  );
 
   const createHabit = () => {
     const name = title.trim();
@@ -40,6 +52,7 @@ export const AddHabitScreen = () => {
           title={title}
           onChangeTitle={setTitle}
           onSave={createHabit}
+          entrancePlayKey={entranceKey}
         />
       </ScrollView>
     </View>

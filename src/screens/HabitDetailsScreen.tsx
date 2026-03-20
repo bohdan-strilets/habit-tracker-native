@@ -4,10 +4,8 @@ import {
   useMemo,
   useRef,
   useState,
-  type ReactNode,
 } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import type { StyleProp, ViewStyle } from 'react-native';
 import {
   RouteProp,
   useFocusEffect,
@@ -20,11 +18,11 @@ import Animated, {
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withSequence,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import { FadeSlideIn } from '../components/FadeSlideIn';
 import { HabitProgressSection } from '../components/HabitProgressSection';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Stack } from '../components/Stack';
@@ -39,55 +37,6 @@ type HabitDetailsNav = NativeStackNavigationProp<
   RootStackParamList,
   'HabitDetails'
 >;
-
-const ENTRANCE = {
-  duration: 520,
-  stagger: 88,
-  offsetY: 16,
-  easing: Easing.out(Easing.cubic),
-} as const;
-
-function FadeSlideIn({
-  children,
-  index,
-  style,
-}: {
-  children: ReactNode;
-  index: number;
-  style?: StyleProp<ViewStyle>;
-}) {
-  const opacity = useSharedValue(0);
-  const translateY = useSharedValue<number>(ENTRANCE.offsetY);
-
-  useEffect(() => {
-    opacity.value = 0;
-    translateY.value = ENTRANCE.offsetY;
-    const delay = index * ENTRANCE.stagger;
-    opacity.value = withDelay(
-      delay,
-      withTiming(1, {
-        duration: ENTRANCE.duration,
-        easing: ENTRANCE.easing,
-      }),
-    );
-    translateY.value = withDelay(
-      delay,
-      withTiming(0, {
-        duration: ENTRANCE.duration,
-        easing: ENTRANCE.easing,
-      }),
-    );
-  }, [index, opacity, translateY]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ translateY: translateY.value }],
-  }));
-
-  return (
-    <Animated.View style={[style, animatedStyle]}>{children}</Animated.View>
-  );
-}
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
