@@ -5,6 +5,7 @@ import {
   fontWeight,
   letterSpacing,
   lineHeight,
+  radii,
   space,
 } from '../../theme';
 
@@ -13,6 +14,11 @@ export const createAddHabitFormStyles = (colors: ColorPalette) =>
     root: {
       gap: space['3xl'],
 
+      width: '100%',
+    },
+
+    formStack: {
+      gap: space['3xl'],
       width: '100%',
     },
 
@@ -27,7 +33,7 @@ export const createAddHabitFormStyles = (colors: ColorPalette) =>
     },
 
     lead: {
-      marginBottom: space['4xl'],
+      marginBottom: space.none,
 
       fontSize: fontSize.lg,
       lineHeight: lineHeight.relaxed,
@@ -35,13 +41,61 @@ export const createAddHabitFormStyles = (colors: ColorPalette) =>
       color: colors.text.muted,
     },
 
-    fieldLabel: {
+    labelRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: space.md,
       marginBottom: space.md,
+    },
 
+    labelRowTight: {
+      marginBottom: space.sm,
+    },
+
+    fieldLabel: {
+      flex: 1,
       fontSize: fontSize.md,
       fontWeight: fontWeight.semibold,
-
       color: colors.text.tertiary,
+    },
+
+    sectionLabelRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: space.md,
+      marginBottom: space.sm,
+    },
+
+    sectionLabelText: {
+      flex: 1,
+      fontSize: fontSize.sm,
+      fontWeight: fontWeight.semibold,
+      textTransform: 'uppercase',
+      letterSpacing: letterSpacing.section,
+      color: colors.text.hint,
+    },
+
+    switchHint: {
+      fontSize: fontSize.sm,
+      lineHeight: lineHeight.body,
+      color: colors.text.hint,
+      marginBottom: space.sm,
+    },
+
+    switchRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: space.md,
+    },
+
+    switchLabel: {
+      flex: 1,
+      fontSize: fontSize.md,
+      lineHeight: lineHeight.body,
+      color: colors.text.secondary,
     },
 
     counter: {
@@ -58,6 +112,90 @@ export const createAddHabitFormStyles = (colors: ColorPalette) =>
       fontStyle: 'italic',
 
       color: colors.text.hint,
+    },
+
+    horizontalScroll: {
+      marginBottom: space.none,
+    },
+
+    horizontalContent: {
+      gap: space.sm,
+      paddingVertical: space.xs,
+    },
+
+    emojiHit: {
+      width: 48,
+      height: 48,
+      borderRadius: radii.md,
+      borderWidth: 2,
+      borderColor: colors.border.hairline,
+      backgroundColor: colors.background.surfaceMuted,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    emojiHitSelected: {
+      borderColor: colors.primary.main,
+      backgroundColor: colors.semantic.successLight,
+    },
+
+    emojiGlyph: {
+      fontSize: fontSize['4xl'],
+    },
+
+    colorHit: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      borderWidth: 2,
+      borderColor: 'transparent',
+    },
+
+    colorHitSelected: {
+      borderColor: colors.text.primary,
+    },
+
+    chipScroll: {
+      marginBottom: space.none,
+    },
+
+    chipScrollContent: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: space.sm,
+    },
+
+    categoryChip: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: space.xs,
+      paddingVertical: space.smPlus,
+      paddingHorizontal: space.base,
+      borderRadius: radii.pill,
+      borderWidth: 1,
+      borderColor: colors.border.default,
+      backgroundColor: colors.background.surfaceMuted,
+    },
+
+    categoryChipSelected: {
+      borderColor: colors.primary.main,
+      backgroundColor: colors.semantic.successLight,
+    },
+
+    categoryChipEmoji: {
+      fontSize: fontSize.md,
+    },
+
+    categoryChipLabel: {
+      fontSize: fontSize.sm,
+      fontWeight: fontWeight.semibold,
+      color: colors.text.secondary,
+    },
+
+    notesInput: {
+      minHeight: 88,
+      paddingTop: space.md,
+      textAlignVertical: 'top',
     },
 
     tipsTitle: {

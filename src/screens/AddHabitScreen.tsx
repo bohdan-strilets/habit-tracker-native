@@ -4,7 +4,26 @@ import { AddHabitScreenScroll } from '../components/AddHabitScreenScroll';
 import { useAddHabitScreen } from '../hooks/useAddHabitScreen';
 
 export const AddHabitScreen = () => {
-  const { title, setTitle, entranceKey, submitNewHabit } = useAddHabitScreen();
+  const {
+    title,
+    setTitle,
+    selectedIcon,
+    setSelectedIcon,
+    selectedAccentHex,
+    setSelectedAccentHex,
+    categoryId,
+    setCategoryId,
+    notes,
+    setNotes,
+    frequency,
+    setFrequency,
+    trackAsCount,
+    setTrackAsCount,
+    targetStr,
+    setTargetStr,
+    entranceKey,
+    submitNewHabit,
+  } = useAddHabitScreen();
 
   return (
     <AddHabitScreenFrame>
@@ -12,6 +31,20 @@ export const AddHabitScreen = () => {
         <AddHabitForm
           title={title}
           onChangeTitle={setTitle}
+          selectedIcon={selectedIcon}
+          onSelectIcon={setSelectedIcon}
+          selectedAccentHex={selectedAccentHex}
+          onSelectAccentHex={setSelectedAccentHex}
+          categoryId={categoryId}
+          onSelectCategory={setCategoryId}
+          notes={notes}
+          onChangeNotes={setNotes}
+          frequency={frequency}
+          onSelectFrequency={setFrequency}
+          trackAsCount={trackAsCount}
+          onChangeTrackAsCount={setTrackAsCount}
+          targetStr={targetStr}
+          onChangeTargetStr={setTargetStr}
           onSave={submitNewHabit}
           entrancePlayKey={entranceKey}
         />
