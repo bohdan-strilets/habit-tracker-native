@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { useMemo } from 'react';
+import { StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { HabitStorageGate } from './components/HabitStorageGate';
 import { MainTabNavigator } from './navigation/MainTabNavigator';
@@ -23,14 +25,20 @@ function AppNavigation() {
   );
 }
 
+const appRootStyles = StyleSheet.create({
+  fill: { flex: 1 },
+});
+
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        <HabitStorageGate>
-          <AppNavigation />
-        </HabitStorageGate>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={appRootStyles.fill}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <HabitStorageGate>
+            <AppNavigation />
+          </HabitStorageGate>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
