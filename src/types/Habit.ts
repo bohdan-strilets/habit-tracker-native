@@ -1,5 +1,11 @@
+export type Log = {
+  date: string;
+  completed: boolean;
+};
+
 export type Habit = {
   id: string;
   title: string;
-  logs: { date: string; completed: boolean }[];
+  logs: Log[];
+  createdAt?: string;
 };
