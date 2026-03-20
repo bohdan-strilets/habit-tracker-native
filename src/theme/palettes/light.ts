@@ -1,4 +1,4 @@
-export const colors = {
+export const colorsLight = {
   shadow: '#000',
 
   background: {
@@ -48,7 +48,6 @@ export const colors = {
   tab: {
     active: '#2e7d32',
     inactive: '#8e8e93',
-    /** iOS light-mode separator on bar top */
     hairline: 'rgba(60, 60, 67, 0.29)',
   },
 

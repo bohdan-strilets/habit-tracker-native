@@ -1,17 +1,39 @@
-export { colors } from './colors';
-export { gradients } from './gradients';
-export { space } from './spacing';
-export { radii } from './radius';
+export { buildTheme } from './model/buildTheme';
+export { createShadows, createShadowsLight } from './model/createShadows';
+export {
+  buildNavigationTheme,
+  DarkTheme,
+  DefaultTheme,
+} from './model/navigationTheme';
+export {
+  getTabBarContainerStyle,
+  tabBarIconStyle,
+  tabBarItemStyle,
+} from './model/tabBarStyles';
+
+export { colorsLight } from './palettes/light';
+export { colorsDark } from './palettes/dark';
+export { gradientsLight, gradientsDark } from './palettes/gradients';
+
 export {
   fontSize,
   fontWeight,
-  lineHeight,
+  layout,
   letterSpacing,
-} from './typography';
-export { elevationStyles, cardShadow, inputShadow } from './shadows';
-export { layout } from './layout';
-export {
-  tabBarContainerStyle,
-  tabBarIconStyle,
-  tabBarItemStyle,
-} from './tabBar';
+  lineHeight,
+  radii,
+  space,
+} from './tokens';
+
+export { THEME_STORAGE_KEY } from '../constants/storageKeys';
+
+export type {
+  AppTheme,
+  ColorPalette,
+  ColorScheme,
+  ThemeGradients,
+  ThemeShadows,
+} from './types';
+
+export { ThemeProvider } from './context/ThemeProvider';
+export { useAppTheme } from './context/useAppTheme';
