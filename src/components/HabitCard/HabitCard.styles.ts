@@ -4,9 +4,7 @@ import { fontSize, fontWeight, layout, radii, space } from '../../theme';
 
 export const createHabitCardStyles = (theme: AppTheme) =>
   StyleSheet.create({
-    wrap: {
-      marginBottom: space.base,
-    },
+    wrap: {},
     card: {
       flexDirection: 'row',
       alignItems: 'stretch',
@@ -14,9 +12,6 @@ export const createHabitCardStyles = (theme: AppTheme) =>
       backgroundColor: theme.colors.background.surface,
       ...theme.shadows.cardShadow,
       overflow: 'hidden',
-    },
-    cardDone: {
-      opacity: 0.55,
     },
     cardMain: {
       flex: 1,

@@ -4,6 +4,9 @@ import { fontSize, fontWeight, letterSpacing, space } from '../../theme';
 
 export const createHomeHabitsListStyles = (colors: ColorPalette) =>
   StyleSheet.create({
+    list: {
+      flex: 1,
+    },
     sectionHeader: {
       paddingHorizontal: space.base,
       paddingTop: space.lg,
@@ -18,5 +21,9 @@ export const createHomeHabitsListStyles = (colors: ColorPalette) =>
     listContent: {
       paddingHorizontal: space.base,
       paddingBottom: space['3xl'],
+      flexGrow: 1,
+    },
+    listFooterFill: {
+      flexGrow: 1,
     },
   });

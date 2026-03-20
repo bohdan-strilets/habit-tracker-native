@@ -3,4 +3,5 @@ export type HomeScreenHeaderProps = {
   userName: string;
   dateLine: string;
   globalStreak: number;
+  onOutsidePress?: () => void;
 };

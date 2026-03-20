@@ -1,11 +1,13 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMemo } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import { DEFAULT_HABIT_ACCENT_HEX } from '../../constants/habitFormOptions';
 import { PRESS_SPRING } from '../../constants/pressSpring';
 import { layout, useAppTheme } from '../../theme';
 import { hexToRgba } from '../../utils/hexToRgba';
@@ -18,6 +20,7 @@ export const HabitCard = ({
   habit,
   onOpenDetails,
   onToggleDone,
+  showInlineDone = true,
 }: HabitCardProps) => {
   const { theme } = useAppTheme();
   const styles = useMemo(() => createHabitCardStyles(theme), [theme]);
@@ -48,16 +51,25 @@ export const HabitCard = ({
     };
   }, [habit.accentColor]);
 
+  const accentHex = habit.accentColor?.trim() || DEFAULT_HABIT_ACCENT_HEX;
+
   return (
     <View style={styles.wrap}>
       <Animated.View
-        style={[
-          styles.card,
-          habit.completedToday && styles.cardDone,
-          accentShell?.card,
-          mainAnimatedStyle,
-        ]}
+        style={[styles.card, accentShell?.card, mainAnimatedStyle]}
       >
+        {habit.completedToday ? (
+          <LinearGradient
+            colors={[
+              hexToRgba(accentHex, 0.22),
+              hexToRgba(accentHex, 0),
+            ]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={StyleSheet.absoluteFill}
+            pointerEvents="none"
+          />
+        ) : null}
         <Pressable
           accessibilityRole="button"
           accessibilityHint="Opens habit details"
@@ -118,37 +130,39 @@ export const HabitCard = ({
           </View>
         </Pressable>
 
-        <View style={styles.doneColumn}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={
-              habit.completedToday
-                ? 'Mark habit as not done today'
-                : 'Mark habit as done today'
-            }
-            accessibilityState={{ selected: habit.completedToday }}
-            onPress={() => onToggleDone(habit.id)}
-            style={({ pressed }) => [
-              styles.doneButton,
-              habit.completedToday && styles.doneButtonMuted,
-              pressed && styles.doneButtonPressed,
-            ]}
-          >
-            <Ionicons
-              name={
+        {showInlineDone ? (
+          <View style={styles.doneColumn}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
                 habit.completedToday
-                  ? 'checkmark-circle'
-                  : 'checkmark-circle-outline'
+                  ? 'Mark habit as not done today'
+                  : 'Mark habit as done today'
               }
-              size={layout.habitCardDoneIconSize}
-              color={
-                habit.completedToday
-                  ? theme.colors.primary.dark
-                  : theme.colors.text.inverse
-              }
-            />
-          </Pressable>
-        </View>
+              accessibilityState={{ selected: habit.completedToday }}
+              onPress={() => onToggleDone(habit.id)}
+              style={({ pressed }) => [
+                styles.doneButton,
+                habit.completedToday && styles.doneButtonMuted,
+                pressed && styles.doneButtonPressed,
+              ]}
+            >
+              <Ionicons
+                name={
+                  habit.completedToday
+                    ? 'checkmark-circle'
+                    : 'checkmark-circle-outline'
+                }
+                size={layout.habitCardDoneIconSize}
+                color={
+                  habit.completedToday
+                    ? theme.colors.primary.dark
+                    : theme.colors.text.inverse
+                }
+              />
+            </Pressable>
+          </View>
+        ) : null}
       </Animated.View>
     </View>
   );

@@ -1,0 +1,7 @@
+export const HOME_SWIPE_ACTION_WIDTH = 80;
+
+export const LEFT_OPEN = HOME_SWIPE_ACTION_WIDTH * 2;
+export const RIGHT_OPEN = HOME_SWIPE_ACTION_WIDTH;
+export const REVEAL_FRACTION = 0.34;
+export const DRAG_OVERSHOOT_LEFT = 22;
+export const DRAG_OVERSHOOT_RIGHT = 36;

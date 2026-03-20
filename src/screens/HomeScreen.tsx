@@ -4,6 +4,7 @@ import { HomeScreenFrame } from '../components/HomeScreenFrame';
 import { HomeScreenHeader } from '../components/HomeScreenHeader';
 import { HomeTodayProgressSection } from '../components/HomeTodayProgressSection';
 import { useHomeScreen } from '../hooks/useHomeScreen';
+import { useHomeSwipe } from '../hooks/useHomeSwipe';
 
 export const HomeScreen = () => {
   const {
@@ -18,8 +19,17 @@ export const HomeScreen = () => {
     total,
     onToggleDone,
     onOpenDetails,
+    onEditHabit,
     onCreateFirstHabit,
+    onDeleteHabit,
   } = useHomeScreen();
+
+  const { dismissOpenSwipe } = useHomeSwipe();
+
+  const onOpenDetailsDismissSwipe = (id: string) => {
+    dismissOpenSwipe();
+    onOpenDetails(id);
+  };
 
   return (
     <HomeScreenFrame>
@@ -28,11 +38,13 @@ export const HomeScreen = () => {
         userName={userName}
         dateLine={dateLine}
         globalStreak={globalStreak}
+        onOutsidePress={dismissOpenSwipe}
       />
       <HomeTodayProgressSection
         progress={progress}
         completedCount={completedCount}
         total={total}
+        onOutsidePress={dismissOpenSwipe}
       />
       {habits.length === 0 ? (
         <EmptyState
@@ -44,8 +56,10 @@ export const HomeScreen = () => {
         <HomeHabitsList
           sections={sections}
           habitsSnapshot={habits}
-          onOpenDetails={onOpenDetails}
+          onOpenDetails={onOpenDetailsDismissSwipe}
+          onEditHabit={onEditHabit}
           onToggleDone={onToggleDone}
+          onDeleteHabit={onDeleteHabit}
         />
       )}
     </HomeScreenFrame>

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { ProgressBar } from '../ProgressBar';
 import { useAppTheme } from '../../theme';
 import type { HomeTodayProgressSectionProps } from './HomeTodayProgressSection.types';
@@ -9,6 +9,7 @@ export const HomeTodayProgressSection = ({
   progress,
   completedCount,
   total,
+  onOutsidePress,
 }: HomeTodayProgressSectionProps) => {
   const { theme } = useAppTheme();
   const styles = useMemo(
@@ -17,7 +18,14 @@ export const HomeTodayProgressSection = ({
   );
 
   return (
-    <View style={styles.progressSection}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.progressSection,
+        onOutsidePress && pressed && { opacity: 0.96 },
+      ]}
+      onPress={onOutsidePress}
+      disabled={!onOutsidePress}
+    >
       <Text style={styles.progressTitle}>Today's progress</Text>
       <ProgressBar
         progress={progress}
@@ -26,6 +34,6 @@ export const HomeTodayProgressSection = ({
       <Text style={styles.progressSummary}>
         {completedCount} of {total} habits completed
       </Text>
-    </View>
+    </Pressable>
   );
 };
