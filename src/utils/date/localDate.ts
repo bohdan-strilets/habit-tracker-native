@@ -43,7 +43,6 @@ export const parseLocalDateParts = (dateStr: string): LocalDateParts | null => {
       month = a;
       day = b;
     } else {
-      // Assume day-first (common outside US)
       day = a;
       month = b;
     }

@@ -1,4 +1,3 @@
-/** Shared Reanimated spring for press-in feedback (buttons, tappable cards). */
 export const PRESS_SPRING = {
   stiffness: 420,
   damping: 22,
