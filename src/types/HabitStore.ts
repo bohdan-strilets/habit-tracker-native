@@ -6,6 +6,7 @@ export type HabitStore = {
   hydrationError: string | null;
 
   add: (habit: Habit) => void;
+  update: (id: string, patch: Partial<Habit>) => void;
   remove: (id: string) => void;
   toggle: (id: string) => void;
   incrementCountToday: (id: string) => void;

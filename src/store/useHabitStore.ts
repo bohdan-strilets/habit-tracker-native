@@ -26,6 +26,22 @@ export const useHabitStore = create<HabitStore>()(
           habits: [...state.habits, habit],
         })),
 
+      update: (id, patch) =>
+        set((state) => ({
+          habits: state.habits.map((item) => {
+            if (String(item.id) !== String(id)) return item;
+            const nextLogs =
+              patch.logs !== undefined ? patch.logs : item.logs;
+            return {
+              ...item,
+              ...patch,
+              id: item.id,
+              logs: nextLogs,
+              createdAt: item.createdAt,
+            };
+          }),
+        })),
+
       remove: (id) =>
         set((state) => ({
           habits: state.habits.filter((item) => String(item.id) !== String(id)),

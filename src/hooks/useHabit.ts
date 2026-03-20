@@ -6,6 +6,7 @@ export const useHabit = () => {
   const hydrationError = useHabitStore((state) => state.hydrationError);
 
   const addHabit = useHabitStore((state) => state.add);
+  const updateHabit = useHabitStore((state) => state.update);
   const removeHabit = useHabitStore((state) => state.remove);
   const toggleHabit = useHabitStore((state) => state.toggle);
   const incrementCountToday = useHabitStore((state) => state.incrementCountToday);
@@ -17,6 +18,7 @@ export const useHabit = () => {
     isLoading,
     hydrationError,
     addHabit,
+    updateHabit,
     removeHabit,
     toggleHabit,
     incrementCountToday,
