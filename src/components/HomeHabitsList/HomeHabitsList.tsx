@@ -1,13 +1,21 @@
+import { HomeHabitReorderLift } from '@components/HomeHabitReorderLift';
 import { HomeHabitSwipeRow } from '@components/HomeHabitSwipeRow';
+import {
+  LIST_REORDER_SPRING,
+  SECTION_ACTIVE,
+  SECTION_COMPLETED,
+} from '@constants/homeHabitsList';
 import { useHomeSwipe } from '@hooks/useHomeSwipe';
-import { useAppTheme } from '@theme';
-import { type ReactElement,useCallback, useMemo } from 'react';
-import { Pressable, Text, useWindowDimensions } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { radii, useAppTheme } from '@theme';
+import { hapticReorderLift, hapticReorderRelease } from '@utils/safeHaptics';
+import { type ReactElement, useCallback, useMemo } from 'react';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { NestableDraggableFlatList } from 'react-native-draggable-flatlist';
+
+import type { HomeScreenHabit } from '@/types/homeScreenHabit';
 
 import { createHomeHabitsListStyles } from './HomeHabitsList.styles';
-import type { HomeHabitsListProps, HomeListRow } from './HomeHabitsList.types';
-import { flattenHomeHabitsSections } from './utils/flattenHomeHabitsSections';
+import type { HomeHabitsListProps } from './HomeHabitsList.types';
 
 export const HomeHabitsList = ({
   sections,
@@ -16,50 +24,80 @@ export const HomeHabitsList = ({
   onEditHabit,
   onToggleDone,
   onDeleteHabit,
+  onReorderActiveHabits,
 }: HomeHabitsListProps) => {
   const { height: windowHeight } = useWindowDimensions();
-  const { theme } = useAppTheme();
+  const { scheme, theme } = useAppTheme();
   const { dismissOpenSwipe } = useHomeSwipe();
   const styles = useMemo(
     () => createHomeHabitsListStyles(theme.colors),
     [theme.colors],
   );
 
-  const listData = useMemo(
-    () => flattenHomeHabitsSections(sections),
-    [sections],
-  );
+  const { active, completed } = useMemo(() => {
+    let activeRows: HomeScreenHabit[] = [];
+    let completedRows: HomeScreenHabit[] = [];
+    for (const s of sections) {
+      if (s.title === SECTION_ACTIVE) activeRows = s.data;
+      else if (s.title === SECTION_COMPLETED) completedRows = s.data;
+    }
+    return { active: activeRows, completed: completedRows };
+  }, [sections]);
 
-  const renderItem = useCallback(
-    ({ item }: { item: HomeListRow }) => {
-      if (item.kind === 'header') {
-        return (
-          <Pressable onPress={dismissOpenSwipe}>
-            <Text style={styles.sectionHeader}>{item.title}</Text>
-          </Pressable>
-        );
-      }
-      return (
+  const renderActiveItem = useCallback(
+    ({
+      item,
+      drag,
+      isActive,
+    }: {
+      item: HomeScreenHabit;
+      drag: () => void;
+      isActive: boolean;
+    }) => (
+      <HomeHabitReorderLift>
         <HomeHabitSwipeRow
-          habit={item.habit}
+          habit={item}
           onOpenDetails={onOpenDetails}
           onEditHabit={onEditHabit}
           onToggleDone={onToggleDone}
           onDelete={onDeleteHabit}
+          onBeginReorder={drag}
+          reorderLifted={isActive}
         />
-      );
-    },
-    [
-      onDeleteHabit,
-      onEditHabit,
-      onOpenDetails,
-      onToggleDone,
-      dismissOpenSwipe,
-      styles.sectionHeader,
-    ],
+      </HomeHabitReorderLift>
+    ),
+    [onDeleteHabit, onEditHabit, onOpenDetails, onToggleDone],
   );
 
-  const keyExtractor = useCallback((item: HomeListRow) => item.key, []);
+  const renderReorderPlaceholder = useCallback(() => {
+    return (
+      <View
+        style={[
+          reorderSlotStyles.placeholder,
+          {
+            borderColor: theme.colors.border.subtle,
+            backgroundColor: theme.colors.background.surfaceMuted,
+            opacity: scheme === 'dark' ? 0.32 : 0.45,
+          },
+        ]}
+      />
+    );
+  }, [scheme, theme.colors.background.surfaceMuted, theme.colors.border.subtle]);
+
+  const keyExtractorHabit = useCallback((item: HomeScreenHabit) => item.id, []);
+
+  const onDragBegin = useCallback(() => {
+    dismissOpenSwipe();
+    hapticReorderLift();
+  }, [dismissOpenSwipe]);
+
+  const onDragEnd = useCallback(
+    ({ data }: { data: HomeScreenHabit[] }) => {
+      onReorderActiveHabits(data.map((h) => h.id));
+      hapticReorderRelease();
+    },
+    [onReorderActiveHabits],
+  );
 
   /** Fills space below the last row so taps on “empty” list area dismiss open swipe. */
   const footerMinHeight = Math.max(120, Math.floor(windowHeight * 0.28));
@@ -74,19 +112,53 @@ export const HomeHabitsList = ({
   }, [dismissOpenSwipe, footerMinHeight, styles.listFooterFill]);
 
   return (
-    <FlatList
-      data={listData}
-      keyExtractor={keyExtractor}
-      renderItem={renderItem}
-      style={styles.list}
-      contentContainerStyle={styles.listContent}
-      ListFooterComponent={listFooter}
-      showsVerticalScrollIndicator={false}
-      removeClippedSubviews
-      windowSize={8}
-      initialNumToRender={12}
-      extraData={habitsSnapshot}
-      onScrollBeginDrag={dismissOpenSwipe}
-    />
+    <View style={styles.listContent}>
+      {active.length > 0 ? (
+        <>
+          <Pressable onPress={dismissOpenSwipe}>
+            <Text style={styles.sectionHeader}>{SECTION_ACTIVE}</Text>
+          </Pressable>
+          <NestableDraggableFlatList
+            data={active}
+            keyExtractor={keyExtractorHabit}
+            renderItem={renderActiveItem}
+            renderPlaceholder={renderReorderPlaceholder}
+            onDragBegin={onDragBegin}
+            onDragEnd={onDragEnd}
+            animationConfig={LIST_REORDER_SPRING}
+            extraData={habitsSnapshot}
+            scrollEnabled={false}
+          />
+        </>
+      ) : null}
+
+      {completed.length > 0 ? (
+        <>
+          <Pressable onPress={dismissOpenSwipe}>
+            <Text style={styles.sectionHeader}>{SECTION_COMPLETED}</Text>
+          </Pressable>
+          {completed.map((habit) => (
+            <HomeHabitSwipeRow
+              key={habit.id}
+              habit={habit}
+              onOpenDetails={onOpenDetails}
+              onEditHabit={onEditHabit}
+              onToggleDone={onToggleDone}
+              onDelete={onDeleteHabit}
+            />
+          ))}
+        </>
+      ) : null}
+
+      {listFooter}
+    </View>
   );
 };
+
+const reorderSlotStyles = StyleSheet.create({
+  placeholder: {
+    flex: 1,
+    borderRadius: radii.md,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+});

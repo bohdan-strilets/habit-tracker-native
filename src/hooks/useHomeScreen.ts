@@ -1,3 +1,4 @@
+import { SECTION_ACTIVE, SECTION_COMPLETED } from '@constants/homeHabitsList';
 import { getStreak } from '@domain/habit';
 import type { HomeStackParamList, MainTabParamList } from '@navigation/types';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -35,7 +36,13 @@ function greetingLabel(hour: number) {
 
 export const useHomeScreen = () => {
   const navigation = useNavigation<HomeNav>();
-  const { habits, toggleHabit, incrementCountToday, removeHabit } = useHabit();
+  const {
+    habits,
+    toggleHabit,
+    incrementCountToday,
+    removeHabit,
+    reorderActiveHabits,
+  } = useHabit();
 
   useEffect(() => {
     if (
@@ -64,9 +71,9 @@ export const useHomeScreen = () => {
     const active = rows.filter((h) => !h.completedToday);
     const completed = rows.filter((h) => h.completedToday);
     const next: HomeScreenHabitSection[] = [];
-    if (active.length) next.push({ title: 'Active', data: active });
+    if (active.length) next.push({ title: SECTION_ACTIVE, data: active });
     if (completed.length)
-      next.push({ title: 'Completed today', data: completed });
+      next.push({ title: SECTION_COMPLETED, data: completed });
     return { completedCount: done, total: totalH, sections: next };
   }, [rows]);
 
@@ -123,6 +130,14 @@ export const useHomeScreen = () => {
     [removeHabit],
   );
 
+  const onReorderActiveHabits = useCallback(
+    (orderedActiveIds: string[]) => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      reorderActiveHabits(orderedActiveIds);
+    },
+    [reorderActiveHabits],
+  );
+
   return {
     userName: USER_NAME,
     greeting,
@@ -138,5 +153,6 @@ export const useHomeScreen = () => {
     onEditHabit,
     onCreateFirstHabit,
     onDeleteHabit,
+    onReorderActiveHabits,
   };
 };

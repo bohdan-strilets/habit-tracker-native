@@ -12,4 +12,5 @@ export type HomeHabitsListProps = {
   onEditHabit: (id: string) => void;
   onToggleDone: (id: string) => void;
   onDeleteHabit: (id: string) => void;
+  onReorderActiveHabits: (orderedActiveIds: string[]) => void;
 };
