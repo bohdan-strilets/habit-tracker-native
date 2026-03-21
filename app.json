@@ -10,6 +10,7 @@
       "image": "./src/assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#e3f2fd"
-    }
+    },
+    "plugins": ["expo-notifications"]
   }
 }
