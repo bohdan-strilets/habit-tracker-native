@@ -1,4 +1,4 @@
-import type { ColorScheme } from '../theme/types';
+import type { ColorScheme } from '@theme/types';
 
 export type ThemeStore = {
   scheme: ColorScheme;

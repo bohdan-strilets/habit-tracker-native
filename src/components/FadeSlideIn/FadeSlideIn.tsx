@@ -5,6 +5,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
+
 import { fadeSlideInEntrance as ENTRANCE } from './FadeSlideIn.styles';
 import type { FadeSlideInProps } from './FadeSlideIn.types';
 

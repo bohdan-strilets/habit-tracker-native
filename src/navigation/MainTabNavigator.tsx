@@ -1,16 +1,17 @@
+import { AppHeader } from '@components/AppHeader';
+import { AppTabBar } from '@components/AppTabBar';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useMemo } from 'react';
-import { AppHeader } from '../components/AppHeader';
-import { AppTabBar } from '../components/AppTabBar';
-import { AddHabitScreen, SettingsScreen } from '../screens';
+import { AddHabitScreen, SettingsScreen } from '@screens';
 import {
   getTabBarContainerStyle,
   layout,
   tabBarIconStyle,
   tabBarItemStyle,
   useAppTheme,
-} from '../theme';
+} from '@theme';
+import { useMemo } from 'react';
+
 import { HomeStackNavigator } from './HomeStackNavigator';
 import type { MainTabParamList } from './types';
 

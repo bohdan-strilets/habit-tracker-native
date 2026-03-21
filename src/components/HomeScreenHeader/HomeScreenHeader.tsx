@@ -1,9 +1,10 @@
+import { StreakBadge } from '@components/StreakBadge/StreakBadge';
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { StreakBadge } from '../StreakBadge/StreakBadge';
-import { useAppTheme } from '../../theme';
-import type { HomeScreenHeaderProps } from './HomeScreenHeader.types';
+
 import { createHomeScreenHeaderStyles } from './HomeScreenHeader.styles';
+import type { HomeScreenHeaderProps } from './HomeScreenHeader.types';
 
 export const HomeScreenHeader = ({
   greeting,
@@ -13,10 +14,7 @@ export const HomeScreenHeader = ({
   onOutsidePress,
 }: HomeScreenHeaderProps) => {
   const { theme } = useAppTheme();
-  const styles = useMemo(
-    () => createHomeScreenHeaderStyles(theme),
-    [theme],
-  );
+  const styles = useMemo(() => createHomeScreenHeaderStyles(theme), [theme]);
 
   return (
     <Pressable

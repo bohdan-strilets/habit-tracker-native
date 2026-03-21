@@ -1,4 +1,3 @@
-import type { Habit } from '../types/Habit';
 import {
   dateToLocalParts,
   localPartsToYyyyMmDd,
@@ -6,7 +5,9 @@ import {
   parseLocalDateParts,
   partsToLocalDate,
   toTodayYyyyMmDd,
-} from '../utils/date';
+} from '@utils/date';
+
+import type { Habit } from '@/types/Habit';
 
 export const isHabitSatisfiedOnDate = (
   habit: Habit,
@@ -67,7 +68,8 @@ export const getStreakDateKeys = (habit: Habit): Set<string> => {
   return keys;
 };
 
-export const getStreak = (habit: Habit): number => getStreakDateKeys(habit).size;
+export const getStreak = (habit: Habit): number =>
+  getStreakDateKeys(habit).size;
 
 export const getCompletionRate = (habit: Habit): number => {
   const logs = habit.logs;

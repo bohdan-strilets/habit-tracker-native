@@ -1,8 +1,9 @@
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
-import { useAppTheme } from '../../theme';
-import type { StreakBadgeProps } from './StreakBadge.types';
+
 import { createStreakBadgeStyles } from './StreakBadge.styles';
+import type { StreakBadgeProps } from './StreakBadge.types';
 
 export const StreakBadge = ({
   days,

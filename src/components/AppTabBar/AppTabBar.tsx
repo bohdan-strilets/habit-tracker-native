@@ -1,7 +1,8 @@
+import { BottomTabBar } from '@react-navigation/bottom-tabs';
+import { useAppTheme } from '@theme';
 import { BlurView } from 'expo-blur';
 import { Platform, StyleSheet, View } from 'react-native';
-import { BottomTabBar } from '@react-navigation/bottom-tabs';
-import { useAppTheme } from '../../theme';
+
 import {
   APP_TAB_BAR_BLUR_INTENSITY,
   appTabBarStyles as styles,
@@ -30,7 +31,10 @@ export const AppTabBar = (props: AppTabBarProps) => {
         style={StyleSheet.absoluteFill}
       />
       <View
-        style={[styles.hairline, { backgroundColor: theme.colors.tab.hairline }]}
+        style={[
+          styles.hairline,
+          { backgroundColor: theme.colors.tab.hairline },
+        ]}
         pointerEvents="none"
       />
       <BottomTabBar {...props} />

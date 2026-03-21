@@ -1,6 +1,6 @@
+import type { ColorPalette } from '@theme';
+import { fontSize, fontWeight, lineHeight, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { ColorPalette } from '../../theme';
-import { fontSize, fontWeight, lineHeight, space } from '../../theme';
 
 export const createHabitsListEmptyStateStyles = (colors: ColorPalette) =>
   StyleSheet.create({

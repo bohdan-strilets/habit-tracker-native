@@ -1,3 +1,22 @@
+import { Card } from '@components/Card';
+import { FadeSlideIn } from '@components/FadeSlideIn';
+import { FieldRequirementBadge } from '@components/FieldRequirementBadge';
+import { FrequencySegmentControl } from '@components/FrequencySegmentControl';
+import { createHabitDetailsSharedStyles } from '@components/HabitDetailsShared';
+import { PrimaryButton } from '@components/PrimaryButton';
+import { Stack } from '@components/Stack';
+import { TextField } from '@components/TextField';
+import {
+  HABIT_ACCENT_PRESETS,
+  HABIT_CATEGORY_OPTIONS,
+  HABIT_ICON_PRESETS,
+} from '@constants/habitFormOptions';
+import {
+  HABIT_DETAILS_TIMELINE_DAYS,
+  HABIT_NOTES_MAX_LENGTH,
+  HABIT_TITLE_MAX_LENGTH,
+} from '@constants/habits';
+import { space, useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import {
   Keyboard,
@@ -7,27 +26,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import {
-  HABIT_ACCENT_PRESETS,
-  HABIT_CATEGORY_OPTIONS,
-  HABIT_ICON_PRESETS,
-} from '../../constants/habitFormOptions';
-import {
-  HABIT_DETAILS_TIMELINE_DAYS,
-  HABIT_NOTES_MAX_LENGTH,
-  HABIT_TITLE_MAX_LENGTH,
-} from '../../constants/habits';
-import { space, useAppTheme } from '../../theme';
-import { Card } from '../Card';
-import { FadeSlideIn } from '../FadeSlideIn';
-import { FieldRequirementBadge } from '../FieldRequirementBadge';
-import { FrequencySegmentControl } from '../FrequencySegmentControl';
-import { createHabitDetailsSharedStyles } from '../HabitDetailsShared';
-import { PrimaryButton } from '../PrimaryButton';
-import { Stack } from '../Stack';
-import { TextField } from '../TextField';
-import type { AddHabitFormProps } from './AddHabitForm.types';
+
 import { createAddHabitFormStyles } from './AddHabitForm.styles';
+import type { AddHabitFormProps } from './AddHabitForm.types';
 
 export const AddHabitForm = ({
   formMode = 'create',
@@ -92,8 +93,8 @@ export const AddHabitForm = ({
               </Text>
             ) : (
               <Text style={styles.lead}>
-                Update name, appearance, or schedule. Your history and
-                check-ins stay as they are.
+                Update name, appearance, or schedule. Your history and check-ins
+                stay as they are.
               </Text>
             )}
           </Card>
@@ -219,8 +220,12 @@ export const AddHabitForm = ({
                           selected && styles.categoryChipSelected,
                         ]}
                       >
-                        <Text style={styles.categoryChipEmoji}>{cat.emoji}</Text>
-                        <Text style={styles.categoryChipLabel}>{cat.label}</Text>
+                        <Text style={styles.categoryChipEmoji}>
+                          {cat.emoji}
+                        </Text>
+                        <Text style={styles.categoryChipLabel}>
+                          {cat.label}
+                        </Text>
                       </Pressable>
                     );
                   })}
@@ -332,8 +337,8 @@ export const AddHabitForm = ({
           <Card variant="muted">
             <Text style={styles.tipsTitle}>Quick tips</Text>
             <Text style={styles.tipLine}>
-              • Tap a habit on the home list to toggle today, or open details for
-              the {HABIT_DETAILS_TIMELINE_DAYS}-day timeline.
+              • Tap a habit on the home list to toggle today, or open details
+              for the {HABIT_DETAILS_TIMELINE_DAYS}-day timeline.
             </Text>
             <Text style={styles.tipLine}>
               • On the details screen, use &quot;Mark as completed&quot; for

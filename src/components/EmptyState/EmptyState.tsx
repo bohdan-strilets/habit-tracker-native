@@ -1,8 +1,9 @@
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { useAppTheme } from '../../theme';
-import type { EmptyStateProps } from './EmptyState.types';
+
 import { createEmptyStateStyles } from './EmptyState.styles';
+import type { EmptyStateProps } from './EmptyState.types';
 
 export const EmptyState = ({
   title,
@@ -18,7 +19,10 @@ export const EmptyState = ({
       <Pressable
         accessibilityRole="button"
         onPress={onPress}
-        style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
+        style={({ pressed }) => [
+          styles.button,
+          pressed && styles.buttonPressed,
+        ]}
       >
         <Text style={styles.buttonLabel}>{buttonLabel}</Text>
       </Pressable>

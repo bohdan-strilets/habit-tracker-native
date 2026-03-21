@@ -1,18 +1,15 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import {
-  Alert,
-  LayoutAnimation,
-  Platform,
-  UIManager,
-} from 'react-native';
+import { getStreak } from '@domain/habit';
+import type { HomeStackParamList, MainTabParamList } from '@navigation/types';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { getStreak } from '../domain/habit';
-import type { HomeStackParamList, MainTabParamList } from '../navigation/types';
-import type { HomeScreenHabitSection } from '../types/homeScreen';
-import { habitToHomeScreenHabit } from '../utils/habitToHomeScreenHabit';
+import { habitToHomeScreenHabit } from '@utils/habitToHomeScreenHabit';
+import { useCallback, useEffect, useMemo } from 'react';
+import { Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
+
+import type { HomeScreenHabitSection } from '@/types/homeScreen';
+
 import { useHabit } from './useHabit';
 
 const USER_NAME = 'Bohdan';
@@ -115,7 +112,9 @@ export const useHomeScreen = () => {
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut,
+            );
             removeHabit(id);
           },
         },

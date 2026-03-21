@@ -1,12 +1,13 @@
+import { Card } from '@components/Card';
+import { HabitsListEmptyState } from '@components/HabitsListEmptyState';
+import { HabitSummaryCard } from '@components/HabitSummaryCard';
+import { useHabit } from '@hooks/useHabit';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo, useState } from 'react';
 import { FlatList } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { Card } from '../Card';
-import { HabitSummaryCard } from '../HabitSummaryCard';
-import { HabitsListEmptyState } from '../HabitsListEmptyState';
-import { useHabit } from '../../hooks/useHabit';
-import type { HabitsListNavigation } from './HabitsList.types';
+
 import { styles } from './HabitsList.styles';
+import type { HabitsListNavigation } from './HabitsList.types';
 
 export const HabitsList = () => {
   const { habits } = useHabit();

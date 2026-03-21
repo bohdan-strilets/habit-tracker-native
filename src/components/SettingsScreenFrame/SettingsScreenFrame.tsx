@@ -1,4 +1,5 @@
-import { ScreenBackground } from '../ScreenBackground';
+import { ScreenBackground } from '@components/ScreenBackground';
+
 import { settingsScreenFrameStyles as styles } from './SettingsScreenFrame.styles';
 import type { SettingsScreenFrameProps } from './SettingsScreenFrame.types';
 

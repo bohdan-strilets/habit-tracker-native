@@ -1,4 +1,7 @@
+import { HabitCard } from '@components/HabitCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useHomeSwipe } from '@hooks/useHomeSwipe';
+import { layout, useAppTheme } from '@theme';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -8,9 +11,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { useHomeSwipe } from '../../hooks/useHomeSwipe';
-import { layout, useAppTheme } from '../../theme';
-import { HabitCard } from '../HabitCard';
+
 import {
   DRAG_OVERSHOOT_LEFT,
   DRAG_OVERSHOOT_RIGHT,
@@ -109,9 +110,13 @@ export const HomeHabitSwipeRow = ({
         const x = translateX.value;
 
         if (x < -RIGHT_OPEN * REVEAL_FRACTION) {
-          translateX.value = withSpring(-RIGHT_OPEN, SNAP_SPRING, (finished) => {
-            if (finished) runOnJS(onOpenedRight)();
-          });
+          translateX.value = withSpring(
+            -RIGHT_OPEN,
+            SNAP_SPRING,
+            (finished) => {
+              if (finished) runOnJS(onOpenedRight)();
+            },
+          );
           return;
         }
 
@@ -193,7 +198,9 @@ export const HomeHabitSwipeRow = ({
         <View
           style={[
             styles.rightStrip,
-            habit.completedToday && { backgroundColor: theme.colors.background.surfaceMuted },
+            habit.completedToday && {
+              backgroundColor: theme.colors.background.surfaceMuted,
+            },
           ]}
         >
           <Pressable

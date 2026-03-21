@@ -1,6 +1,6 @@
+import type { gradientsLight } from '@theme/palettes/gradients';
+import type { colorsLight } from '@theme/palettes/light';
 import type { ViewStyle } from 'react-native';
-import type { colorsLight } from '../palettes/light';
-import type { gradientsLight } from '../palettes/gradients';
 
 export type ColorScheme = 'light' | 'dark';
 

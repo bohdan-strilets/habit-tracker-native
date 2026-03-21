@@ -1,6 +1,6 @@
+import type { AppTheme } from '@theme';
+import { fontSize, fontWeight, letterSpacing, radii, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { AppTheme } from '../../theme';
-import { fontSize, fontWeight, letterSpacing, radii, space } from '../../theme';
 
 export const createHomeTodayProgressSectionStyles = (theme: AppTheme) =>
   StyleSheet.create({

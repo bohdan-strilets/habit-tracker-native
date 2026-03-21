@@ -1,7 +1,8 @@
+import { radii, space, useAppTheme } from '@theme';
 import { View } from 'react-native';
-import { radii, space, useAppTheme } from '../../theme';
-import type { SurfaceProps } from './Surface.types';
+
 import { styles } from './Surface.styles';
+import type { SurfaceProps } from './Surface.types';
 
 export const Surface = ({
   children,

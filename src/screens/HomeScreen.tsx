@@ -1,10 +1,10 @@
-import { EmptyState } from '../components/EmptyState';
-import { HomeHabitsList } from '../components/HomeHabitsList';
-import { HomeScreenFrame } from '../components/HomeScreenFrame';
-import { HomeScreenHeader } from '../components/HomeScreenHeader';
-import { HomeTodayProgressSection } from '../components/HomeTodayProgressSection';
-import { useHomeScreen } from '../hooks/useHomeScreen';
-import { useHomeSwipe } from '../hooks/useHomeSwipe';
+import { EmptyState } from '@components/EmptyState';
+import { HomeHabitsList } from '@components/HomeHabitsList';
+import { HomeScreenFrame } from '@components/HomeScreenFrame';
+import { HomeScreenHeader } from '@components/HomeScreenHeader';
+import { HomeTodayProgressSection } from '@components/HomeTodayProgressSection';
+import { useHomeScreen } from '@hooks/useHomeScreen';
+import { useHomeSwipe } from '@hooks/useHomeSwipe';
 
 export const HomeScreen = () => {
   const {

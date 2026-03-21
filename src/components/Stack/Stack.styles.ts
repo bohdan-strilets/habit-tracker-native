@@ -1,4 +1,5 @@
 import type { ViewStyle } from 'react-native';
+
 import type { StackProps } from './Stack.types';
 
 type Align = NonNullable<StackProps['align']>;

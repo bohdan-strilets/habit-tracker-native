@@ -1,5 +1,4 @@
-import { StyleSheet } from 'react-native';
-import type { ColorPalette } from '../../theme';
+import type { ColorPalette } from '@theme';
 import {
   fontSize,
   fontWeight,
@@ -7,7 +6,8 @@ import {
   lineHeight,
   radii,
   space,
-} from '../../theme';
+} from '@theme';
+import { StyleSheet } from 'react-native';
 
 export const createAddHabitFormStyles = (colors: ColorPalette) =>
   StyleSheet.create({

@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { Alert } from 'react-native';
+import type { HomeStackParamList } from '@navigation/types';
 import type { RouteProp } from '@react-navigation/native';
 import {
   useFocusEffect,
@@ -13,6 +6,9 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useAppTheme } from '@theme';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert } from 'react-native';
 import {
   Easing,
   interpolateColor,
@@ -22,8 +18,7 @@ import {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import type { HomeStackParamList } from '../navigation/types';
-import { useAppTheme } from '../theme';
+
 import { useHabit } from './useHabit';
 import { useHabitStats } from './useHabitStats';
 
@@ -58,9 +53,7 @@ export const useHabitDetailsScreen = () => {
 
   const { isDoneToday, streak, completionRate } = useHabitStats(habit);
 
-  const blendHabitKey = habit
-    ? String(habitId)
-    : `pending-${String(habitId)}`;
+  const blendHabitKey = habit ? String(habitId) : `pending-${String(habitId)}`;
 
   const statusBlend = useSharedValue(habit ? (isDoneToday ? 1 : 0) : 0);
   const prevBlendKeyRef = useRef<string | null>(null);
@@ -95,11 +88,7 @@ export const useHabitDetailsScreen = () => {
 
   const badgeTextAnimatedStyle = useAnimatedStyle(
     () => ({
-      color: interpolateColor(
-        statusBlend.value,
-        [0, 1],
-        [badgeFg0, badgeFg1],
-      ),
+      color: interpolateColor(statusBlend.value, [0, 1], [badgeFg0, badgeFg1]),
     }),
     [badgeFg0, badgeFg1],
   );

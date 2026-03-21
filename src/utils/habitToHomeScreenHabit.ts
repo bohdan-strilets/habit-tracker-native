@@ -1,9 +1,11 @@
-import { getHabitCategoryLabel } from './getHabitCategoryLabel';
-import { getStreak, getTodayStatus } from '../domain/habit';
-import type { Habit } from '../types/Habit';
-import type { HomeScreenHabit } from '../types/homeScreenHabit';
-import { getCurrentLocalDateString } from './getCurrentLocalDateString';
+import { getStreak, getTodayStatus } from '@domain/habit';
+
+import type { Habit } from '@/types/Habit';
+import type { HomeScreenHabit } from '@/types/homeScreenHabit';
+
 import { normalizeToYyyyMmDd } from './date';
+import { getCurrentLocalDateString } from './getCurrentLocalDateString';
+import { getHabitCategoryLabel } from './getHabitCategoryLabel';
 
 const DEFAULT_ICON = '✨';
 

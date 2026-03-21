@@ -1,3 +1,5 @@
+import { useAppTheme } from '@theme';
+import { darkenHex } from '@utils/darkenHex';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useMemo, useState } from 'react';
 import { LayoutChangeEvent, View } from 'react-native';
@@ -7,10 +9,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { useAppTheme } from '../../theme';
-import { darkenHex } from '../../utils/darkenHex';
-import type { ProgressBarProps } from './ProgressBar.types';
+
 import { createProgressBarStyles } from './ProgressBar.styles';
+import type { ProgressBarProps } from './ProgressBar.types';
 
 const PROGRESS_MS = 480;
 const easing = Easing.out(Easing.cubic);

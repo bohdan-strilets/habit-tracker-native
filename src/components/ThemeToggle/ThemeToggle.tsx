@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useAppTheme } from '@theme';
 import { Pressable } from 'react-native';
-import { useAppTheme } from '../../theme';
+
 import {
   THEME_TOGGLE_ICON_SIZE,
   themeToggleStyles as styles,
@@ -13,7 +14,9 @@ export const ThemeToggle = () => {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      accessibilityLabel={
+        isDark ? 'Switch to light theme' : 'Switch to dark theme'
+      }
       onPress={toggleScheme}
       style={({ pressed }) => [styles.hit, pressed && styles.pressed]}
     >

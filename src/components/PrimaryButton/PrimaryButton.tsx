@@ -1,20 +1,16 @@
+import { PRESS_SPRING } from '@constants/pressSpring';
+import { useAppTheme } from '@theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useMemo } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { PRESS_SPRING } from '../../constants/pressSpring';
-import { useAppTheme } from '../../theme';
-import type { PrimaryButtonProps } from './PrimaryButton.types';
+
 import { createPrimaryButtonStyles } from './PrimaryButton.styles';
+import type { PrimaryButtonProps } from './PrimaryButton.types';
 
 export const PrimaryButton = ({
   title,
@@ -82,7 +78,9 @@ export const PrimaryButton = ({
         {loading ? (
           <ActivityIndicator
             color={
-              isDanger ? theme.colors.semantic.danger : theme.colors.text.inverse
+              isDanger
+                ? theme.colors.semantic.danger
+                : theme.colors.text.inverse
             }
           />
         ) : (

@@ -1,7 +1,13 @@
-import { colorsDark } from '../palettes/dark';
-import { colorsLight } from '../palettes/light';
-import { gradientsDark, gradientsLight } from '../palettes/gradients';
-import type { AppTheme, ColorPalette, ColorScheme, ThemeGradients } from '../types';
+import { colorsDark } from '@theme/palettes/dark';
+import { gradientsDark, gradientsLight } from '@theme/palettes/gradients';
+import { colorsLight } from '@theme/palettes/light';
+import type {
+  AppTheme,
+  ColorPalette,
+  ColorScheme,
+  ThemeGradients,
+} from '@theme/types';
+
 import { createShadows, createShadowsLight } from './createShadows';
 
 function asPalette(dark: typeof colorsDark): ColorPalette {

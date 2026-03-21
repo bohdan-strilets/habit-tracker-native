@@ -1,10 +1,11 @@
+import { Card } from '@components/Card';
+import { FadeSlideIn } from '@components/FadeSlideIn';
+import { PrimaryButton } from '@components/PrimaryButton';
+import { Stack } from '@components/Stack';
+import { space, useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Text } from 'react-native';
-import { Card } from '../Card';
-import { FadeSlideIn } from '../FadeSlideIn';
-import { PrimaryButton } from '../PrimaryButton';
-import { Stack } from '../Stack';
-import { space, useAppTheme } from '../../theme';
+
 import { createHabitDetailsMissingStyles } from './HabitDetailsMissing.styles';
 import type { HabitDetailsMissingProps } from './HabitDetailsMissing.types';
 

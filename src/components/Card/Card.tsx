@@ -1,7 +1,8 @@
-import { radii, space, useAppTheme } from '../../theme';
-import { Surface } from '../Surface';
-import type { CardProps } from './Card.types';
+import { Surface } from '@components/Surface';
+import { radii, space, useAppTheme } from '@theme';
+
 import { styles } from './Card.styles';
+import type { CardProps } from './Card.types';
 
 export const Card = ({
   children,

@@ -1,5 +1,5 @@
-import type { HabitAccentPreset, HabitCategoryOption } from '../types/habitForm';
-import type { HabitCategoryId } from '../types/Habit';
+import type { HabitCategoryId } from '@/types/Habit';
+import type { HabitAccentPreset, HabitCategoryOption } from '@/types/habitForm';
 
 export const DEFAULT_HABIT_ICON = '✨';
 

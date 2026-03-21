@@ -1,14 +1,12 @@
+import { HABIT_DETAILS_TIMELINE_DAYS } from '@constants/habits';
+import { getDayTimeline, getProgressDaysSummary } from '@domain/habitActivity';
+import { useAppTheme } from '@theme';
+import { formatYyyyMmDdDateOnly } from '@utils/date';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
-import { HABIT_DETAILS_TIMELINE_DAYS } from '../../constants/habits';
-import {
-  getDayTimeline,
-  getProgressDaysSummary,
-} from '../../domain/habitActivity';
-import { formatYyyyMmDdDateOnly } from '../../utils/date';
-import { useAppTheme } from '../../theme';
-import type { HabitProgressSectionProps } from './HabitProgressSection.types';
+
 import { createHabitProgressSectionStyles } from './HabitProgressSection.styles';
+import type { HabitProgressSectionProps } from './HabitProgressSection.types';
 
 export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
   const { theme } = useAppTheme();
@@ -17,10 +15,7 @@ export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
     [theme.colors],
   );
 
-  const progressDays = useMemo(
-    () => getProgressDaysSummary(habit),
-    [habit],
-  );
+  const progressDays = useMemo(() => getProgressDaysSummary(habit), [habit]);
   const timeline = useMemo(
     () => getDayTimeline(habit, HABIT_DETAILS_TIMELINE_DAYS),
     [habit],
@@ -31,7 +26,9 @@ export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.sectionTitle}>Last {HABIT_DETAILS_TIMELINE_DAYS} days</Text>
+      <Text style={styles.sectionTitle}>
+        Last {HABIT_DETAILS_TIMELINE_DAYS} days
+      </Text>
       <Text style={styles.sectionHint}>
         Oldest on the left, today on the right. Solid dot = goal met that day.
         Ring = part of your current streak.

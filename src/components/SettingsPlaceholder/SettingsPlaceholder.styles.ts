@@ -1,6 +1,6 @@
+import type { AppTheme } from '@theme';
+import { fontSize, fontWeight, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { AppTheme } from '../../theme';
-import { fontSize, fontWeight, space } from '../../theme';
 
 export const createSettingsPlaceholderStyles = (theme: AppTheme) =>
   StyleSheet.create({

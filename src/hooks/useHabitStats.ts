@@ -1,6 +1,7 @@
+import { getCompletionRate, getStreak, getTodayStatus } from '@domain/habit';
 import { useMemo } from 'react';
-import { getCompletionRate, getStreak, getTodayStatus } from '../domain/habit';
-import type { Habit } from '../types/Habit';
+
+import type { Habit } from '@/types/Habit';
 
 export type HabitStats = {
   isDoneToday: boolean;

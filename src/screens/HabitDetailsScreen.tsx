@@ -1,11 +1,11 @@
-import { FadeSlideIn } from '../components/FadeSlideIn';
-import { HabitDetailsActionsCard } from '../components/HabitDetailsActionsCard';
-import { HabitDetailsMissing } from '../components/HabitDetailsMissing';
-import { HabitDetailsOverviewCard } from '../components/HabitDetailsOverviewCard';
-import { HabitDetailsProgressCard } from '../components/HabitDetailsProgressCard';
-import { HabitDetailsScreenFrame } from '../components/HabitDetailsScreenFrame';
-import { HabitDetailsScrollView } from '../components/HabitDetailsScrollView';
-import { useHabitDetailsScreen } from '../hooks/useHabitDetailsScreen';
+import { FadeSlideIn } from '@components/FadeSlideIn';
+import { HabitDetailsActionsCard } from '@components/HabitDetailsActionsCard';
+import { HabitDetailsMissing } from '@components/HabitDetailsMissing';
+import { HabitDetailsOverviewCard } from '@components/HabitDetailsOverviewCard';
+import { HabitDetailsProgressCard } from '@components/HabitDetailsProgressCard';
+import { HabitDetailsScreenFrame } from '@components/HabitDetailsScreenFrame';
+import { HabitDetailsScrollView } from '@components/HabitDetailsScrollView';
+import { useHabitDetailsScreen } from '@hooks/useHabitDetailsScreen';
 
 export const HabitDetailsScreen = () => {
   const {

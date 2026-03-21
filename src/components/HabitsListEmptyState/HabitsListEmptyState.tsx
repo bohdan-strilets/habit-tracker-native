@@ -1,7 +1,8 @@
+import { Card } from '@components/Card';
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Text } from 'react-native';
-import { useAppTheme } from '../../theme';
-import { Card } from '../Card';
+
 import { createHabitsListEmptyStateStyles } from './HabitsListEmptyState.styles';
 
 export const HabitsListEmptyState = () => {

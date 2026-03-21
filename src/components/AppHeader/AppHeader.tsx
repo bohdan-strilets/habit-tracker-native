@@ -1,13 +1,18 @@
+import logoSource from '@assets/logo.png';
+import { ThemeToggle } from '@components/ThemeToggle';
+import { APP_DISPLAY_NAME } from '@constants/branding';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useMemo, useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useHabit } from '@hooks/useHabit';
+import type { MainTabParamList } from '@navigation/types';
 import {
   type NavigationProp,
   useNavigation,
   useNavigationState,
 } from '@react-navigation/native';
+import { useAppTheme } from '@theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useEffect, useMemo, useState } from 'react';
+import { Image, Pressable, Text, View } from 'react-native';
 import Animated, {
   Easing,
   interpolate,
@@ -15,12 +20,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import logoSource from '../../assets/logo.png';
-import { APP_DISPLAY_NAME } from '../../constants/branding';
-import { useHabit } from '../../hooks/useHabit';
-import type { MainTabParamList } from '../../navigation/types';
-import { useAppTheme } from '../../theme';
-import { ThemeToggle } from '../ThemeToggle';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { createAppHeaderStyles } from './AppHeader.styles';
 import type { AppHeaderProps, HomeStackOverlay } from './AppHeader.types';
 
@@ -37,7 +38,12 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
   );
 
   const { homeStackOverlay, homeStackHabitId } = useNavigationState(
-    (state): { homeStackOverlay: HomeStackOverlay; homeStackHabitId: string | null } => {
+    (
+      state,
+    ): {
+      homeStackOverlay: HomeStackOverlay;
+      homeStackHabitId: string | null;
+    } => {
       if (!state?.routes || typeof state.index !== 'number') {
         return { homeStackOverlay: 'none', homeStackHabitId: null };
       }

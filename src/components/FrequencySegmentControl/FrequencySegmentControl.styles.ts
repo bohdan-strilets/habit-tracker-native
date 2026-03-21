@@ -1,6 +1,6 @@
+import type { ColorPalette } from '@theme';
+import { fontSize, fontWeight, layout, radii } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { ColorPalette } from '../../theme';
-import { fontSize, fontWeight, layout, radii } from '../../theme';
 
 export const TRACK_PADDING = 3;
 

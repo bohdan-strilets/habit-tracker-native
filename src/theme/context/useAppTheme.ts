@@ -1,5 +1,5 @@
-import { useTheme } from '../../hooks/useTheme';
-import { themeByScheme } from '../../store';
+import { useTheme } from '@hooks/useTheme';
+import { themeByScheme } from '@store';
 
 export function useAppTheme() {
   const { scheme, ready, setScheme, toggleScheme } = useTheme();

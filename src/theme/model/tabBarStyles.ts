@@ -1,6 +1,6 @@
+import { space } from '@theme/tokens';
+import type { ColorPalette } from '@theme/types';
 import { Platform, type ViewStyle } from 'react-native';
-import { space } from '../tokens';
-import type { ColorPalette } from '../types';
 
 export const tabBarItemStyle: ViewStyle = {
   paddingTop: space.smPlus,

@@ -1,10 +1,11 @@
+import { PrimaryButton } from '@components/PrimaryButton';
+import { useHabit } from '@hooks/useHabit';
+import { useAppTheme } from '@theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useHabit } from '../../hooks/useHabit';
-import { useAppTheme } from '../../theme';
-import { PrimaryButton } from '../PrimaryButton';
+
 import {
   createHabitStorageGateStyles,
   habitStorageGateGradientFill,

@@ -1,4 +1,4 @@
-import type { HabitCategoryId, HabitFrequency } from '../../types/Habit';
+import type { HabitCategoryId, HabitFrequency } from '@/types/Habit';
 
 export type AddHabitFormMode = 'create' | 'edit';
 

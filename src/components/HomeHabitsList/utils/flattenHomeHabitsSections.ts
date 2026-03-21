@@ -1,5 +1,6 @@
-import type { HomeScreenHabitSection } from '../../../types/homeScreen';
-import type { HomeListRow } from '../HomeHabitsList.types';
+import type { HomeListRow } from '@components/HomeHabitsList/HomeHabitsList.types';
+
+import type { HomeScreenHabitSection } from '@/types/homeScreen';
 
 export function flattenHomeHabitsSections(
   sections: HomeScreenHabitSection[],

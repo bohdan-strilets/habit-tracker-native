@@ -1,3 +1,6 @@
+import { PRESS_SPRING } from '@constants/pressSpring';
+import { useHabitStats } from '@hooks/useHabitStats';
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
@@ -5,11 +8,9 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { PRESS_SPRING } from '../../constants/pressSpring';
-import { useHabitStats } from '../../hooks/useHabitStats';
-import { useAppTheme } from '../../theme';
-import type { HabitSummaryCardProps } from './HabitSummaryCard.types';
+
 import { createHabitSummaryCardStyles } from './HabitSummaryCard.styles';
+import type { HabitSummaryCardProps } from './HabitSummaryCard.types';
 
 export const HabitSummaryCard = ({
   habit,
@@ -17,10 +18,7 @@ export const HabitSummaryCard = ({
   variant = 'elevated',
 }: HabitSummaryCardProps) => {
   const { theme } = useAppTheme();
-  const styles = useMemo(
-    () => createHabitSummaryCardStyles(theme),
-    [theme],
-  );
+  const styles = useMemo(() => createHabitSummaryCardStyles(theme), [theme]);
 
   const { streak, completionRate } = useHabitStats(habit);
 

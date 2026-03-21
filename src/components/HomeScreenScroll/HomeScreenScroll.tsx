@@ -1,14 +1,14 @@
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { ScrollView } from 'react-native';
-import { useAppTheme } from '../../theme';
+
 import { createHomeScreenScrollStyles } from './HomeScreenScroll.styles';
 import type { HomeScreenScrollProps } from './HomeScreenScroll.types';
 
 export const HomeScreenScroll = ({ children }: HomeScreenScrollProps) => {
   const { theme } = useAppTheme();
   const styles = useMemo(
-    () =>
-      createHomeScreenScrollStyles(theme.colors.background.transparent),
+    () => createHomeScreenScrollStyles(theme.colors.background.transparent),
     [theme.colors.background.transparent],
   );
 

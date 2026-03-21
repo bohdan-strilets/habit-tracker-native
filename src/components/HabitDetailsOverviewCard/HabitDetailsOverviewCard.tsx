@@ -1,16 +1,14 @@
+import { Card } from '@components/Card';
+import { ProgressBar } from '@components/ProgressBar';
+import { useAppTheme } from '@theme';
+import { formatYyyyMmDdLong, normalizeToYyyyMmDd } from '@utils/date';
+import { getCurrentLocalDateString } from '@utils/getCurrentLocalDateString';
+import { getHabitCategoryLabel } from '@utils/getHabitCategoryLabel';
+import { hexToRgba } from '@utils/hexToRgba';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { getHabitCategoryLabel } from '../../utils/getHabitCategoryLabel';
-import { useAppTheme } from '../../theme';
-import {
-  formatYyyyMmDdLong,
-  normalizeToYyyyMmDd,
-} from '../../utils/date';
-import { getCurrentLocalDateString } from '../../utils/getCurrentLocalDateString';
-import { hexToRgba } from '../../utils/hexToRgba';
-import { Card } from '../Card';
-import { ProgressBar } from '../ProgressBar';
+
 import { createHabitDetailsOverviewCardStyles } from './HabitDetailsOverviewCard.styles';
 import type { HabitDetailsOverviewCardProps } from './HabitDetailsOverviewCard.types';
 

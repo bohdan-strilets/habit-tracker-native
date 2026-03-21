@@ -1,9 +1,10 @@
+import { Card } from '@components/Card';
+import { createHabitDetailsSharedStyles } from '@components/HabitDetailsShared';
+import { HabitProgressSection } from '@components/HabitProgressSection';
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Text } from 'react-native';
-import { useAppTheme } from '../../theme';
-import { Card } from '../Card';
-import { createHabitDetailsSharedStyles } from '../HabitDetailsShared';
-import { HabitProgressSection } from '../HabitProgressSection';
+
 import { habitDetailsProgressCardStyles } from './HabitDetailsProgressCard.styles';
 import type { HabitDetailsProgressCardProps } from './HabitDetailsProgressCard.types';
 

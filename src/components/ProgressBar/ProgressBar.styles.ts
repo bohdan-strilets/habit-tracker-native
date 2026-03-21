@@ -1,6 +1,6 @@
+import type { AppTheme } from '@theme';
+import { radii, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { AppTheme } from '../../theme';
-import { radii, space } from '../../theme';
 
 export const createProgressBarStyles = (theme: AppTheme) =>
   StyleSheet.create({

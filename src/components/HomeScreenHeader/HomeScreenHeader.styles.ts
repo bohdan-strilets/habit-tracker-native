@@ -1,6 +1,6 @@
+import type { AppTheme } from '@theme';
+import { fontSize, fontWeight, letterSpacing, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { AppTheme } from '../../theme';
-import { fontSize, fontWeight, letterSpacing, space } from '../../theme';
 
 export const createHomeScreenHeaderStyles = (theme: AppTheme) =>
   StyleSheet.create({

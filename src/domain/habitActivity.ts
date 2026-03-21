@@ -1,14 +1,16 @@
-import type {
-  DayTimelineCell,
-  ProgressDaySummary,
-} from '../types/HabitActivity';
-import type { Habit } from '../types/Habit';
-import { APP_LOCALE } from '../constants/locale';
+import { APP_LOCALE } from '@constants/locale';
 import {
   dateToLocalParts,
   localPartsToYyyyMmDd,
   normalizeToYyyyMmDd,
-} from '../utils/date';
+} from '@utils/date';
+
+import type { Habit } from '@/types/Habit';
+import type {
+  DayTimelineCell,
+  ProgressDaySummary,
+} from '@/types/HabitActivity';
+
 import { getStreakDateKeys, isHabitSatisfiedOnDate } from './habit';
 
 export const getProgressDaysSummary = (habit: Habit): ProgressDaySummary[] => {

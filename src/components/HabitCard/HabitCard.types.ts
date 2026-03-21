@@ -1,4 +1,4 @@
-import type { HomeScreenHabit } from '../../types/homeScreenHabit';
+import type { HomeScreenHabit } from '@/types/homeScreenHabit';
 
 export type HabitCardProps = {
   habit: HomeScreenHabit;

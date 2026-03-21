@@ -1,11 +1,12 @@
-import { useCallback, useMemo, type ReactElement } from 'react';
+import { HomeHabitSwipeRow } from '@components/HomeHabitSwipeRow';
+import { useHomeSwipe } from '@hooks/useHomeSwipe';
+import { useAppTheme } from '@theme';
+import { type ReactElement,useCallback, useMemo } from 'react';
 import { Pressable, Text, useWindowDimensions } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useHomeSwipe } from '../../hooks/useHomeSwipe';
-import { HomeHabitSwipeRow } from '../HomeHabitSwipeRow';
-import { useAppTheme } from '../../theme';
-import type { HomeHabitsListProps, HomeListRow } from './HomeHabitsList.types';
+
 import { createHomeHabitsListStyles } from './HomeHabitsList.styles';
+import type { HomeHabitsListProps, HomeListRow } from './HomeHabitsList.types';
 import { flattenHomeHabitsSections } from './utils/flattenHomeHabitsSections';
 
 export const HomeHabitsList = ({

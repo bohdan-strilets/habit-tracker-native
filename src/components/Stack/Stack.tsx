@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
+
 import { stackLayoutStyle } from './Stack.styles';
 import type { StackProps } from './Stack.types';
 

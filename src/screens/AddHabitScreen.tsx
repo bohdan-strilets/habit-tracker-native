@@ -1,7 +1,7 @@
-import { AddHabitForm } from '../components/AddHabitForm';
-import { AddHabitScreenFrame } from '../components/AddHabitScreenFrame';
-import { AddHabitScreenScroll } from '../components/AddHabitScreenScroll';
-import { useAddHabitScreen } from '../hooks/useAddHabitScreen';
+import { AddHabitForm } from '@components/AddHabitForm';
+import { AddHabitScreenFrame } from '@components/AddHabitScreenFrame';
+import { AddHabitScreenScroll } from '@components/AddHabitScreenScroll';
+import { useAddHabitScreen } from '@hooks/useAddHabitScreen';
 
 export const AddHabitScreen = () => {
   const {

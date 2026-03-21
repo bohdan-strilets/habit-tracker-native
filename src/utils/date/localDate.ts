@@ -1,9 +1,10 @@
-import type { LocalDateParts } from '../../types/LocalDate';
 import {
   ISO_LOCAL_DATE_PATTERN,
   LOCAL_DATE_DOT_PATTERN,
   LOCAL_DATE_SLASH_PATTERN,
-} from '../regex/datePatterns';
+} from '@utils/regex/datePatterns';
+
+import type { LocalDateParts } from '@/types/LocalDate';
 
 const pad2 = (n: number): string => String(n).padStart(2, '0');
 

@@ -1,12 +1,6 @@
+import type { ColorPalette } from '@theme';
+import { fontSize, fontWeight, layout, letterSpacing, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { ColorPalette } from '../../theme';
-import {
-  fontSize,
-  fontWeight,
-  letterSpacing,
-  layout,
-  space,
-} from '../../theme';
 
 export const createAppHeaderStyles = (colors: ColorPalette) =>
   StyleSheet.create({

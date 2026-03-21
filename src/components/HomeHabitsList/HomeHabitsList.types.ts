@@ -1,5 +1,5 @@
-import type { HomeScreenHabitSection } from '../../types/homeScreen';
-import type { HomeScreenHabit } from '../../types/homeScreenHabit';
+import type { HomeScreenHabitSection } from '@/types/homeScreen';
+import type { HomeScreenHabit } from '@/types/homeScreenHabit';
 
 export type HomeListRow =
   | { kind: 'header'; key: string; title: string }

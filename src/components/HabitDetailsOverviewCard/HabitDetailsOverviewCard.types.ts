@@ -1,6 +1,7 @@
 import type { TextStyle, ViewStyle } from 'react-native';
 import type { AnimatedStyle } from 'react-native-reanimated';
-import type { Habit } from '../../types/Habit';
+
+import type { Habit } from '@/types/Habit';
 
 export type HabitDetailsOverviewCardProps = {
   habit: Habit;

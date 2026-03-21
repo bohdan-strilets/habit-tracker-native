@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { ActiveRowId, HomeSwipeStore } from '../types/HomeSwipeStore';
+
+import type { ActiveRowId, HomeSwipeStore } from '@/types/HomeSwipeStore';
 
 export const useHomeSwipeStore = create<HomeSwipeStore>((set) => ({
   activeRowId: null,

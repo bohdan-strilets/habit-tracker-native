@@ -1,4 +1,5 @@
-import { ScreenBackground } from '../ScreenBackground';
+import { ScreenBackground } from '@components/ScreenBackground';
+
 import { addHabitScreenFrameStyles as styles } from './AddHabitScreenFrame.styles';
 import type { AddHabitScreenFrameProps } from './AddHabitScreenFrame.types';
 

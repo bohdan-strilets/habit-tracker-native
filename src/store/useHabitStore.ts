@@ -1,10 +1,11 @@
+import { getTodayStatus } from '@domain/habit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { normalizeToYyyyMmDd } from '@utils/date';
+import { getCurrentLocalDateString } from '@utils/getCurrentLocalDateString';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { getTodayStatus } from '../domain/habit';
-import { HabitStore } from '../types/HabitStore';
-import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
-import { normalizeToYyyyMmDd } from '../utils/date';
+
+import { HabitStore } from '@/types/HabitStore';
 
 const hydrationErrorMessage = (err: unknown): string =>
   err instanceof Error ? err.message : String(err);
@@ -30,8 +31,7 @@ export const useHabitStore = create<HabitStore>()(
         set((state) => ({
           habits: state.habits.map((item) => {
             if (String(item.id) !== String(id)) return item;
-            const nextLogs =
-              patch.logs !== undefined ? patch.logs : item.logs;
+            const nextLogs = patch.logs !== undefined ? patch.logs : item.logs;
             return {
               ...item,
               ...patch,

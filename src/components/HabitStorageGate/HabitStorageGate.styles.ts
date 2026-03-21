@@ -1,6 +1,6 @@
+import type { ColorPalette } from '@theme';
+import { fontSize, fontWeight, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { ColorPalette } from '../../theme';
-import { fontSize, fontWeight, space } from '../../theme';
 
 export const habitStorageGateGradientFill = StyleSheet.absoluteFill;
 

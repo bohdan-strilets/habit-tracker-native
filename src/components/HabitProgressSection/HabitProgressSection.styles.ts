@@ -1,13 +1,6 @@
+import type { ColorPalette } from '@theme';
+import { fontSize, fontWeight, layout, lineHeight, radii, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { ColorPalette } from '../../theme';
-import {
-  fontSize,
-  fontWeight,
-  layout,
-  lineHeight,
-  radii,
-  space,
-} from '../../theme';
 
 export const createHabitProgressSectionStyles = (colors: ColorPalette) =>
   StyleSheet.create({

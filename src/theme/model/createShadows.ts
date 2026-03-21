@@ -1,5 +1,5 @@
+import type { ThemeShadows } from '@theme/types';
 import type { ViewStyle } from 'react-native';
-import type { ThemeShadows } from '../types';
 
 export function createShadows(shadowColor: string): ThemeShadows {
   const elevationStyles: Record<0 | 1 | 2 | 3, ViewStyle> = {

@@ -1,3 +1,5 @@
+export { ThemeProvider } from './context/ThemeProvider';
+export { useAppTheme } from './context/useAppTheme';
 export { buildTheme } from './model/buildTheme';
 export { createShadows, createShadowsLight } from './model/createShadows';
 export {
@@ -10,11 +12,9 @@ export {
   tabBarIconStyle,
   tabBarItemStyle,
 } from './model/tabBarStyles';
-
-export { colorsLight } from './palettes/light';
 export { colorsDark } from './palettes/dark';
-export { gradientsLight, gradientsDark } from './palettes/gradients';
-
+export { gradientsDark, gradientsLight } from './palettes/gradients';
+export { colorsLight } from './palettes/light';
 export {
   fontSize,
   fontWeight,
@@ -24,9 +24,6 @@ export {
   radii,
   space,
 } from './tokens';
-
-export { THEME_STORAGE_KEY } from '../constants/storageKeys';
-
 export type {
   AppTheme,
   ColorPalette,
@@ -34,6 +31,4 @@ export type {
   ThemeGradients,
   ThemeShadows,
 } from './types';
-
-export { ThemeProvider } from './context/ThemeProvider';
-export { useAppTheme } from './context/useAppTheme';
+export { THEME_STORAGE_KEY } from '@constants/storageKeys';

@@ -1,5 +1,6 @@
+import { useAppTheme } from '@theme';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAppTheme } from '../../theme';
+
 import { screenBackgroundStyles as styles } from './ScreenBackground.styles';
 import type { ScreenBackgroundProps } from './ScreenBackground.types';
 

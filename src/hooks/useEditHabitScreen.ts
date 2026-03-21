@@ -1,9 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert } from 'react-native';
-import type { RouteProp } from '@react-navigation/native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { normalizeLogsAfterKindChange } from '../domain/habitLogsKindTransition';
 import {
   DEFAULT_COUNT_TARGET,
   DEFAULT_HABIT_ACCENT_HEX,
@@ -11,9 +5,17 @@ import {
   DEFAULT_HABIT_ICON,
   HABIT_ACCENT_PRESETS,
   HABIT_ICON_PRESETS,
-} from '../constants/habitFormOptions';
-import type { HomeStackParamList } from '../navigation/types';
-import type { HabitCategoryId, HabitFrequency } from '../types/Habit';
+} from '@constants/habitFormOptions';
+import { normalizeLogsAfterKindChange } from '@domain/habitLogsKindTransition';
+import type { HomeStackParamList } from '@navigation/types';
+import type { RouteProp } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-native';
+
+import type { HabitCategoryId, HabitFrequency } from '@/types/Habit';
+
 import { useHabit } from './useHabit';
 
 function isPresetIcon(icon: string) {

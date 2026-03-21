@@ -1,6 +1,6 @@
+import type { AppTheme } from '@theme';
+import { fontSize, fontWeight, layout, radii, space } from '@theme';
 import { StyleSheet } from 'react-native';
-import type { AppTheme } from '../../theme';
-import { fontSize, fontWeight, layout, radii, space } from '../../theme';
 
 export const createHabitCardStyles = (theme: AppTheme) =>
   StyleSheet.create({

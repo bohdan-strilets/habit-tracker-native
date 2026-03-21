@@ -1,11 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { EditHabitScreen, HabitDetailsScreen, HomeScreen } from '@screens';
+import { fontWeight, useAppTheme } from '@theme';
 import { useMemo } from 'react';
-import {
-  EditHabitScreen,
-  HabitDetailsScreen,
-  HomeScreen,
-} from '../screens';
-import { fontWeight, useAppTheme } from '../theme';
+
 import type { HomeStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();

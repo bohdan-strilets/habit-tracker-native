@@ -1,8 +1,9 @@
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
-import { useAppTheme } from '../../theme';
-import type { FieldRequirementBadgeProps } from './FieldRequirementBadge.types';
+
 import { createFieldRequirementBadgeStyles } from './FieldRequirementBadge.styles';
+import type { FieldRequirementBadgeProps } from './FieldRequirementBadge.types';
 
 export const FieldRequirementBadge = ({ kind }: FieldRequirementBadgeProps) => {
   const { theme } = useAppTheme();

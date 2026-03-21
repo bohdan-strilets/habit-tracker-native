@@ -1,9 +1,10 @@
+import { THEME_STORAGE_KEY } from '@constants/storageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { buildTheme } from '@theme/model/buildTheme';
+import type { AppTheme, ColorScheme } from '@theme/types';
 import { create } from 'zustand';
-import { THEME_STORAGE_KEY } from '../constants/storageKeys';
-import { buildTheme } from '../theme/model/buildTheme';
-import type { AppTheme, ColorScheme } from '../theme/types';
-import type { ThemeStore } from '../types/ThemeStore';
+
+import type { ThemeStore } from '@/types/ThemeStore';
 
 export const themeByScheme: Record<ColorScheme, AppTheme> = {
   light: buildTheme('light'),

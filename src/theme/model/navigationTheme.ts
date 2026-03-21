@@ -3,7 +3,7 @@ import {
   DefaultTheme,
   type Theme as NavigationTheme,
 } from '@react-navigation/native';
-import type { AppTheme, ColorScheme } from '../types';
+import type { AppTheme, ColorScheme } from '@theme/types';
 
 export function buildNavigationTheme(
   scheme: ColorScheme,

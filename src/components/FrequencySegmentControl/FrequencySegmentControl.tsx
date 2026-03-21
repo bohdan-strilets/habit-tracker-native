@@ -1,3 +1,5 @@
+import { PRESS_SPRING } from '@constants/pressSpring';
+import { useAppTheme } from '@theme';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LayoutChangeEvent, Pressable, View } from 'react-native';
 import Animated, {
@@ -6,13 +8,12 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { PRESS_SPRING } from '../../constants/pressSpring';
-import { useAppTheme } from '../../theme';
-import type { FrequencySegmentControlProps } from './FrequencySegmentControl.types';
+
 import {
   createFrequencySegmentStyles,
   TRACK_PADDING,
 } from './FrequencySegmentControl.styles';
+import type { FrequencySegmentControlProps } from './FrequencySegmentControl.types';
 
 const SEGMENT_SPRING = {
   ...PRESS_SPRING,
@@ -88,7 +89,10 @@ export const FrequencySegmentControl = ({
           accessibilityState={{ selected: value === 'daily' }}
           accessibilityLabel="Daily"
           onPress={() => onChange('daily')}
-          style={({ pressed }) => [styles.segment, pressed && { opacity: 0.78 }]}
+          style={({ pressed }) => [
+            styles.segment,
+            pressed && { opacity: 0.78 },
+          ]}
         >
           <Animated.Text style={[styles.label, dailyTextStyle]}>
             Daily
@@ -99,7 +103,10 @@ export const FrequencySegmentControl = ({
           accessibilityState={{ selected: value === 'weekly' }}
           accessibilityLabel="Weekly"
           onPress={() => onChange('weekly')}
-          style={({ pressed }) => [styles.segment, pressed && { opacity: 0.78 }]}
+          style={({ pressed }) => [
+            styles.segment,
+            pressed && { opacity: 0.78 },
+          ]}
         >
           <Animated.Text style={[styles.label, weeklyTextStyle]}>
             Weekly

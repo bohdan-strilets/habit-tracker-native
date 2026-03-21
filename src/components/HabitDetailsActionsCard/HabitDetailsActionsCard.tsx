@@ -1,10 +1,11 @@
+import { Card } from '@components/Card';
+import { createHabitDetailsSharedStyles } from '@components/HabitDetailsShared';
+import { PrimaryButton } from '@components/PrimaryButton';
+import { Stack } from '@components/Stack';
+import { space, useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { Text } from 'react-native';
-import { Card } from '../Card';
-import { PrimaryButton } from '../PrimaryButton';
-import { Stack } from '../Stack';
-import { createHabitDetailsSharedStyles } from '../HabitDetailsShared';
-import { space, useAppTheme } from '../../theme';
+
 import { habitDetailsActionsCardStyles } from './HabitDetailsActionsCard.styles';
 import type { HabitDetailsActionsCardProps } from './HabitDetailsActionsCard.types';
 
@@ -34,7 +35,11 @@ export const HabitDetailsActionsCard = ({
 
         <PrimaryButton title={primaryTitle} onPress={onMarkCompleted} />
 
-        <PrimaryButton variant="danger" title="Delete habit" onPress={onDelete} />
+        <PrimaryButton
+          variant="danger"
+          title="Delete habit"
+          onPress={onDelete}
+        />
       </Stack>
     </Card>
   );

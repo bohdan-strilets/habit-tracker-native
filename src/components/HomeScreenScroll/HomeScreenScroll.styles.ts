@@ -1,5 +1,5 @@
+import { space } from '@theme';
 import { StyleSheet } from 'react-native';
-import { space } from '../../theme';
 
 export const createHomeScreenScrollStyles = (transparent: string) =>
   StyleSheet.create({

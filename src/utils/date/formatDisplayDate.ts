@@ -1,4 +1,4 @@
-import { APP_LOCALE } from '../../constants/locale';
+import { APP_LOCALE } from '@constants/locale';
 
 export const formatYyyyMmDdLong = (yyyyMmDd: string): string => {
   const [y, m, d] = yyyyMmDd.split('-').map(Number);

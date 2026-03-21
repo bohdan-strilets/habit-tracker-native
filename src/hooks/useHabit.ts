@@ -1,4 +1,4 @@
-import { useHabitStore } from '../store/useHabitStore';
+import { useHabitStore } from '@store/useHabitStore';
 
 export const useHabit = () => {
   const habits = useHabitStore((state) => state.habits);
@@ -9,7 +9,9 @@ export const useHabit = () => {
   const updateHabit = useHabitStore((state) => state.update);
   const removeHabit = useHabitStore((state) => state.remove);
   const toggleHabit = useHabitStore((state) => state.toggle);
-  const incrementCountToday = useHabitStore((state) => state.incrementCountToday);
+  const incrementCountToday = useHabitStore(
+    (state) => state.incrementCountToday,
+  );
   const cleanHabits = useHabitStore((state) => state.clean);
   const retryHydration = useHabitStore((state) => state.retryHydration);
 

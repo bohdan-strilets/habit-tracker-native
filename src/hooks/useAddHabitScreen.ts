@@ -1,6 +1,3 @@
-import { useCallback, useRef, useState } from 'react';
-import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import {
   DEFAULT_COUNT_TARGET,
   DEFAULT_HABIT_ACCENT_HEX,
@@ -8,12 +5,17 @@ import {
   DEFAULT_HABIT_ICON,
   HABIT_ACCENT_PRESETS,
   HABIT_ICON_PRESETS,
-} from '../constants/habitFormOptions';
-import type { MainTabParamList } from '../navigation/types';
-import type { Habit, HabitCategoryId, HabitFrequency } from '../types/Habit';
+} from '@constants/habitFormOptions';
+import type { MainTabParamList } from '@navigation/types';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { generateId } from '@utils/generateId';
+import { getCurrentLocalDateString } from '@utils/getCurrentLocalDateString';
+import { useCallback, useRef, useState } from 'react';
+
+import type { Habit, HabitCategoryId, HabitFrequency } from '@/types/Habit';
+
 import { useHabit } from './useHabit';
-import { generateId } from '../utils/generateId';
-import { getCurrentLocalDateString } from '../utils/getCurrentLocalDateString';
 
 function isPresetIcon(icon: string) {
   return (HABIT_ICON_PRESETS as readonly string[]).includes(icon);
@@ -29,8 +31,9 @@ export const useAddHabitScreen = () => {
   const [selectedAccentHex, setSelectedAccentHex] = useState(
     DEFAULT_HABIT_ACCENT_HEX,
   );
-  const [categoryId, setCategoryId] =
-    useState<HabitCategoryId>(DEFAULT_HABIT_CATEGORY);
+  const [categoryId, setCategoryId] = useState<HabitCategoryId>(
+    DEFAULT_HABIT_CATEGORY,
+  );
   const [notes, setNotes] = useState('');
   const [frequency, setFrequency] = useState<HabitFrequency>('daily');
   const [trackAsCount, setTrackAsCount] = useState(false);

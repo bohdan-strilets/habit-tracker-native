@@ -1,5 +1,7 @@
-import type { Habit, HabitKind, Log } from '../types/Habit';
-import { normalizeToYyyyMmDd } from '../utils/date';
+import { normalizeToYyyyMmDd } from '@utils/date';
+
+import type { Habit, HabitKind, Log } from '@/types/Habit';
+
 import { getSatisfiedDateKeys, isHabitSatisfiedOnDate } from './habit';
 
 function logSortKey(dateStr: string): string {

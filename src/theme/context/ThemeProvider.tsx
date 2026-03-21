@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode } from 'react';
-import { useTheme } from '../../hooks/useTheme';
+import { useTheme } from '@hooks/useTheme';
+import { type ReactNode,useEffect } from 'react';
 
 type ThemeProviderProps = {
   children: ReactNode;

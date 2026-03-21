@@ -1,8 +1,9 @@
+import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { TextInput } from 'react-native';
-import { useAppTheme } from '../../theme';
-import type { TextFieldProps } from './TextField.types';
+
 import { createTextFieldStyles } from './TextField.styles';
+import type { TextFieldProps } from './TextField.types';
 
 export const TextField = ({ ...props }: TextFieldProps) => {
   const { theme } = useAppTheme();

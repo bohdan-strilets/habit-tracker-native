@@ -1,20 +1,21 @@
+import { ProgressBar } from '@components/ProgressBar';
+import { StreakBadge } from '@components/StreakBadge/StreakBadge';
+import { DEFAULT_HABIT_ACCENT_HEX } from '@constants/habitFormOptions';
+import { PRESS_SPRING } from '@constants/pressSpring';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { layout, useAppTheme } from '@theme';
+import { hexToRgba } from '@utils/hexToRgba';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { DEFAULT_HABIT_ACCENT_HEX } from '../../constants/habitFormOptions';
-import { PRESS_SPRING } from '../../constants/pressSpring';
-import { layout, useAppTheme } from '../../theme';
-import { hexToRgba } from '../../utils/hexToRgba';
-import { ProgressBar } from '../ProgressBar';
-import { StreakBadge } from '../StreakBadge/StreakBadge';
-import type { HabitCardProps } from './HabitCard.types';
+
 import { createHabitCardStyles } from './HabitCard.styles';
+import type { HabitCardProps } from './HabitCard.types';
 
 export const HabitCard = ({
   habit,
@@ -60,10 +61,7 @@ export const HabitCard = ({
       >
         {habit.completedToday ? (
           <LinearGradient
-            colors={[
-              hexToRgba(accentHex, 0.22),
-              hexToRgba(accentHex, 0),
-            ]}
+            colors={[hexToRgba(accentHex, 0.22), hexToRgba(accentHex, 0)]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={StyleSheet.absoluteFill}
