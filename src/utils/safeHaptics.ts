@@ -39,6 +39,11 @@ export const hapticSwipeSnapDone = () => {
   run(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light));
 };
 
+/** Heatmap day cell opened the details sheet. */
+export const hapticHeatmapDayPress = () => {
+  run(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light));
+};
+
 /** Swipe right: row snapped open to show Edit / Delete. */
 export const hapticSwipeSnapActions = () => {
   if (Platform.OS === 'web') return;
