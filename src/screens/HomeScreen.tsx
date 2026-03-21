@@ -1,19 +1,26 @@
+import { DayDetailsSheet } from '@components/DayDetailsSheet';
 import { EmptyState } from '@components/EmptyState';
+import { HeatmapCalendar } from '@components/HeatmapCalendar';
 import { HomeHabitsList } from '@components/HomeHabitsList';
 import { HomeScreenFrame } from '@components/HomeScreenFrame';
 import { HomeScreenHeader } from '@components/HomeScreenHeader';
 import { HomeTodayProgressSection } from '@components/HomeTodayProgressSection';
 import { useHomeScreen } from '@hooks/useHomeScreen';
 import { useHomeSwipe } from '@hooks/useHomeSwipe';
+import { useState } from 'react';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
 export const HomeScreen = () => {
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
   const {
     userName,
     greeting,
     dateLine,
     globalStreak,
     habits,
+    heatmapData,
+    heatmapEndDate,
     sections,
     progress,
     completedCount,
@@ -49,6 +56,11 @@ export const HomeScreen = () => {
           globalStreak={globalStreak}
           onOutsidePress={dismissOpenSwipe}
         />
+        <HeatmapCalendar
+          data={heatmapData}
+          endDate={heatmapEndDate}
+          onDayPress={setSelectedDate}
+        />
         <HomeTodayProgressSection
           progress={progress}
           completedCount={completedCount}
@@ -73,6 +85,13 @@ export const HomeScreen = () => {
           />
         )}
       </NestableScrollContainer>
+      {selectedDate != null ? (
+        <DayDetailsSheet
+          key={selectedDate}
+          date={selectedDate}
+          onClose={() => setSelectedDate(null)}
+        />
+      ) : null}
     </HomeScreenFrame>
   );
 };
