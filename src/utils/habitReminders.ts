@@ -4,6 +4,7 @@ import {
   HABIT_REMINDERS_ANDROID_CHANNEL_ID,
 } from '@constants/habitReminders';
 import { useHabitStore } from '@store/useHabitStore';
+import { useReminderPrefsStore } from '@store/useReminderPrefsStore';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
@@ -94,8 +95,17 @@ export async function syncHabitRemindersWithHabits(
   await ensureAndroidReminderChannel();
   await cancelAllHabitReminderNotifications();
 
+  const { allDisabled, unifiedEnabled, unifiedHour, unifiedMinute } =
+    useReminderPrefsStore.getState();
+  if (allDisabled) {
+    return;
+  }
+
   const needsReminders = habits.some((h) => {
     if (h.reminder?.enabled !== true) return false;
+    if (unifiedEnabled) {
+      return true;
+    }
     return parseReminderTimesFromStored(h.reminder).length > 0;
   });
   if (!needsReminders) return;
@@ -105,7 +115,10 @@ export async function syncHabitRemindersWithHabits(
 
   for (const habit of habits) {
     if (habit.reminder?.enabled !== true) continue;
-    const times = parseReminderTimesFromStored(habit.reminder);
+    let times = parseReminderTimesFromStored(habit.reminder);
+    if (unifiedEnabled) {
+      times = [{ hour: unifiedHour, minute: unifiedMinute }];
+    }
     if (times.length === 0) continue;
 
     const frequency = habit.frequency ?? 'daily';
@@ -170,8 +183,14 @@ export async function syncHabitRemindersWithHabits(
  * Keeps scheduled local notifications in sync with persisted habits.
  * Call once after app shell mounts (post-hydration).
  */
+function runReminderSyncFromHabitStore(): void {
+  const state = useHabitStore.getState();
+  if (state.isLoading) return;
+  void syncHabitRemindersWithHabits(state.habits);
+}
+
 export function mountHabitRemindersSync(): () => void {
-  return useHabitStore.subscribe((state, prev) => {
+  const unsubHabits = useHabitStore.subscribe((state, prev) => {
     if (state.isLoading) return;
 
     if (prev == null) {
@@ -186,4 +205,13 @@ export function mountHabitRemindersSync(): () => void {
       void syncHabitRemindersWithHabits(state.habits);
     }
   });
+
+  const unsubPrefs = useReminderPrefsStore.subscribe(() => {
+    runReminderSyncFromHabitStore();
+  });
+
+  return () => {
+    unsubHabits();
+    unsubPrefs();
+  };
 }
