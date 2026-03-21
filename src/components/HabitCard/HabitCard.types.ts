@@ -5,4 +5,5 @@ export type HabitCardProps = {
   onOpenDetails: (id: string) => void;
   onToggleDone: (id: string) => void;
   showInlineDone?: boolean;
+  onLongPressReorder?: () => void;
 };

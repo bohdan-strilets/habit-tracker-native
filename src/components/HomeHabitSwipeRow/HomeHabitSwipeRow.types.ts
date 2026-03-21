@@ -6,4 +6,6 @@ export type HomeHabitSwipeRowProps = {
   onEditHabit: (id: string) => void;
   onToggleDone: (id: string) => void;
   onDelete: (id: string) => void;
+  onBeginReorder?: () => void;
+  reorderLifted?: boolean;
 };

@@ -5,38 +5,89 @@ import { PRESS_SPRING } from '@constants/pressSpring';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { layout, useAppTheme } from '@theme';
 import { hexToRgba } from '@utils/hexToRgba';
+import { hapticReorderHoldTick } from '@utils/safeHaptics';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withSequence,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 import { createHabitCardStyles } from './HabitCard.styles';
 import type { HabitCardProps } from './HabitCard.types';
+
+const LONG_PRESS_REORDER_MS = 1000;
+const HOLD_HINT_FIRST_MS = 420;
+const HOLD_HINT_SECOND_MS = 780;
 
 export const HabitCard = ({
   habit,
   onOpenDetails,
   onToggleDone,
   showInlineDone = true,
+  onLongPressReorder,
 }: HabitCardProps) => {
   const { theme } = useAppTheme();
   const styles = useMemo(() => createHabitCardStyles(theme), [theme]);
 
-  const scale = useSharedValue(1);
+  const pressScale = useSharedValue(1);
+  const reorderNudge = useSharedValue(1);
   const mainAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
+    transform: [{ scale: pressScale.value * reorderNudge.value }],
   }));
 
+  const holdHintTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearHoldHintTimers = useCallback(() => {
+    for (const t of holdHintTimers.current) clearTimeout(t);
+    holdHintTimers.current = [];
+  }, []);
+
+  const runHoldHintPulse = useCallback(() => {
+    reorderNudge.value = withSequence(
+      withTiming(1.012, { duration: 70 }),
+      withTiming(1, { duration: 130 }),
+    );
+  }, [reorderNudge]);
+
+  useEffect(() => () => clearHoldHintTimers(), [clearHoldHintTimers]);
+
   const handleMainPressIn = () => {
-    scale.value = withSpring(0.98, PRESS_SPRING);
+    pressScale.value = withSpring(0.98, PRESS_SPRING);
+    if (!onLongPressReorder) return;
+    clearHoldHintTimers();
+    holdHintTimers.current.push(
+      setTimeout(() => {
+        hapticReorderHoldTick();
+        runHoldHintPulse();
+      }, HOLD_HINT_FIRST_MS),
+    );
+    holdHintTimers.current.push(
+      setTimeout(() => {
+        hapticReorderHoldTick();
+        reorderNudge.value = withSequence(
+          withTiming(1.018, { duration: 75 }),
+          withTiming(1, { duration: 140 }),
+        );
+      }, HOLD_HINT_SECOND_MS),
+    );
   };
 
   const handleMainPressOut = () => {
-    scale.value = withSpring(1, PRESS_SPRING);
+    clearHoldHintTimers();
+    pressScale.value = withSpring(1, PRESS_SPRING);
+    reorderNudge.value = withTiming(1, { duration: 140 });
+  };
+
+  const handleLongPressReorder = () => {
+    clearHoldHintTimers();
+    pressScale.value = withSpring(1, PRESS_SPRING);
+    reorderNudge.value = 1;
+    onLongPressReorder?.();
   };
 
   const target = habit.target ?? 1;
@@ -70,8 +121,18 @@ export const HabitCard = ({
         ) : null}
         <Pressable
           accessibilityRole="button"
-          accessibilityHint="Opens habit details"
+          accessibilityHint={
+            onLongPressReorder
+              ? 'Opens habit details. Light ticks while holding mean reorder is almost ready; keep holding to lift and move.'
+              : 'Opens habit details'
+          }
           onPress={() => onOpenDetails(habit.id)}
+          onLongPress={
+            onLongPressReorder ? handleLongPressReorder : undefined
+          }
+          delayLongPress={
+            onLongPressReorder ? LONG_PRESS_REORDER_MS : undefined
+          }
           onPressIn={handleMainPressIn}
           onPressOut={handleMainPressOut}
           style={styles.cardMain}
