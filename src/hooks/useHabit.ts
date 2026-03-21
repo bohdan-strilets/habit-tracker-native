@@ -12,6 +12,9 @@ export const useHabit = () => {
   const incrementCountToday = useHabitStore(
     (state) => state.incrementCountToday,
   );
+  const reorderActiveHabits = useHabitStore(
+    (state) => state.reorderActiveHabits,
+  );
   const cleanHabits = useHabitStore((state) => state.clean);
   const retryHydration = useHabitStore((state) => state.retryHydration);
 
@@ -24,6 +27,7 @@ export const useHabit = () => {
     removeHabit,
     toggleHabit,
     incrementCountToday,
+    reorderActiveHabits,
     cleanHabits,
     retryHydration,
   };

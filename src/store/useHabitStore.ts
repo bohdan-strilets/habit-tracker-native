@@ -133,6 +133,23 @@ export const useHabitStore = create<HabitStore>()(
           }),
         })),
 
+      reorderActiveHabits: (orderedActiveIds) =>
+        set((state) => {
+          const byId = new Map(state.habits.map((h) => [String(h.id), h]));
+          const completed = state.habits.filter((h) => getTodayStatus(h));
+          const nextActive: typeof state.habits = [];
+          for (const id of orderedActiveIds) {
+            const h = byId.get(String(id));
+            if (h && !getTodayStatus(h)) nextActive.push(h);
+          }
+          const missingActive = state.habits.filter(
+            (h) =>
+              !getTodayStatus(h) &&
+              !nextActive.some((x) => String(x.id) === String(h.id)),
+          );
+          return { habits: [...nextActive, ...missingActive, ...completed] };
+        }),
+
       clean: () =>
         set(() => ({
           habits: [],
