@@ -1,8 +1,13 @@
 import { PrimaryButton } from '@components/PrimaryButton';
 import { useHabit } from '@hooks/useHabit';
+import { useHabitStore } from '@store/useHabitStore';
 import { useAppTheme } from '@theme';
+import {
+  mountHabitRemindersSync,
+  syncHabitRemindersWithHabits,
+} from '@utils/habitReminders';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -54,5 +59,22 @@ export const HabitStorageGate = ({ children }: HabitStorageGateProps) => {
     );
   }
 
-  return children;
+  return (
+    <>
+      <HabitRemindersSyncHost />
+      {children}
+    </>
+  );
 };
+
+function HabitRemindersSyncHost() {
+  useEffect(() => {
+    const unsub = mountHabitRemindersSync();
+    const snapshot = useHabitStore.getState();
+    if (!snapshot.isLoading) {
+      void syncHabitRemindersWithHabits(snapshot.habits);
+    }
+    return unsub;
+  }, []);
+  return null;
+}
