@@ -11,6 +11,7 @@ export const HomeScreenHeader = ({
   userName,
   dateLine,
   globalStreak,
+  showStreak = true,
   onOutsidePress,
 }: HomeScreenHeaderProps) => {
   const { theme } = useAppTheme();
@@ -32,9 +33,11 @@ export const HomeScreenHeader = ({
           </Text>
           <Text style={styles.date}>{dateLine}</Text>
         </View>
-        <View style={styles.headerActions}>
-          <StreakBadge days={globalStreak} />
-        </View>
+        {showStreak ? (
+          <View style={styles.headerActions}>
+            <StreakBadge days={globalStreak} />
+          </View>
+        ) : null}
       </View>
     </Pressable>
   );
