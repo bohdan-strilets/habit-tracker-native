@@ -2,6 +2,7 @@ import { Card } from '@components/Card';
 import { ProgressBar } from '@components/ProgressBar';
 import { useAppTheme } from '@theme';
 import { formatYyyyMmDdLong, normalizeToYyyyMmDd } from '@utils/date';
+import { formatHabitReminderDetailsText } from '@utils/formatHabitReminderDetails';
 import { getCurrentLocalDateString } from '@utils/getCurrentLocalDateString';
 import { getHabitCategoryLabel } from '@utils/getHabitCategoryLabel';
 import { hexToRgba } from '@utils/hexToRgba';
@@ -69,6 +70,11 @@ export const HabitDetailsOverviewCard = ({
 
   const checkInsTotal = habit.logs.length;
 
+  const reminderDetails = useMemo(
+    () => formatHabitReminderDetailsText(habit),
+    [habit],
+  );
+
   return (
     <Card>
       <View style={[styles.heroShell, heroShellStyle]}>
@@ -121,6 +127,26 @@ export const HabitDetailsOverviewCard = ({
           </View>
         </>
       ) : null}
+
+      <View style={styles.sectionDivider} />
+      <Text style={styles.blockTitle}>Notifications</Text>
+      {reminderDetails ? (
+        reminderDetails.map((line, i) => (
+          <Text
+            key={`reminder-line-${i}`}
+            style={[
+              styles.reminderLine,
+              i === reminderDetails.length - 1 && styles.reminderLineLast,
+            ]}
+          >
+            {line}
+          </Text>
+        ))
+      ) : (
+        <Text style={styles.reminderMuted}>
+          Reminders are off, or no times are set. Turn them on under Edit habit.
+        </Text>
+      )}
 
       <View style={styles.sectionDivider} />
 

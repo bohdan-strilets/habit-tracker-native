@@ -117,6 +117,24 @@ export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
       color: colors.text.subtle,
     },
 
+    reminderLine: {
+      fontSize: fontSize.md,
+      lineHeight: lineHeight.relaxed,
+      color: colors.text.secondary,
+      marginBottom: space.xs,
+    },
+
+    reminderLineLast: {
+      marginBottom: space.none,
+    },
+
+    reminderMuted: {
+      fontSize: fontSize.md,
+      lineHeight: lineHeight.relaxed,
+      fontStyle: 'italic',
+      color: colors.text.hint,
+    },
+
     metaRow: {
       flexDirection: 'row',
       gap: space.base,
