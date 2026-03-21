@@ -6,6 +6,7 @@ import { createHabitDetailsSharedStyles } from '@components/HabitDetailsShared';
 import { PrimaryButton } from '@components/PrimaryButton';
 import { Stack } from '@components/Stack';
 import { TextField } from '@components/TextField';
+import { TextFieldWithVoice } from '@components/TextFieldWithVoice';
 import {
   HABIT_ACCENT_PRESETS,
   HABIT_CATEGORY_OPTIONS,
@@ -194,11 +195,12 @@ export const AddHabitForm = ({
                   <Text style={styles.fieldLabel}>Habit name</Text>
                   <FieldRequirementBadge kind="required" />
                 </View>
-                <TextField
+                <TextFieldWithVoice
                   value={title}
                   onChangeText={onChangeTitle}
                   placeholder="e.g. Morning stretch, Read 10 minutes"
                   accessibilityLabel="Habit name"
+                  voiceAccessibilityLabel="Hold to dictate habit name"
                   maxLength={HABIT_TITLE_MAX_LENGTH}
                   returnKeyType="done"
                   onSubmitEditing={handleSave}
@@ -256,11 +258,12 @@ export const AddHabitForm = ({
                   <Text style={styles.fieldLabel}>Notes</Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
-                <TextField
+                <TextFieldWithVoice
                   value={notes}
                   onChangeText={onChangeNotes}
                   placeholder="Why it matters, triggers, tips…"
                   accessibilityLabel="Habit notes"
+                  voiceAccessibilityLabel="Hold to dictate notes"
                   multiline
                   maxLength={HABIT_NOTES_MAX_LENGTH}
                   style={styles.notesInput}
