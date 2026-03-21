@@ -8,10 +8,12 @@ import { HomeTodayProgressSection } from '@components/HomeTodayProgressSection';
 import { useHomeScreen } from '@hooks/useHomeScreen';
 import { useHomeSwipe } from '@hooks/useHomeSwipe';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
 export const HomeScreen = () => {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const {
@@ -86,9 +88,9 @@ export const HomeScreen = () => {
         ) : (
           <View style={styles.emptyRegion}>
             <EmptyState
-              title="No habits yet"
-              subtitle="Add your first habit to track progress, build streaks, and see your activity on the calendar."
-              buttonLabel="Create your first habit"
+              title={t('home.emptyTitle')}
+              subtitle={t('home.emptySubtitle')}
+              buttonLabel={t('home.emptyButton')}
               onPress={onCreateFirstHabit}
             />
           </View>

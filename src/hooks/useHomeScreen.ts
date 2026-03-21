@@ -1,4 +1,4 @@
-import { SECTION_ACTIVE, SECTION_COMPLETED } from '@constants/homeHabitsList';
+import { localeTagForAppLanguage } from '@i18n/localeTag';
 import { getStreak } from '@domain/habit';
 import type { HomeStackParamList, MainTabParamList } from '@navigation/types';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -7,10 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { buildHeatmapDaysFromHabits } from '@utils/buildHeatmapDaysFromHabits';
 import { habitToHomeScreenHabit } from '@utils/habitToHomeScreenHabit';
-import { useCallback, useEffect, useMemo } from 'react';
-import { Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
-
+import type { AppLanguage } from '@/types/Language';
 import type { HomeScreenHabitSection } from '@/types/homeScreen';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
 
 import { useHabit } from './useHabit';
 
@@ -21,21 +22,8 @@ type HomeNav = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabParamList>
 >;
 
-function formatTodayDate(d: Date) {
-  return d.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-
-function greetingLabel(hour: number) {
-  if (hour < 12) return 'Good morning';
-  if (hour < 17) return 'Good afternoon';
-  return 'Good evening';
-}
-
 export const useHomeScreen = () => {
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation<HomeNav>();
   const {
     habits,
@@ -55,8 +43,20 @@ export const useHomeScreen = () => {
   }, []);
 
   const now = useMemo(() => new Date(), []);
-  const dateLine = useMemo(() => formatTodayDate(now), [now]);
-  const greeting = useMemo(() => greetingLabel(now.getHours()), [now]);
+  const dateLine = useMemo(() => {
+    const locale = localeTagForAppLanguage(i18n.language as AppLanguage);
+    return now.toLocaleDateString(locale, {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    });
+  }, [now, i18n.language]);
+  const greeting = useMemo(() => {
+    const hour = now.getHours();
+    if (hour < 12) return t('greeting.morning');
+    if (hour < 17) return t('greeting.afternoon');
+    return t('greeting.evening');
+  }, [now, t]);
 
   const rows = useMemo(() => habits.map(habitToHomeScreenHabit), [habits]);
 
@@ -72,11 +72,20 @@ export const useHomeScreen = () => {
     const active = rows.filter((h) => !h.completedToday);
     const completed = rows.filter((h) => h.completedToday);
     const next: HomeScreenHabitSection[] = [];
-    if (active.length) next.push({ title: SECTION_ACTIVE, data: active });
+    if (active.length)
+      next.push({
+        key: 'active',
+        title: t('home.sectionActive'),
+        data: active,
+      });
     if (completed.length)
-      next.push({ title: SECTION_COMPLETED, data: completed });
+      next.push({
+        key: 'completed',
+        title: t('home.sectionCompleted'),
+        data: completed,
+      });
     return { completedCount: done, total: totalH, sections: next };
-  }, [rows]);
+  }, [rows, t]);
 
   const progress = total > 0 ? completedCount / total : 0;
 
@@ -122,10 +131,10 @@ export const useHomeScreen = () => {
 
   const onDeleteHabit = useCallback(
     (id: string) => {
-      Alert.alert('Delete habit', 'This cannot be undone.', [
-        { text: 'Cancel', style: 'cancel' },
+      Alert.alert(t('home.deleteTitle'), t('home.deleteMessage'), [
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Delete',
+          text: t('common.delete'),
           style: 'destructive',
           onPress: () => {
             LayoutAnimation.configureNext(
@@ -136,7 +145,7 @@ export const useHomeScreen = () => {
         },
       ]);
     },
-    [removeHabit],
+    [removeHabit, t],
   );
 
   const onReorderActiveHabits = useCallback(

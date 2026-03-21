@@ -10,33 +10,37 @@ import {
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, Linking, Platform } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
+import type { TFunction } from 'i18next';
 
 function formatNotificationPermissionLabel(
   status: Notifications.NotificationPermissionsStatus | null,
+  t: TFunction,
 ): string {
-  if (status == null) return '…';
+  if (status == null) return t('settings.permission.loading');
 
   if (Platform.OS === 'web') {
-    return 'Mobile app only';
+    return t('settings.permission.mobileOnly');
   }
 
   if (
     status.granted ||
     status.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
   ) {
-    return 'On';
+    return t('settings.permission.on');
   }
 
   if (status.canAskAgain) {
-    return 'Permission needed';
+    return t('settings.permission.needed');
   }
 
-  return 'Off in system settings';
+  return t('settings.permission.offSystem');
 }
 
 export function useSettingsScreen() {
+  const { t } = useTranslation();
   const { preference, setPreference } = useAppTheme();
   const clean = useHabitStore((s) => s.clean);
 
@@ -143,12 +147,12 @@ export function useSettingsScreen() {
 
   const confirmClearAllHabits = useCallback(() => {
     Alert.alert(
-      'Delete all habits',
-      'This cannot be undone. All habits and completion history will be removed.',
+      t('settings.deleteAllTitle'),
+      t('settings.deleteAllMessage'),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Delete all',
+          text: t('settings.deleteAllConfirm'),
           style: 'destructive',
           onPress: () => {
             clean();
@@ -156,7 +160,7 @@ export function useSettingsScreen() {
         },
       ],
     );
-  }, [clean]);
+  }, [clean, t]);
 
   const appVersion =
     Constants.expoConfig?.version ?? Constants.nativeAppVersion ?? '—';
@@ -181,7 +185,7 @@ export function useSettingsScreen() {
     selectLightTheme,
     selectDarkTheme,
     selectSystemTheme,
-    permissionLabel: formatNotificationPermissionLabel(permission),
+    permissionLabel: formatNotificationPermissionLabel(permission, t),
     notificationsEnabled,
     canRequestNotifications,
     requestNotificationPermission,

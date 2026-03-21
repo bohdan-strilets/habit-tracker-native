@@ -6,6 +6,3 @@ export const LIST_REORDER_SPRING = {
   restDisplacementThreshold: 0.001,
   restSpeedThreshold: 0.001,
 } as const;
-
-export const SECTION_ACTIVE = 'Active';
-export const SECTION_COMPLETED = 'Completed today';

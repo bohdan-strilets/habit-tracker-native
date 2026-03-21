@@ -30,6 +30,7 @@ import {
   timesToReminderFields,
 } from '@utils/habitReminderTimes';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 
 import type {
@@ -89,6 +90,7 @@ function habitToFormState(h: {
 }
 
 export const useEditHabitScreen = () => {
+  const { t } = useTranslation();
   const { habitId } = useRoute<EditRoute>().params;
   const navigation = useNavigation<EditNav>();
   const { habits, updateHabit } = useHabit();
@@ -297,12 +299,12 @@ export const useEditHabitScreen = () => {
         trackAsCount ? target : Math.max(1, original.target ?? 1),
       );
       Alert.alert(
-        'Change habit type?',
-        'Days you already completed will be converted for the new style (simple check-off vs daily count). This cannot be undone.',
+        t('editHabit.changeKindTitle'),
+        t('editHabit.changeKindMessage'),
         [
-          { text: 'Cancel', style: 'cancel' },
+          { text: t('common.cancel'), style: 'cancel' },
           {
-            text: 'Continue',
+            text: t('common.continue'),
             onPress: () => finish(normalized),
           },
         ],
@@ -327,6 +329,7 @@ export const useEditHabitScreen = () => {
     title,
     trackAsCount,
     updateHabit,
+    t,
   ]);
 
   return {

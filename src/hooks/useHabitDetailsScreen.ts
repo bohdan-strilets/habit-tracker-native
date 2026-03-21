@@ -8,6 +8,7 @@ import {
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppTheme } from '@theme';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import {
   Easing,
@@ -29,6 +30,7 @@ type HabitDetailsNav = NativeStackNavigationProp<
 >;
 
 export const useHabitDetailsScreen = () => {
+  const { t } = useTranslation();
   const { habitId } = useRoute<HabitDetailsRoute>().params;
   const navigation = useNavigation<HabitDetailsNav>();
   const { habits, toggleHabit, incrementCountToday, removeHabit } = useHabit();
@@ -141,10 +143,10 @@ export const useHabitDetailsScreen = () => {
   }, [habitId, habits, incrementCountToday, toggleHabit]);
 
   const confirmDelete = useCallback(() => {
-    Alert.alert('Delete habit', 'This cannot be undone.', [
-      { text: 'Cancel', style: 'cancel' },
+    Alert.alert(t('habitDetails.deleteTitle'), t('habitDetails.deleteMessage'), [
+      { text: t('common.cancel'), style: 'cancel' },
       {
-        text: 'Delete',
+        text: t('common.delete'),
         style: 'destructive',
         onPress: () => {
           removeHabit(habitId);
@@ -152,7 +154,7 @@ export const useHabitDetailsScreen = () => {
         },
       },
     ]);
-  }, [habitId, navigation, removeHabit]);
+  }, [habitId, navigation, removeHabit, t]);
 
   return {
     habit,

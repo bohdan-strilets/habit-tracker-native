@@ -11,6 +11,7 @@ import {
   useAppTheme,
 } from '@theme';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { HomeStackNavigator } from './HomeStackNavigator';
 import type { MainTabParamList } from './types';
@@ -18,6 +19,7 @@ import type { MainTabParamList } from './types';
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 export const MainTabNavigator = () => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
 
   const screenOptions = useMemo(
@@ -40,11 +42,11 @@ export const MainTabNavigator = () => {
       <Tab.Screen
         name="HomeTab"
         component={HomeStackNavigator}
-        options={() => ({
+        options={{
           headerShown: true,
           header: () => <AppHeader />,
-          title: 'Home',
-          tabBarAccessibilityLabel: 'Home',
+          title: t('tabs.home'),
+          tabBarAccessibilityLabel: t('tabs.home'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
@@ -52,16 +54,16 @@ export const MainTabNavigator = () => {
               color={color}
             />
           ),
-        })}
+        }}
       />
       <Tab.Screen
         name="AddHabit"
         component={AddHabitScreen}
         options={{
           headerShown: true,
-          header: () => <AppHeader subtitle="New habit" />,
-          title: 'Add habit',
-          tabBarAccessibilityLabel: 'Add habit',
+          header: () => <AppHeader subtitle={t('header.newHabit')} />,
+          title: t('tabs.addHabit'),
+          tabBarAccessibilityLabel: t('tabs.addHabit'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'add-circle' : 'add-circle-outline'}
@@ -76,9 +78,9 @@ export const MainTabNavigator = () => {
         component={SettingsScreen}
         options={{
           headerShown: true,
-          header: () => <AppHeader subtitle="Settings" />,
-          title: 'Settings',
-          tabBarAccessibilityLabel: 'Settings',
+          header: () => <AppHeader subtitle={t('header.settings')} />,
+          title: t('tabs.settings'),
+          tabBarAccessibilityLabel: t('tabs.settings'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'settings' : 'settings-outline'}
