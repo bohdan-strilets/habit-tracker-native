@@ -24,6 +24,7 @@ import {
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { space, useAppTheme } from '@theme';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Keyboard,
   Pressable,
@@ -68,6 +69,7 @@ export const AddHabitForm = ({
   onSave,
   entrancePlayKey,
 }: AddHabitFormProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
   const styles = useMemo(
     () => createAddHabitFormStyles(theme.colors),
@@ -103,28 +105,21 @@ export const AddHabitForm = ({
         <View style={styles.formStack}>
           <Card>
             <Text style={styles.headline}>
-              {isEdit ? 'Edit habit' : 'New habit'}
+              {isEdit ? t('habitForm.headlineEdit') : t('habitForm.headlineNew')}
             </Text>
             {!isEdit ? (
-              <Text style={styles.lead}>
-                Only habit name is required. Icon, color, category, notes,
-                frequency, and number goal all have defaults or are optional —
-                badges show which is which.
-              </Text>
+              <Text style={styles.lead}>{t('habitForm.leadNew')}</Text>
             ) : (
-              <Text style={styles.lead}>
-                Update name, appearance, or schedule. Your history and check-ins
-                stay as they are.
-              </Text>
+              <Text style={styles.lead}>{t('habitForm.leadEdit')}</Text>
             )}
           </Card>
 
           <Card>
-            <Text style={shared.sectionHeading}>Appearance</Text>
+            <Text style={shared.sectionHeading}>{t('habitForm.appearance')}</Text>
             <Stack spacing={space.lg} padding={0}>
               <View>
                 <View style={styles.sectionLabelRow}>
-                  <Text style={styles.sectionLabelText}>Icon</Text>
+                  <Text style={styles.sectionLabelText}>{t('habitForm.icon')}</Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
                 <ScrollView
@@ -140,7 +135,9 @@ export const AddHabitForm = ({
                         key={emoji}
                         accessibilityRole="button"
                         accessibilityState={{ selected }}
-                        accessibilityLabel={`Icon ${emoji}`}
+                        accessibilityLabel={t('habitForm.iconA11y', {
+                          emoji,
+                        })}
                         onPress={() => onSelectIcon(emoji)}
                         style={[
                           styles.emojiHit,
@@ -156,7 +153,7 @@ export const AddHabitForm = ({
 
               <View>
                 <View style={styles.sectionLabelRow}>
-                  <Text style={styles.sectionLabelText}>Accent color</Text>
+                  <Text style={styles.sectionLabelText}>{t('habitForm.accent')}</Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
                 <ScrollView
@@ -165,14 +162,15 @@ export const AddHabitForm = ({
                   style={styles.horizontalScroll}
                   contentContainerStyle={styles.horizontalContent}
                 >
-                  {HABIT_ACCENT_PRESETS.map(({ hex, label }) => {
+                  {HABIT_ACCENT_PRESETS.map(({ hex, labelKey }) => {
+                    const label = t(`habitForm.accentLabels.${labelKey}`);
                     const selected = selectedAccentHex === hex;
                     return (
                       <Pressable
                         key={hex}
                         accessibilityRole="button"
                         accessibilityState={{ selected }}
-                        accessibilityLabel={`Color ${label}`}
+                        accessibilityLabel={t('habitForm.colorA11y', { label })}
                         onPress={() => onSelectAccentHex(hex)}
                         style={[
                           styles.colorHit,
@@ -188,19 +186,19 @@ export const AddHabitForm = ({
           </Card>
 
           <Card>
-            <Text style={shared.sectionHeading}>Basics</Text>
+            <Text style={shared.sectionHeading}>{t('habitForm.basics')}</Text>
             <Stack spacing={space.lg} padding={0}>
               <View>
                 <View style={styles.labelRow}>
-                  <Text style={styles.fieldLabel}>Habit name</Text>
+                  <Text style={styles.fieldLabel}>{t('habitForm.habitName')}</Text>
                   <FieldRequirementBadge kind="required" />
                 </View>
                 <TextFieldWithVoice
                   value={title}
                   onChangeText={onChangeTitle}
-                  placeholder="e.g. Morning stretch, Read 10 minutes"
-                  accessibilityLabel="Habit name"
-                  voiceAccessibilityLabel="Hold to dictate habit name"
+                  placeholder={t('habitForm.namePlaceholder')}
+                  accessibilityLabel={t('habitForm.nameA11y')}
+                  voiceAccessibilityLabel={t('habitForm.voiceNameA11y')}
                   maxLength={HABIT_TITLE_MAX_LENGTH}
                   returnKeyType="done"
                   onSubmitEditing={handleSave}
@@ -215,11 +213,11 @@ export const AddHabitForm = ({
           </Card>
 
           <Card>
-            <Text style={shared.sectionHeading}>Details</Text>
+            <Text style={shared.sectionHeading}>{t('habitForm.details')}</Text>
             <Stack spacing={space.lg} padding={0}>
               <View>
                 <View style={styles.sectionLabelRow}>
-                  <Text style={styles.sectionLabelText}>Category</Text>
+                  <Text style={styles.sectionLabelText}>{t('habitForm.category')}</Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
                 <ScrollView
@@ -245,7 +243,7 @@ export const AddHabitForm = ({
                           {cat.emoji}
                         </Text>
                         <Text style={styles.categoryChipLabel}>
-                          {cat.label}
+                          {t(`habitForm.categories.${cat.id}`)}
                         </Text>
                       </Pressable>
                     );
@@ -255,15 +253,15 @@ export const AddHabitForm = ({
 
               <View>
                 <View style={styles.labelRow}>
-                  <Text style={styles.fieldLabel}>Notes</Text>
+                  <Text style={styles.fieldLabel}>{t('habitForm.notes')}</Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
                 <TextFieldWithVoice
                   value={notes}
                   onChangeText={onChangeNotes}
-                  placeholder="Why it matters, triggers, tips…"
-                  accessibilityLabel="Habit notes"
-                  voiceAccessibilityLabel="Hold to dictate notes"
+                  placeholder={t('habitForm.notesPlaceholder')}
+                  accessibilityLabel={t('habitForm.notesA11y')}
+                  voiceAccessibilityLabel={t('habitForm.voiceNotesA11y')}
                   multiline
                   maxLength={HABIT_NOTES_MAX_LENGTH}
                   style={styles.notesInput}
@@ -276,11 +274,15 @@ export const AddHabitForm = ({
           </Card>
 
           <Card>
-            <Text style={shared.sectionHeading}>Schedule & goal</Text>
+            <Text style={shared.sectionHeading}>
+              {t('habitForm.scheduleGoal')}
+            </Text>
             <Stack spacing={space.lg} padding={0}>
               <View>
                 <View style={styles.sectionLabelRow}>
-                  <Text style={styles.sectionLabelText}>Frequency</Text>
+                  <Text style={styles.sectionLabelText}>
+                    {t('habitForm.frequency')}
+                  </Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
                 <FrequencySegmentControl
@@ -291,16 +293,14 @@ export const AddHabitForm = ({
 
               <View>
                 <View style={styles.labelRow}>
-                  <Text style={styles.fieldLabel}>Daily number goal</Text>
+                  <Text style={styles.fieldLabel}>{t('habitForm.dailyGoal')}</Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
-                <Text style={styles.switchHint}>
-                  Turn on for a count target (e.g. glasses of water, steps).
-                </Text>
+                <Text style={styles.switchHint}>{t('habitForm.countHint')}</Text>
                 <View style={styles.switchRow}>
-                  <Text style={styles.switchLabel}>Enable target</Text>
+                  <Text style={styles.switchLabel}>{t('habitForm.enableTarget')}</Text>
                   <Switch
-                    accessibilityLabel="Track as count toward a daily goal"
+                    accessibilityLabel={t('habitForm.trackCountA11y')}
                     value={trackAsCount}
                     onValueChange={onChangeTrackAsCount}
                     trackColor={{
@@ -315,14 +315,16 @@ export const AddHabitForm = ({
               {trackAsCount ? (
                 <View>
                   <View style={styles.labelRow}>
-                    <Text style={styles.fieldLabel}>Target per day</Text>
+                    <Text style={styles.fieldLabel}>
+                      {t('habitForm.targetPerDay')}
+                    </Text>
                     <FieldRequirementBadge kind="required" />
                   </View>
                   <TextField
                     value={targetStr}
                     onChangeText={onChangeTargetStr}
-                    placeholder="e.g. 8"
-                    accessibilityLabel="Daily target number"
+                    placeholder={t('habitForm.targetPlaceholder')}
+                    accessibilityLabel={t('habitForm.targetA11y')}
                     keyboardType="number-pad"
                     returnKeyType="done"
                     onSubmitEditing={handleSave}
@@ -334,23 +336,22 @@ export const AddHabitForm = ({
           </Card>
 
           <Card>
-            <Text style={shared.sectionHeading}>Reminders</Text>
+            <Text style={shared.sectionHeading}>{t('habitForm.reminders')}</Text>
             <Stack spacing={space.lg} padding={0}>
               <View>
                 <View style={styles.sectionLabelRow}>
                   <Text style={styles.sectionLabelText}>
-                    Push notifications
+                    {t('habitForm.pushNotifications')}
                   </Text>
                   <FieldRequirementBadge kind="optional" />
                 </View>
-                <Text style={styles.switchHint}>
-                  Local notifications at the times you set below. For weekly
-                  habits you can also pick which days apply.
-                </Text>
+                <Text style={styles.switchHint}>{t('habitForm.remindersHint')}</Text>
                 <View style={styles.switchRow}>
-                  <Text style={styles.switchLabel}>Enable reminders</Text>
+                  <Text style={styles.switchLabel}>
+                    {t('habitForm.enableReminders')}
+                  </Text>
                   <Switch
-                    accessibilityLabel="Enable habit reminder notifications"
+                    accessibilityLabel={t('habitForm.enableRemindersA11y')}
                     value={reminderEnabled}
                     onValueChange={onChangeReminderEnabled}
                     trackColor={{
@@ -365,14 +366,15 @@ export const AddHabitForm = ({
               {reminderEnabled ? (
                 <View>
                   <View style={styles.labelRow}>
-                    <Text style={styles.fieldLabel}>Reminder times</Text>
+                    <Text style={styles.fieldLabel}>
+                      {t('habitForm.reminderTimes')}
+                    </Text>
                     <FieldRequirementBadge kind="required" />
                   </View>
                   <Text style={styles.switchHint}>
-                    Up to {MAX_REMINDER_TIMES_PER_HABIT} times per day, 24-hour
-                    clock (device local time). Digits only — you can clear a
-                    field to retype; when you leave it empty, hour defaults to 09
-                    and minute to 00.
+                    {t('habitForm.reminderTimesHint', {
+                      max: MAX_REMINDER_TIMES_PER_HABIT,
+                    })}
                   </Text>
                   {reminderFields.map((slot, index) => (
                     <View key={`reminder-time-${index}`} style={styles.reminderTimeRow}>
@@ -385,7 +387,9 @@ export const AddHabitForm = ({
                             }
                             onBlur={() => onBlurReminderHour(index)}
                             placeholder="09"
-                            accessibilityLabel={`Reminder ${index + 1} hour`}
+                            accessibilityLabel={t('habitForm.reminderHourA11y', {
+                              n: index + 1,
+                            })}
                             keyboardType="number-pad"
                             returnKeyType="done"
                             maxLength={2}
@@ -400,7 +404,9 @@ export const AddHabitForm = ({
                             }
                             onBlur={() => onBlurReminderMinute(index)}
                             placeholder="00"
-                            accessibilityLabel={`Reminder ${index + 1} minute`}
+                            accessibilityLabel={t('habitForm.reminderMinuteA11y', {
+                              n: index + 1,
+                            })}
                             keyboardType="number-pad"
                             returnKeyType="done"
                             maxLength={2}
@@ -409,7 +415,9 @@ export const AddHabitForm = ({
                       </View>
                       <Pressable
                         accessibilityRole="button"
-                        accessibilityLabel={`Remove reminder time ${index + 1}`}
+                        accessibilityLabel={t('habitForm.removeReminderA11y', {
+                          n: index + 1,
+                        })}
                         onPress={() => onRemoveReminderTime(index)}
                         disabled={reminderFields.length <= 1}
                         style={styles.reminderRemoveHit}
@@ -429,7 +437,7 @@ export const AddHabitForm = ({
                   ))}
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel="Add another reminder time"
+                    accessibilityLabel={t('habitForm.addAnotherTimeA11y')}
                     onPress={onAddReminderTime}
                     disabled={!canAddMoreReminderTimes}
                     style={styles.reminderAddTime}
@@ -440,7 +448,7 @@ export const AddHabitForm = ({
                         !canAddMoreReminderTimes && styles.reminderAddTimeDisabled,
                       ]}
                     >
-                      + Add another time
+                      {t('habitForm.addAnotherTime')}
                     </Text>
                   </Pressable>
 
@@ -448,16 +456,15 @@ export const AddHabitForm = ({
                     <View>
                       <View style={styles.sectionLabelRow}>
                         <Text style={styles.sectionLabelText}>
-                          Reminder days
+                          {t('habitForm.reminderDays')}
                         </Text>
                         <FieldRequirementBadge kind="required" />
                       </View>
                       <Text style={styles.switchHint}>
-                        Weekly habit: pick which days you want a nudge (at least
-                        one).
+                        {t('habitForm.reminderDaysHint')}
                       </Text>
                       <View style={styles.chipScrollContent}>
-                        {REMINDER_WEEKDAY_OPTIONS.map(({ value, label }) => {
+                        {REMINDER_WEEKDAY_OPTIONS.map(({ value }) => {
                           const selected = reminderWeekdays.includes(value);
                           return (
                             <Pressable
@@ -471,7 +478,7 @@ export const AddHabitForm = ({
                               ]}
                             >
                               <Text style={styles.categoryChipLabel}>
-                                {label}
+                                {t(`habitForm.weekdays.${String(value)}`)}
                               </Text>
                             </Pressable>
                           );
@@ -485,18 +492,20 @@ export const AddHabitForm = ({
           </Card>
 
           <Card>
-            <Text style={shared.sectionHeading}>Save</Text>
+            <Text style={shared.sectionHeading}>{t('habitForm.saveSection')}</Text>
             <Stack spacing={space.lg} padding={0}>
               {!canSave && title.length === 0 ? (
                 <Text style={styles.inlineHint}>
                   {isEdit
-                    ? 'Enter a name in Basics, then save your changes.'
-                    : 'Enter a name in Basics, then tap Create habit.'}
+                    ? t('habitForm.hintNeedNameEdit')
+                    : t('habitForm.hintNeedNameNew')}
                 </Text>
               ) : null}
 
               <PrimaryButton
-                title={isEdit ? 'Save changes' : 'Create habit'}
+                title={
+                  isEdit ? t('habitForm.saveChanges') : t('habitForm.createHabit')
+                }
                 onPress={handleSave}
                 disabled={!canSave || !targetOk}
               />
@@ -508,20 +517,13 @@ export const AddHabitForm = ({
       {!isEdit ? (
         <FadeSlideIn index={1} playKey={entrancePlayKey}>
           <Card variant="muted">
-            <Text style={styles.tipsTitle}>Quick tips</Text>
+            <Text style={styles.tipsTitle}>{t('habitForm.tipsTitle')}</Text>
             <Text style={styles.tipLine}>
-              • Tap a habit on the home list to toggle today, or open details
-              for the {HABIT_DETAILS_TIMELINE_DAYS}-day timeline.
+              {t('habitForm.tip1', { days: HABIT_DETAILS_TIMELINE_DAYS })}
             </Text>
-            <Text style={styles.tipLine}>
-              • On the details screen, use &quot;Mark as completed&quot; for
-              today. After you&apos;ve marked today, the button stays disabled
-              until tomorrow.
-            </Text>
+            <Text style={styles.tipLine}>{t('habitForm.tip2')}</Text>
             <Text style={[styles.tipLine, styles.tipLineLast]}>
-              • Frequency is saved on the habit (daily vs weekly) so you can
-              filter or remind yourself later; marking today works the same
-              either way.
+              {t('habitForm.tip3')}
             </Text>
           </Card>
         </FadeSlideIn>

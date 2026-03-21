@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { fontSize, layout, space,useAppTheme  } from '@theme';
+import { fontSize, layout, space, useAppTheme } from '@theme';
 import {
   type ExpoSpeechRecognitionResultEvent,
   getExpoSpeechRecognitionNativeModule,
@@ -7,6 +7,7 @@ import {
 import { getSpeechRecognitionLocaleTag } from '@utils/speechRecognitionLocale';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Pressable,
@@ -58,10 +59,12 @@ export const TextFieldWithVoice = ({
   multiline,
   editable,
   style,
-  voiceAccessibilityLabel = 'Hold to dictate',
+  voiceAccessibilityLabel,
   ...textFieldProps
 }: TextFieldWithVoiceProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
+  const micA11yLabel = voiceAccessibilityLabel ?? t('voice.defaultHold');
   const styles = useMemo(
     () => createTextFieldWithVoiceStyles(theme),
     [theme],
@@ -145,10 +148,7 @@ export const TextFieldWithVoice = ({
 
     if (!speechModule) {
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-      Alert.alert(
-        'Voice input',
-        'Speech recognition is not available in this build (for example Expo Go). Create a development build with native code — run npx expo run:ios or npx expo run:android after adding the expo-speech-recognition plugin.',
-      );
+      Alert.alert(t('voice.title'), t('voice.unavailable'));
       return;
     }
 
@@ -165,10 +165,7 @@ export const TextFieldWithVoice = ({
     const perm = await speechModule.requestPermissionsAsync();
     if (!perm.granted) {
       fingerDownRef.current = false;
-      Alert.alert(
-        'Voice input',
-        'Microphone and speech recognition permission is required to dictate text.',
-      );
+      Alert.alert(t('voice.title'), t('voice.permission'));
       return;
     }
 
@@ -193,7 +190,10 @@ export const TextFieldWithVoice = ({
           return;
         }
         finishSession();
-        Alert.alert('Voice input', e.message || 'Speech recognition failed.');
+        Alert.alert(
+          t('voice.title'),
+          e.message || t('voice.failed'),
+        );
       }),
       speechModule.addListener('end', () => {
         finishSession();
@@ -215,10 +215,7 @@ export const TextFieldWithVoice = ({
     } catch {
       finishSession();
       fingerDownRef.current = false;
-      Alert.alert(
-        'Voice input',
-        'Could not start speech recognition on this device.',
-      );
+      Alert.alert(t('voice.title'), t('voice.startFailed'));
       return;
     }
 
@@ -236,6 +233,7 @@ export const TextFieldWithVoice = ({
     clearEndFallback,
     onResult,
     finishSession,
+    t,
   ]);
 
   const endPress = useCallback(() => {
@@ -358,11 +356,11 @@ export const TextFieldWithVoice = ({
           >
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={voiceAccessibilityLabel}
+              accessibilityLabel={micA11yLabel}
               accessibilityHint={
                 voiceReady
-                  ? 'Hold to record speech. Release to stop.'
-                  : 'Voice dictation needs a development build with native speech recognition.'
+                  ? t('voice.recordA11yHint')
+                  : t('voice.devBuildA11yHint')
               }
               disabled={editable === false}
               onPressIn={beginPressIn}
@@ -397,9 +395,7 @@ export const TextFieldWithVoice = ({
         </View>
       </View>
       {voiceReady && editable !== false && multiline ? (
-        <Text style={styles.hint}>
-          Hold the mic to speak, release to stop.
-        </Text>
+        <Text style={styles.hint}>{t('voice.multilineHint')}</Text>
       ) : null}
     </View>
   );

@@ -7,13 +7,21 @@ import { APP_DISPLAY_NAME } from '@constants/branding';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettingsScreen } from '@hooks/useSettingsScreen';
 import { fontSize, space, useAppTheme } from '@theme';
+import { useLanguageStore } from '@store/useLanguageStore';
+import type { AppLanguage } from '@/types/Language';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
 
 import { createSettingsScreenContentStyles } from './SettingsScreenContent.styles';
 
 export const SettingsScreenContent = () => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
+  const language = useLanguageStore((s) => s.language);
+  const setLanguage = useLanguageStore((s) => s.setLanguage);
+
+  const selectLanguage = (lang: AppLanguage) => () => setLanguage(lang);
   const shared = useMemo(
     () => createHabitDetailsSharedStyles(theme.colors),
     [theme.colors],
@@ -63,27 +71,24 @@ export const SettingsScreenContent = () => {
     >
       <Stack spacing={space['3xl']} padding={0}>
         <Card>
-          <Text style={shared.sectionHeading}>Reminders</Text>
-          <Text style={styles.body}>
-            Habit reminders are delivered locally on this device at the times you
-            choose. System notification permission is required.
-          </Text>
+          <Text style={shared.sectionHeading}>{t('settings.remindersTitle')}</Text>
+          <Text style={styles.body}>{t('settings.remindersLead')}</Text>
           {isNotificationsSectionNative ? (
             <>
               <View style={styles.statusRow}>
-                <Text style={styles.statusLabel}>Status</Text>
+                <Text style={styles.statusLabel}>{t('settings.status')}</Text>
                 <Text style={styles.statusValue}>{permissionLabel}</Text>
               </View>
               {canRequestNotifications ? (
                 <PrimaryButton
-                  title="Allow notifications"
+                  title={t('settings.allowNotifications')}
                   onPress={requestNotificationPermission}
                 />
               ) : null}
               {!notificationsEnabled && permissionResolved ? (
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel="Open system settings"
+                  accessibilityLabel={t('settings.openSystemSettingsA11y')}
                   onPress={openSystemSettings}
                   style={({ pressed }) => [
                     styles.linkButton,
@@ -91,22 +96,21 @@ export const SettingsScreenContent = () => {
                   ]}
                 >
                   <Text style={styles.linkText}>
-                    Open system settings…
+                    {t('settings.openSystemSettings')}
                   </Text>
                 </Pressable>
               ) : null}
 
               <View style={styles.prefsBlock}>
                 <Text style={styles.switchHint}>
-                  These options apply to every habit that has reminders turned
-                  on.
+                  {t('settings.globalRulesHint')}
                 </Text>
                 <View style={styles.switchRow}>
                   <Text style={styles.switchLabel}>
-                    Turn off all reminders
+                    {t('settings.turnOffAll')}
                   </Text>
                   <Switch
-                    accessibilityLabel="Turn off all reminders"
+                    accessibilityLabel={t('settings.turnOffAll')}
                     value={allRemindersDisabled}
                     onValueChange={setAllRemindersDisabled}
                     trackColor={{
@@ -123,10 +127,10 @@ export const SettingsScreenContent = () => {
                       allRemindersDisabled && { opacity: 0.45 },
                     ]}
                   >
-                    Same time for every habit
+                    {t('settings.sameTimeAll')}
                   </Text>
                   <Switch
-                    accessibilityLabel="Same time for every habit"
+                    accessibilityLabel={t('settings.sameTimeAll')}
                     value={unifiedReminderEnabled}
                     onValueChange={setUnifiedReminderEnabled}
                     disabled={allRemindersDisabled}
@@ -139,7 +143,7 @@ export const SettingsScreenContent = () => {
                 </View>
                 {showUnifiedTime ? (
                   <View>
-                    <Text style={styles.timeFieldLabel}>Time (24h)</Text>
+                    <Text style={styles.timeFieldLabel}>{t('settings.time24h')}</Text>
                     <View style={styles.reminderTimeRow}>
                       <View style={styles.reminderTimeFields}>
                         <View style={styles.reminderTimeField}>
@@ -148,7 +152,7 @@ export const SettingsScreenContent = () => {
                             onChangeText={onChangeUnifiedHourStr}
                             onBlur={onBlurUnifiedHour}
                             placeholder="09"
-                            accessibilityLabel="Shared reminder hour"
+                            accessibilityLabel={t('settings.sharedHourA11y')}
                             keyboardType="number-pad"
                             returnKeyType="next"
                             maxLength={2}
@@ -161,7 +165,7 @@ export const SettingsScreenContent = () => {
                             onChangeText={onChangeUnifiedMinuteStr}
                             onBlur={onBlurUnifiedMinute}
                             placeholder="00"
-                            accessibilityLabel="Shared reminder minutes"
+                            accessibilityLabel={t('settings.sharedMinuteA11y')}
                             keyboardType="number-pad"
                             returnKeyType="done"
                             maxLength={2}
@@ -174,15 +178,12 @@ export const SettingsScreenContent = () => {
               </View>
             </>
           ) : (
-            <Text style={styles.body}>
-              Notifications are not available on the web. Use the iOS or Android
-              app.
-            </Text>
+            <Text style={styles.body}>{t('settings.webOnly')}</Text>
           )}
         </Card>
 
         <Card>
-          <Text style={shared.sectionHeading}>Appearance</Text>
+          <Text style={shared.sectionHeading}>{t('settings.appearance')}</Text>
           <Pressable
             accessibilityRole="button"
             accessibilityState={{ selected: themePreference === 'light' }}
@@ -192,7 +193,7 @@ export const SettingsScreenContent = () => {
               pressed && { opacity: 0.85 },
             ]}
           >
-            <Text style={styles.themeRowLabel}>Light</Text>
+            <Text style={styles.themeRowLabel}>{t('settings.themeLight')}</Text>
             <Ionicons
               name={
                 themePreference === 'light'
@@ -216,7 +217,7 @@ export const SettingsScreenContent = () => {
               pressed && { opacity: 0.85 },
             ]}
           >
-            <Text style={styles.themeRowLabel}>Dark</Text>
+            <Text style={styles.themeRowLabel}>{t('settings.themeDark')}</Text>
             <Ionicons
               name={
                 themePreference === 'dark'
@@ -241,7 +242,7 @@ export const SettingsScreenContent = () => {
               pressed && { opacity: 0.85 },
             ]}
           >
-            <Text style={styles.themeRowLabel}>System</Text>
+            <Text style={styles.themeRowLabel}>{t('settings.themeSystem')}</Text>
             <Ionicons
               name={
                 themePreference === 'system'
@@ -259,26 +260,95 @@ export const SettingsScreenContent = () => {
         </Card>
 
         <Card>
-          <Text style={shared.sectionHeading}>Data</Text>
-          <Text style={styles.body}>
-            Permanently delete all habits and completion history from this
-            device.
-          </Text>
+          <Text style={shared.sectionHeading}>{t('settings.languageTitle')}</Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ selected: language === 'en' }}
+            onPress={selectLanguage('en')}
+            style={({ pressed }) => [
+              styles.themeRow,
+              pressed && { opacity: 0.85 },
+            ]}
+          >
+            <Text style={styles.themeRowLabel}>{t('settings.languageEnglish')}</Text>
+            <Ionicons
+              name={
+                language === 'en' ? 'checkmark-circle' : 'ellipse-outline'
+              }
+              size={fontSize['3xl']}
+              color={
+                language === 'en'
+                  ? theme.colors.primary.main
+                  : theme.colors.text.hint
+              }
+            />
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ selected: language === 'uk' }}
+            onPress={selectLanguage('uk')}
+            style={({ pressed }) => [
+              styles.themeRow,
+              pressed && { opacity: 0.85 },
+            ]}
+          >
+            <Text style={styles.themeRowLabel}>{t('settings.languageUkrainian')}</Text>
+            <Ionicons
+              name={
+                language === 'uk' ? 'checkmark-circle' : 'ellipse-outline'
+              }
+              size={fontSize['3xl']}
+              color={
+                language === 'uk'
+                  ? theme.colors.primary.main
+                  : theme.colors.text.hint
+              }
+            />
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ selected: language === 'pl' }}
+            onPress={selectLanguage('pl')}
+            style={({ pressed }) => [
+              styles.themeRow,
+              styles.themeRowLast,
+              pressed && { opacity: 0.85 },
+            ]}
+          >
+            <Text style={styles.themeRowLabel}>{t('settings.languagePolish')}</Text>
+            <Ionicons
+              name={
+                language === 'pl' ? 'checkmark-circle' : 'ellipse-outline'
+              }
+              size={fontSize['3xl']}
+              color={
+                language === 'pl'
+                  ? theme.colors.primary.main
+                  : theme.colors.text.hint
+              }
+            />
+          </Pressable>
+        </Card>
+
+        <Card>
+          <Text style={shared.sectionHeading}>{t('settings.dataTitle')}</Text>
+          <Text style={styles.body}>{t('settings.dataLead')}</Text>
           <PrimaryButton
             variant="danger"
-            title="Delete all habits"
+            title={t('settings.deleteAllHabits')}
             onPress={confirmClearAllHabits}
           />
         </Card>
 
         <Card variant="muted">
-          <Text style={shared.sectionHeading}>About</Text>
+          <Text style={shared.sectionHeading}>{t('settings.aboutTitle')}</Text>
           <Text style={styles.versionLine}>
-            {APP_DISPLAY_NAME} · version {appVersion}
+            {t('settings.versionLine', {
+              name: APP_DISPLAY_NAME,
+              version: appVersion,
+            })}
           </Text>
-          <Text style={styles.versionMuted}>
-            Your data is stored locally on this device.
-          </Text>
+          <Text style={styles.versionMuted}>{t('settings.aboutFoot')}</Text>
         </Card>
       </Stack>
     </ScrollView>

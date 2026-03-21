@@ -12,6 +12,7 @@ import {
 import { useAppTheme } from '@theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, Pressable, Text, View } from 'react-native';
 import Animated, {
   Easing,
@@ -29,6 +30,7 @@ const DETAILS_CHROME_MS = 280;
 const BACK_SLOT_WIDTH = 40;
 
 export const AppHeader = ({ subtitle }: AppHeaderProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
   const { habits } = useHabit();
   const navigation = useNavigation<NavigationProp<MainTabParamList>>();
@@ -90,17 +92,17 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
   useEffect(() => {
     if (homeStackOverlay === 'details' && homeStackHabitId != null) {
       const h = habits.find((x) => String(x.id) === homeStackHabitId);
-      setStackPrimary(h?.title?.trim() || 'Habit');
+      setStackPrimary(h?.title?.trim() || t('header.habitFallback'));
       setStackSecondary(null);
       return;
     }
     if (homeStackOverlay === 'edit' && homeStackHabitId != null) {
       const h = habits.find((x) => String(x.id) === homeStackHabitId);
-      setStackPrimary('Edit habit');
+      setStackPrimary(t('habitDetails.edit'));
       setStackSecondary(h?.title?.trim() || '');
       return;
     }
-  }, [habits, homeStackHabitId, homeStackOverlay]);
+  }, [habits, homeStackHabitId, homeStackOverlay, t]);
 
   useEffect(() => {
     if (showStackChrome || stackPrimary == null) return;
@@ -154,7 +156,7 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
             <Animated.View style={[styles.backSlot, backSlotStyle]}>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Go back"
+                accessibilityLabel={t('header.goBack')}
                 disabled={!showStackChrome}
                 onPress={onBackFromStackOverlay}
                 style={({ pressed }) => [
@@ -187,7 +189,9 @@ export const AppHeader = ({ subtitle }: AppHeaderProps) => {
                     <Text
                       style={styles.subtitleSecondary}
                       numberOfLines={2}
-                      accessibilityLabel={`Habit name ${stackSecondary}`}
+                      accessibilityLabel={t('header.habitNameA11y', {
+                        name: stackSecondary,
+                      })}
                     >
                       {stackSecondary}
                     </Text>

@@ -8,6 +8,7 @@ import {
 } from '@utils/habitReminders';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -18,6 +19,7 @@ import {
 import type { HabitStorageGateProps } from './HabitStorageGate.types';
 
 export const HabitStorageGate = ({ children }: HabitStorageGateProps) => {
+  const { t } = useTranslation();
   const { isLoading, hydrationError, retryHydration } = useHabit();
   const { theme } = useAppTheme();
   const styles = useMemo(
@@ -34,7 +36,7 @@ export const HabitStorageGate = ({ children }: HabitStorageGateProps) => {
           end={{ x: 0.5, y: 1 }}
           style={habitStorageGateGradientFill}
         />
-        <View style={styles.gate} accessibilityLabel="Loading saved habits">
+        <View style={styles.gate} accessibilityLabel={t('common.loading')}>
           <ActivityIndicator size="large" color={theme.colors.primary.main} />
         </View>
       </SafeAreaView>
@@ -51,9 +53,9 @@ export const HabitStorageGate = ({ children }: HabitStorageGateProps) => {
           style={habitStorageGateGradientFill}
         />
         <View style={styles.gate}>
-          <Text style={styles.errorTitle}>Couldn&apos;t load saved habits</Text>
+          <Text style={styles.errorTitle}>{t('storageGate.errorTitle')}</Text>
           <Text style={styles.errorBody}>{hydrationError}</Text>
-          <PrimaryButton title="Try again" onPress={retryHydration} />
+          <PrimaryButton title={t('common.tryAgain')} onPress={retryHydration} />
         </View>
       </SafeAreaView>
     );
