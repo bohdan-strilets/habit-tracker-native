@@ -13,6 +13,17 @@ export type HabitCategoryId =
 
 export type HabitFrequency = 'daily' | 'weekly';
 
+export type HabitReminderTime = {
+  hour: number;
+  minute: number;
+};
+
+export type HabitReminderSettings = {
+  enabled: boolean;
+  times: HabitReminderTime[];
+  weekdays?: number[];
+};
+
 export type Log = {
   date: string;
   completed: boolean;
@@ -31,4 +42,5 @@ export type Habit = {
   frequency?: HabitFrequency;
   kind?: HabitKind;
   target?: number;
+  reminder?: HabitReminderSettings;
 };
