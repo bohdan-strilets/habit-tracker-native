@@ -1,10 +1,10 @@
 export { HeatmapCalendar } from './HeatmapCalendar';
-export { HeatmapCalendarGrid } from '@components/HeatmapCalendarGrid';
-export type { HeatmapCalendarGridProps } from '@components/HeatmapCalendarGrid';
 export type { HeatmapCalendarProps, HeatmapDay } from './HeatmapCalendar.types';
+export type { HeatmapCalendarGridProps } from '@components/HeatmapCalendarGrid';
+export { HeatmapCalendarGrid } from '@components/HeatmapCalendarGrid';
+export type { HeatmapCellProps } from '@components/HeatmapCell';
 export {
-  HeatmapCell,
   HEATMAP_CELL_RADIUS,
   HEATMAP_CELL_SIZE,
+  HeatmapCell,
 } from '@components/HeatmapCell';
-export type { HeatmapCellProps } from '@components/HeatmapCell';

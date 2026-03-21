@@ -1,6 +1,6 @@
+export type { HeatmapCellProps } from './HeatmapCell';
 export {
-  HeatmapCell,
   HEATMAP_CELL_RADIUS,
   HEATMAP_CELL_SIZE,
+  HeatmapCell,
 } from './HeatmapCell';
-export type { HeatmapCellProps } from './HeatmapCell';
