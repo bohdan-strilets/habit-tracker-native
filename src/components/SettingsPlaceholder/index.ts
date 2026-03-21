@@ -1,1 +1,0 @@
-export { SettingsPlaceholder } from './SettingsPlaceholder';
