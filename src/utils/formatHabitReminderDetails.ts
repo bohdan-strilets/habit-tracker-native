@@ -1,4 +1,4 @@
-import { REMINDER_WEEKDAY_OPTIONS } from '@constants/habitReminders';
+import i18n from '@i18n/i18n';
 
 import type { Habit } from '@/types/Habit';
 
@@ -9,10 +9,9 @@ import {
 } from './habitReminderTimes';
 
 function weekdayLabels(values: number[]): string {
-  const map = new Map(
-    REMINDER_WEEKDAY_OPTIONS.map((o) => [o.value, o.label]),
-  );
-  return values.map((v) => map.get(v) ?? String(v)).join(', ');
+  return values
+    .map((v) => i18n.t(`habitForm.weekdays.${String(v)}`))
+    .join(', ');
 }
 
 export function formatHabitReminderDetailsText(habit: Habit): string[] | null {
@@ -29,20 +28,20 @@ export function formatHabitReminderDetailsText(habit: Habit): string[] | null {
   const timeStr = times
     .map((t) => formatReminderClock24(t.hour, t.minute))
     .join(', ');
-  lines.push(`Times: ${timeStr} (device local time)`);
+  lines.push(i18n.t('reminderDetails.times', { times: timeStr }));
 
   const freq = habit.frequency ?? 'daily';
   if (freq === 'weekly') {
     const wd = normalizeReminderWeekdays(r.weekdays ?? []);
     if (wd.length === 7) {
-      lines.push('Days: every day');
+      lines.push(i18n.t('reminderDetails.daysEvery'));
     } else if (wd.length > 0) {
-      lines.push(`Days: ${weekdayLabels(wd)}`);
+      lines.push(i18n.t('reminderDetails.daysList', { days: weekdayLabels(wd) }));
     } else {
-      lines.push('Days: every day');
+      lines.push(i18n.t('reminderDetails.daysEvery'));
     }
   } else {
-    lines.push('Repeats: every day');
+    lines.push(i18n.t('reminderDetails.repeatsDaily'));
   }
 
   return lines;

@@ -3,6 +3,7 @@ import {
   HABIT_REMINDER_DATA_TYPE,
   HABIT_REMINDERS_ANDROID_CHANNEL_ID,
 } from '@constants/habitReminders';
+import i18n from '@i18n/i18n';
 import { useHabitStore } from '@store/useHabitStore';
 import { useReminderPrefsStore } from '@store/useReminderPrefsStore';
 import * as Notifications from 'expo-notifications';
@@ -41,7 +42,7 @@ async function ensureAndroidReminderChannel(): Promise<void> {
   await Notifications.setNotificationChannelAsync(
     HABIT_REMINDERS_ANDROID_CHANNEL_ID,
     {
-      name: 'Habit reminders',
+      name: i18n.t('notifications.channelName'),
       importance: Notifications.AndroidImportance.DEFAULT,
     },
   );
@@ -139,8 +140,8 @@ export async function syncHabitRemindersWithHabits(
           await Notifications.scheduleNotificationAsync({
             identifier,
             content: {
-              title: `Time for “${habit.title}”`,
-              body: 'Open Bloom to check it off for today.',
+              title: i18n.t('notifications.habitTitle', { title: habit.title }),
+              body: i18n.t('notifications.habitBody'),
               data: {
                 type: HABIT_REMINDER_DATA_TYPE,
                 habitId: habit.id,
@@ -159,9 +160,9 @@ export async function syncHabitRemindersWithHabits(
         const identifier = `habit-reminder:${habit.id}:d:${hour}:${minute}`;
         await Notifications.scheduleNotificationAsync({
           identifier,
-          content: {
-            title: `Time for “${habit.title}”`,
-            body: 'Open Bloom to check it off for today.',
+            content: {
+              title: i18n.t('notifications.habitTitle', { title: habit.title }),
+              body: i18n.t('notifications.habitBody'),
             data: {
               type: HABIT_REMINDER_DATA_TYPE,
               habitId: habit.id,

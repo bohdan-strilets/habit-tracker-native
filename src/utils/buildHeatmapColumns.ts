@@ -1,5 +1,7 @@
-import { APP_LOCALE } from '@constants/locale';
+import i18n from '@i18n/i18n';
+import { localeTagForAppLanguage } from '@i18n/localeTag';
 
+import type { AppLanguage } from '@/types/Language';
 import type { HeatmapDay } from '@/types/heatmapCalendar';
 
 import {
@@ -20,14 +22,16 @@ export type HeatmapCellModel =
   | { kind: 'pad' }
   | { kind: 'day'; dateKey: string; completed: number; total: number };
 
-const MONTH_FMT = new Intl.DateTimeFormat(APP_LOCALE, { month: 'short' });
-
-function monthLabelForMonday(monday: Date, prevMonday: Date | null): string | null {
+function monthLabelForMonday(
+  monthFmt: Intl.DateTimeFormat,
+  monday: Date,
+  prevMonday: Date | null,
+): string | null {
   if (!prevMonday) {
-    return MONTH_FMT.format(monday);
+    return monthFmt.format(monday);
   }
   if (monday.getMonth() !== prevMonday.getMonth()) {
-    return MONTH_FMT.format(monday);
+    return monthFmt.format(monday);
   }
   return null;
 }
@@ -41,6 +45,9 @@ export function buildHeatmapColumns(
   rangeStart: Date,
   rangeEnd: Date,
 ): HeatmapColumnModel[] {
+  const locale = localeTagForAppLanguage(i18n.language as AppLanguage);
+  const monthFmt = new Intl.DateTimeFormat(locale, { month: 'short' });
+
   const start = startOfLocalDay(rangeStart);
   const end = startOfLocalDay(rangeEnd);
   if (start.getTime() > end.getTime()) {
@@ -56,7 +63,7 @@ export function buildHeatmapColumns(
 
   while (monday.getTime() <= gridEndSunday.getTime()) {
     const weekKey = toLocalDateKey(monday);
-    const monthLabel = monthLabelForMonday(monday, prevMonday);
+    const monthLabel = monthLabelForMonday(monthFmt, monday, prevMonday);
     const cells: HeatmapCellModel[] = [];
 
     for (let row = 0; row < 7; row += 1) {

@@ -1,4 +1,5 @@
-import { APP_LOCALE } from '@constants/locale';
+import i18n from '@i18n/i18n';
+import { localeTagForAppLanguage } from '@i18n/localeTag';
 import {
   dateToLocalParts,
   localPartsToYyyyMmDd,
@@ -6,6 +7,7 @@ import {
 } from '@utils/date';
 
 import type { Habit } from '@/types/Habit';
+import type { AppLanguage } from '@/types/Language';
 import type {
   DayTimelineCell,
   ProgressDaySummary,
@@ -33,13 +35,18 @@ export const getProgressDaysSummary = (habit: Habit): ProgressDaySummary[] => {
       const satisfied = maxP >= target;
       rows.push({
         dateYyyyMmDd,
-        detail: satisfied ? `${maxP}/${target} · Done` : `${maxP}/${target}`,
+        detail: satisfied
+          ? i18n.t('habitActivity.countDone', { maxP, target })
+          : i18n.t('habitActivity.countPartial', { maxP, target }),
       });
     } else {
       const n = dayLogs.length;
       rows.push({
         dateYyyyMmDd,
-        detail: n === 1 ? 'Done' : `${n} check-ins`,
+        detail:
+          n === 1
+            ? i18n.t('habitActivity.logDone')
+            : i18n.t('habitActivity.logCheckIns', { count: n }),
       });
     }
   }
@@ -67,6 +74,7 @@ export const getDayTimeline = (
   const out: DayTimelineCell[] = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const locale = localeTagForAppLanguage(i18n.language as AppLanguage);
 
   for (let offset = safeDays - 1; offset >= 0; offset--) {
     const d = new Date(today);
@@ -77,7 +85,7 @@ export const getDayTimeline = (
 
     out.push({
       dateYyyyMmDd: key,
-      weekdayShort: d.toLocaleDateString(APP_LOCALE, { weekday: 'short' }),
+      weekdayShort: d.toLocaleDateString(locale, { weekday: 'short' }),
       dayOfMonth: d.getDate(),
       completed: isHabitSatisfiedOnDate(habit, key),
       tapCount,
