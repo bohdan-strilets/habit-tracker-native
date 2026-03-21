@@ -1,4 +1,5 @@
 import { HabitStorageGate } from '@components/HabitStorageGate';
+import { LanguageProvider } from '@i18n';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { MainTabNavigator } from '@navigation/MainTabNavigator';
 import { NavigationContainer } from '@react-navigation/native';
@@ -34,13 +35,15 @@ export default function App() {
   return (
     <GestureHandlerRootView style={appRootStyles.fill}>
       <SafeAreaProvider>
-        <ThemeProvider>
-          <BottomSheetModalProvider>
-            <HabitStorageGate>
-              <AppNavigation />
-            </HabitStorageGate>
-          </BottomSheetModalProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <BottomSheetModalProvider>
+              <HabitStorageGate>
+                <AppNavigation />
+              </HabitStorageGate>
+            </BottomSheetModalProvider>
+          </ThemeProvider>
+        </LanguageProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
