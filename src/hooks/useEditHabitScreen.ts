@@ -6,15 +6,37 @@ import {
   HABIT_ACCENT_PRESETS,
   HABIT_ICON_PRESETS,
 } from '@constants/habitFormOptions';
+import {
+  ALL_REMINDER_WEEKDAYS,
+  DEFAULT_REMINDER_HOUR,
+  MAX_REMINDER_TIMES_PER_HABIT,
+} from '@constants/habitReminders';
 import { normalizeLogsAfterKindChange } from '@domain/habitLogsKindTransition';
 import type { HomeStackParamList } from '@navigation/types';
 import type { RouteProp } from '@react-navigation/native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+  buildHabitReminderForSave,
+  defaultReminderFields,
+  normalizeReminderFieldsForCommit,
+  normalizeReminderHourStrOnBlur,
+  normalizeReminderMinuteStrOnBlur,
+  normalizeReminderWeekdays,
+  parseReminderTimesFromStored,
+  parseReminderWeekdaysFromStored,
+  reminderFieldsToTimes,
+  sanitizeReminderTimeDigitInput,
+  timesToReminderFields,
+} from '@utils/habitReminderTimes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 
-import type { HabitCategoryId, HabitFrequency } from '@/types/Habit';
+import type {
+  HabitCategoryId,
+  HabitFrequency,
+  HabitReminderSettings,
+} from '@/types/Habit';
 
 import { useHabit } from './useHabit';
 
@@ -38,8 +60,15 @@ function habitToFormState(h: {
   frequency?: HabitFrequency;
   kind?: 'boolean' | 'count';
   target?: number;
+  reminder?: HabitReminderSettings;
 }) {
   const isCount = (h.kind ?? 'boolean') === 'count';
+  const freq = h.frequency ?? 'daily';
+  const parsedTimes = parseReminderTimesFromStored(h.reminder);
+  const reminderFields =
+    parsedTimes.length > 0
+      ? timesToReminderFields(parsedTimes)
+      : defaultReminderFields();
   return {
     title: h.title,
     selectedIcon: isPresetIcon(h.icon ?? '')
@@ -50,9 +79,12 @@ function habitToFormState(h: {
       : DEFAULT_HABIT_ACCENT_HEX,
     categoryId: h.category ?? DEFAULT_HABIT_CATEGORY,
     notes: h.notes ?? '',
-    frequency: h.frequency ?? 'daily',
+    frequency: freq,
     trackAsCount: isCount,
     targetStr: String(Math.max(1, h.target ?? 8)),
+    reminderEnabled: h.reminder?.enabled ?? false,
+    reminderFields,
+    reminderWeekdays: parseReminderWeekdaysFromStored(h.reminder, freq),
   };
 }
 
@@ -73,6 +105,13 @@ export const useEditHabitScreen = () => {
   const [frequency, setFrequency] = useState<HabitFrequency>('daily');
   const [trackAsCount, setTrackAsCount] = useState(false);
   const [targetStr, setTargetStr] = useState(DEFAULT_COUNT_TARGET);
+  const [reminderEnabled, setReminderEnabled] = useState(false);
+  const [reminderFields, setReminderFields] = useState(() =>
+    defaultReminderFields(),
+  );
+  const [reminderWeekdays, setReminderWeekdays] = useState<number[]>([
+    ...ALL_REMINDER_WEEKDAYS,
+  ]);
 
   const hydratedForIdRef = useRef<string | null>(null);
 
@@ -93,7 +132,115 @@ export const useEditHabitScreen = () => {
     setFrequency(s.frequency);
     setTrackAsCount(s.trackAsCount);
     setTargetStr(s.targetStr);
+    setReminderEnabled(s.reminderEnabled);
+    setReminderFields(s.reminderFields);
+    setReminderWeekdays(s.reminderWeekdays);
   }, [habitId, habits, navigation]);
+
+  const changeReminderEnabled = useCallback((value: boolean) => {
+    setReminderEnabled(value);
+    if (value) {
+      setReminderFields((prev) =>
+        prev.length > 0 ? prev : defaultReminderFields(),
+      );
+    }
+  }, []);
+
+  const addReminderTime = useCallback(() => {
+    setReminderFields((prev) => {
+      if (prev.length >= MAX_REMINDER_TIMES_PER_HABIT) {
+        return prev;
+      }
+      return [
+        ...prev,
+        {
+          hourStr: String(DEFAULT_REMINDER_HOUR).padStart(2, '0'),
+          minuteStr: '00',
+        },
+      ];
+    });
+  }, []);
+
+  const removeReminderTime = useCallback((index: number) => {
+    setReminderFields((prev) => {
+      if (prev.length <= 1) {
+        return prev;
+      }
+      return prev.filter((_, i) => i !== index);
+    });
+  }, []);
+
+  const changeReminderHourStr = useCallback((index: number, raw: string) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = { ...row, hourStr: sanitizeReminderTimeDigitInput(raw) };
+      return next;
+    });
+  }, []);
+
+  const changeReminderMinuteStr = useCallback((index: number, raw: string) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = { ...row, minuteStr: sanitizeReminderTimeDigitInput(raw) };
+      return next;
+    });
+  }, []);
+
+  const blurReminderHour = useCallback((index: number) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = {
+        ...row,
+        hourStr: normalizeReminderHourStrOnBlur(row.hourStr),
+      };
+      return next;
+    });
+  }, []);
+
+  const blurReminderMinute = useCallback((index: number) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = {
+        ...row,
+        minuteStr: normalizeReminderMinuteStrOnBlur(row.minuteStr),
+      };
+      return next;
+    });
+  }, []);
+
+  const toggleReminderWeekday = useCallback(
+    (weekday: number) => {
+      setReminderWeekdays((prev) => {
+        const set = new Set(normalizeReminderWeekdays(prev));
+        if (set.has(weekday)) {
+          if (set.size <= 1) {
+            return [...set];
+          }
+          set.delete(weekday);
+        } else {
+          set.add(weekday);
+        }
+        return normalizeReminderWeekdays([...set]);
+      });
+    },
+    [],
+  );
 
   const submitUpdate = useCallback(() => {
     const name = title.trim();
@@ -111,6 +258,15 @@ export const useEditHabitScreen = () => {
     const newKind = trackAsCount ? 'count' : 'boolean';
     const oldKind = original.kind ?? 'boolean';
 
+    const reminder = buildHabitReminderForSave({
+      enabled: reminderEnabled,
+      times: reminderFieldsToTimes(
+        normalizeReminderFieldsForCommit(reminderFields),
+      ),
+      frequency,
+      weekdays: reminderWeekdays,
+    });
+
     const patch = {
       title: name,
       icon: isPresetIcon(selectedIcon) ? selectedIcon : DEFAULT_HABIT_ICON,
@@ -122,6 +278,7 @@ export const useEditHabitScreen = () => {
       frequency,
       kind: newKind,
       target: trackAsCount ? target : undefined,
+      reminder,
     } as const;
 
     const finish = (logs?: (typeof original.logs)[number][]) => {
@@ -161,6 +318,9 @@ export const useEditHabitScreen = () => {
     habits,
     navigation,
     notes,
+    reminderEnabled,
+    reminderFields,
+    reminderWeekdays,
     selectedAccentHex,
     selectedIcon,
     targetStr,
@@ -188,5 +348,16 @@ export const useEditHabitScreen = () => {
     setTargetStr,
     entranceKey: habitId,
     submitUpdate,
+    reminderEnabled,
+    changeReminderEnabled,
+    reminderFields,
+    addReminderTime,
+    removeReminderTime,
+    changeReminderHourStr,
+    changeReminderMinuteStr,
+    blurReminderHour,
+    blurReminderMinute,
+    reminderWeekdays,
+    toggleReminderWeekday,
   };
 };

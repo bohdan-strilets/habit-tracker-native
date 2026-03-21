@@ -12,10 +12,15 @@ import {
   HABIT_ICON_PRESETS,
 } from '@constants/habitFormOptions';
 import {
+  MAX_REMINDER_TIMES_PER_HABIT,
+  REMINDER_WEEKDAY_OPTIONS,
+} from '@constants/habitReminders';
+import {
   HABIT_DETAILS_TIMELINE_DAYS,
   HABIT_NOTES_MAX_LENGTH,
   HABIT_TITLE_MAX_LENGTH,
 } from '@constants/habits';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { space, useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import {
@@ -48,6 +53,17 @@ export const AddHabitForm = ({
   onChangeTrackAsCount,
   targetStr,
   onChangeTargetStr,
+  reminderEnabled,
+  onChangeReminderEnabled,
+  reminderFields,
+  onAddReminderTime,
+  onRemoveReminderTime,
+  onChangeReminderHourStr,
+  onChangeReminderMinuteStr,
+  onBlurReminderHour,
+  onBlurReminderMinute,
+  reminderWeekdays,
+  onToggleReminderWeekday,
   onSave,
   entrancePlayKey,
 }: AddHabitFormProps) => {
@@ -70,6 +86,9 @@ export const AddHabitForm = ({
     (targetStr.trim().length > 0 &&
       Number.isFinite(parsedTarget) &&
       parsedTarget >= 1);
+
+  const canAddMoreReminderTimes =
+    reminderFields.length < MAX_REMINDER_TIMES_PER_HABIT;
 
   const handleSave = () => {
     if (!canSave || !targetOk) return;
@@ -306,6 +325,157 @@ export const AddHabitForm = ({
                     onSubmitEditing={handleSave}
                     maxLength={4}
                   />
+                </View>
+              ) : null}
+            </Stack>
+          </Card>
+
+          <Card>
+            <Text style={shared.sectionHeading}>Reminders</Text>
+            <Stack spacing={space.lg} padding={0}>
+              <View>
+                <View style={styles.sectionLabelRow}>
+                  <Text style={styles.sectionLabelText}>
+                    Push notifications
+                  </Text>
+                  <FieldRequirementBadge kind="optional" />
+                </View>
+                <Text style={styles.switchHint}>
+                  Local notifications at the times you set below. For weekly
+                  habits you can also pick which days apply.
+                </Text>
+                <View style={styles.switchRow}>
+                  <Text style={styles.switchLabel}>Enable reminders</Text>
+                  <Switch
+                    accessibilityLabel="Enable habit reminder notifications"
+                    value={reminderEnabled}
+                    onValueChange={onChangeReminderEnabled}
+                    trackColor={{
+                      false: theme.colors.border.default,
+                      true: theme.colors.primary.main,
+                    }}
+                    thumbColor={theme.colors.background.surface}
+                  />
+                </View>
+              </View>
+
+              {reminderEnabled ? (
+                <View>
+                  <View style={styles.labelRow}>
+                    <Text style={styles.fieldLabel}>Reminder times</Text>
+                    <FieldRequirementBadge kind="required" />
+                  </View>
+                  <Text style={styles.switchHint}>
+                    Up to {MAX_REMINDER_TIMES_PER_HABIT} times per day, 24-hour
+                    clock (device local time). Digits only — you can clear a
+                    field to retype; when you leave it empty, hour defaults to 09
+                    and minute to 00.
+                  </Text>
+                  {reminderFields.map((slot, index) => (
+                    <View key={`reminder-time-${index}`} style={styles.reminderTimeRow}>
+                      <View style={styles.reminderTimeFields}>
+                        <View style={styles.reminderTimeField}>
+                          <TextField
+                            value={slot.hourStr}
+                            onChangeText={(t) =>
+                              onChangeReminderHourStr(index, t)
+                            }
+                            onBlur={() => onBlurReminderHour(index)}
+                            placeholder="09"
+                            accessibilityLabel={`Reminder ${index + 1} hour`}
+                            keyboardType="number-pad"
+                            returnKeyType="done"
+                            maxLength={2}
+                          />
+                        </View>
+                        <Text style={styles.reminderColon}>:</Text>
+                        <View style={styles.reminderTimeField}>
+                          <TextField
+                            value={slot.minuteStr}
+                            onChangeText={(t) =>
+                              onChangeReminderMinuteStr(index, t)
+                            }
+                            onBlur={() => onBlurReminderMinute(index)}
+                            placeholder="00"
+                            accessibilityLabel={`Reminder ${index + 1} minute`}
+                            keyboardType="number-pad"
+                            returnKeyType="done"
+                            maxLength={2}
+                          />
+                        </View>
+                      </View>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`Remove reminder time ${index + 1}`}
+                        onPress={() => onRemoveReminderTime(index)}
+                        disabled={reminderFields.length <= 1}
+                        style={styles.reminderRemoveHit}
+                        hitSlop={8}
+                      >
+                        <Ionicons
+                          name="trash-outline"
+                          size={22}
+                          color={
+                            reminderFields.length <= 1
+                              ? theme.colors.text.faint
+                              : theme.colors.semantic.dangerDark
+                          }
+                        />
+                      </Pressable>
+                    </View>
+                  ))}
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel="Add another reminder time"
+                    onPress={onAddReminderTime}
+                    disabled={!canAddMoreReminderTimes}
+                    style={styles.reminderAddTime}
+                  >
+                    <Text
+                      style={[
+                        styles.reminderAddTimeLabel,
+                        !canAddMoreReminderTimes && styles.reminderAddTimeDisabled,
+                      ]}
+                    >
+                      + Add another time
+                    </Text>
+                  </Pressable>
+
+                  {frequency === 'weekly' ? (
+                    <View>
+                      <View style={styles.sectionLabelRow}>
+                        <Text style={styles.sectionLabelText}>
+                          Reminder days
+                        </Text>
+                        <FieldRequirementBadge kind="required" />
+                      </View>
+                      <Text style={styles.switchHint}>
+                        Weekly habit: pick which days you want a nudge (at least
+                        one).
+                      </Text>
+                      <View style={styles.chipScrollContent}>
+                        {REMINDER_WEEKDAY_OPTIONS.map(({ value, label }) => {
+                          const selected = reminderWeekdays.includes(value);
+                          return (
+                            <Pressable
+                              key={value}
+                              accessibilityRole="button"
+                              accessibilityState={{ selected }}
+                              onPress={() => onToggleReminderWeekday(value)}
+                              style={[
+                                styles.categoryChip,
+                                selected && styles.categoryChipSelected,
+                              ]}
+                            >
+                              <Text style={styles.categoryChipLabel}>
+                                {label}
+                              </Text>
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  ) : null}
                 </View>
               ) : null}
             </Stack>

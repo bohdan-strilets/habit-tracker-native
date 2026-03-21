@@ -6,11 +6,26 @@ import {
   HABIT_ACCENT_PRESETS,
   HABIT_ICON_PRESETS,
 } from '@constants/habitFormOptions';
+import {
+  ALL_REMINDER_WEEKDAYS,
+  DEFAULT_REMINDER_HOUR,
+  MAX_REMINDER_TIMES_PER_HABIT,
+} from '@constants/habitReminders';
 import type { MainTabParamList } from '@navigation/types';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { generateId } from '@utils/generateId';
 import { getCurrentLocalDateString } from '@utils/getCurrentLocalDateString';
+import {
+  buildHabitReminderForSave,
+  defaultReminderFields,
+  normalizeReminderFieldsForCommit,
+  normalizeReminderHourStrOnBlur,
+  normalizeReminderMinuteStrOnBlur,
+  normalizeReminderWeekdays,
+  reminderFieldsToTimes,
+  sanitizeReminderTimeDigitInput,
+} from '@utils/habitReminderTimes';
 import { useCallback, useRef, useState } from 'react';
 
 import type { Habit, HabitCategoryId, HabitFrequency } from '@/types/Habit';
@@ -38,11 +53,123 @@ export const useAddHabitScreen = () => {
   const [frequency, setFrequency] = useState<HabitFrequency>('daily');
   const [trackAsCount, setTrackAsCount] = useState(false);
   const [targetStr, setTargetStr] = useState(DEFAULT_COUNT_TARGET);
+  const [reminderEnabled, setReminderEnabled] = useState(false);
+  const [reminderFields, setReminderFields] = useState(() =>
+    defaultReminderFields(),
+  );
+  const [reminderWeekdays, setReminderWeekdays] = useState<number[]>([
+    ...ALL_REMINDER_WEEKDAYS,
+  ]);
   const [entranceKey, setEntranceKey] = useState(0);
   const skipEntranceBump = useRef(true);
 
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
   const { addHabit } = useHabit();
+
+  const changeReminderEnabled = useCallback((value: boolean) => {
+    setReminderEnabled(value);
+    if (value) {
+      setReminderFields((prev) =>
+        prev.length > 0 ? prev : defaultReminderFields(),
+      );
+    }
+  }, []);
+
+  const addReminderTime = useCallback(() => {
+    setReminderFields((prev) => {
+      if (prev.length >= MAX_REMINDER_TIMES_PER_HABIT) {
+        return prev;
+      }
+      return [
+        ...prev,
+        {
+          hourStr: String(DEFAULT_REMINDER_HOUR).padStart(2, '0'),
+          minuteStr: '00',
+        },
+      ];
+    });
+  }, []);
+
+  const removeReminderTime = useCallback((index: number) => {
+    setReminderFields((prev) => {
+      if (prev.length <= 1) {
+        return prev;
+      }
+      return prev.filter((_, i) => i !== index);
+    });
+  }, []);
+
+  const changeReminderHourStr = useCallback((index: number, raw: string) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = { ...row, hourStr: sanitizeReminderTimeDigitInput(raw) };
+      return next;
+    });
+  }, []);
+
+  const changeReminderMinuteStr = useCallback((index: number, raw: string) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = { ...row, minuteStr: sanitizeReminderTimeDigitInput(raw) };
+      return next;
+    });
+  }, []);
+
+  const blurReminderHour = useCallback((index: number) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = {
+        ...row,
+        hourStr: normalizeReminderHourStrOnBlur(row.hourStr),
+      };
+      return next;
+    });
+  }, []);
+
+  const blurReminderMinute = useCallback((index: number) => {
+    setReminderFields((prev) => {
+      const next = [...prev];
+      const row = next[index];
+      if (!row) {
+        return prev;
+      }
+      next[index] = {
+        ...row,
+        minuteStr: normalizeReminderMinuteStrOnBlur(row.minuteStr),
+      };
+      return next;
+    });
+  }, []);
+
+  const toggleReminderWeekday = useCallback(
+    (weekday: number) => {
+      setReminderWeekdays((prev) => {
+        const set = new Set(normalizeReminderWeekdays(prev));
+        if (set.has(weekday)) {
+          if (set.size <= 1) {
+            return [...set];
+          }
+          set.delete(weekday);
+        } else {
+          set.add(weekday);
+        }
+        return normalizeReminderWeekdays([...set]);
+      });
+    },
+    [],
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -65,6 +192,15 @@ export const useAddHabitScreen = () => {
 
     const notesTrim = notes.trim();
 
+    const reminder = buildHabitReminderForSave({
+      enabled: reminderEnabled,
+      times: reminderFieldsToTimes(
+        normalizeReminderFieldsForCommit(reminderFields),
+      ),
+      frequency,
+      weekdays: reminderWeekdays,
+    });
+
     const newHabit: Habit = {
       id: generateId(),
       title: name,
@@ -79,6 +215,7 @@ export const useAddHabitScreen = () => {
       frequency,
       kind: trackAsCount ? 'count' : 'boolean',
       target: trackAsCount ? target : undefined,
+      reminder,
     };
 
     addHabit(newHabit);
@@ -90,6 +227,9 @@ export const useAddHabitScreen = () => {
     setFrequency('daily');
     setTrackAsCount(false);
     setTargetStr(DEFAULT_COUNT_TARGET);
+    setReminderEnabled(false);
+    setReminderFields(defaultReminderFields());
+    setReminderWeekdays([...ALL_REMINDER_WEEKDAYS]);
     navigation.navigate('HomeTab', { screen: 'Home' });
   }, [
     addHabit,
@@ -97,6 +237,9 @@ export const useAddHabitScreen = () => {
     frequency,
     navigation,
     notes,
+    reminderEnabled,
+    reminderFields,
+    reminderWeekdays,
     selectedAccentHex,
     selectedIcon,
     targetStr,
@@ -123,5 +266,16 @@ export const useAddHabitScreen = () => {
     setTargetStr,
     entranceKey,
     submitNewHabit,
+    reminderEnabled,
+    changeReminderEnabled,
+    reminderFields,
+    addReminderTime,
+    removeReminderTime,
+    changeReminderHourStr,
+    changeReminderMinuteStr,
+    blurReminderHour,
+    blurReminderMinute,
+    reminderWeekdays,
+    toggleReminderWeekday,
   };
 };

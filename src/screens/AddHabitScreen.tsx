@@ -23,6 +23,17 @@ export const AddHabitScreen = () => {
     setTargetStr,
     entranceKey,
     submitNewHabit,
+    reminderEnabled,
+    changeReminderEnabled,
+    reminderFields,
+    addReminderTime,
+    removeReminderTime,
+    changeReminderHourStr,
+    changeReminderMinuteStr,
+    blurReminderHour,
+    blurReminderMinute,
+    reminderWeekdays,
+    toggleReminderWeekday,
   } = useAddHabitScreen();
 
   return (
@@ -45,6 +56,17 @@ export const AddHabitScreen = () => {
           onChangeTrackAsCount={setTrackAsCount}
           targetStr={targetStr}
           onChangeTargetStr={setTargetStr}
+          reminderEnabled={reminderEnabled}
+          onChangeReminderEnabled={changeReminderEnabled}
+          reminderFields={reminderFields}
+          onAddReminderTime={addReminderTime}
+          onRemoveReminderTime={removeReminderTime}
+          onChangeReminderHourStr={changeReminderHourStr}
+          onChangeReminderMinuteStr={changeReminderMinuteStr}
+          onBlurReminderHour={blurReminderHour}
+          onBlurReminderMinute={blurReminderMinute}
+          reminderWeekdays={reminderWeekdays}
+          onToggleReminderWeekday={toggleReminderWeekday}
           onSave={submitNewHabit}
           entrancePlayKey={entranceKey}
         />

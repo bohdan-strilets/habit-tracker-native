@@ -192,6 +192,51 @@ export const createAddHabitFormStyles = (colors: ColorPalette) =>
       color: colors.text.secondary,
     },
 
+    reminderTimeRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: space.sm,
+      marginBottom: space.md,
+    },
+
+    reminderTimeFields: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: space.sm,
+    },
+
+    reminderTimeField: {
+      flex: 1,
+      minWidth: 0,
+    },
+
+    reminderColon: {
+      fontSize: fontSize.lg,
+      fontWeight: fontWeight.semibold,
+      color: colors.text.tertiary,
+    },
+
+    reminderRemoveHit: {
+      padding: space.sm,
+    },
+
+    reminderAddTime: {
+      alignSelf: 'flex-start',
+      paddingVertical: space.sm,
+      paddingHorizontal: space.none,
+    },
+
+    reminderAddTimeLabel: {
+      fontSize: fontSize.md,
+      fontWeight: fontWeight.semibold,
+      color: colors.primary.main,
+    },
+
+    reminderAddTimeDisabled: {
+      color: colors.text.faint,
+    },
+
     notesInput: {
       minHeight: 88,
       paddingTop: space.md,
