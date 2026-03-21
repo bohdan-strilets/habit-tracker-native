@@ -2,6 +2,7 @@ import { PRESS_SPRING } from '@constants/pressSpring';
 import { useHabitStats } from '@hooks/useHabitStats';
 import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -17,6 +18,7 @@ export const HabitSummaryCard = ({
   onPress,
   variant = 'elevated',
 }: HabitSummaryCardProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
   const styles = useMemo(() => createHabitSummaryCardStyles(theme), [theme]);
 
@@ -38,7 +40,7 @@ export const HabitSummaryCard = ({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityHint="Opens habit details"
+      accessibilityHint={t('habitCard.openDetails')}
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
@@ -56,12 +58,12 @@ export const HabitSummaryCard = ({
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
             <Text style={styles.statValue}>🔥 {streak}</Text>
-            <Text style={styles.statLabel}>Streak</Text>
+            <Text style={styles.statLabel}>{t('habitSummary.streak')}</Text>
           </View>
 
           <View style={styles.statItem}>
             <Text style={styles.statValue}>📊 {completionRate}%</Text>
-            <Text style={styles.statLabel}>Completion</Text>
+            <Text style={styles.statLabel}>{t('habitSummary.completion')}</Text>
           </View>
         </View>
       </Animated.View>

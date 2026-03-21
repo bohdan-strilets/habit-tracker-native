@@ -8,6 +8,7 @@ import { hexToRgba } from '@utils/hexToRgba';
 import { hapticReorderHoldTick } from '@utils/safeHaptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -31,6 +32,7 @@ export const HabitCard = ({
   showInlineDone = true,
   onLongPressReorder,
 }: HabitCardProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
   const styles = useMemo(() => createHabitCardStyles(theme), [theme]);
 
@@ -123,8 +125,8 @@ export const HabitCard = ({
           accessibilityRole="button"
           accessibilityHint={
             onLongPressReorder
-              ? 'Opens habit details. Light ticks while holding mean reorder is almost ready; keep holding to lift and move.'
-              : 'Opens habit details'
+              ? t('habitCard.openDetailsReorderHint')
+              : t('habitCard.openDetails')
           }
           onPress={() => onOpenDetails(habit.id)}
           onLongPress={
@@ -152,11 +154,13 @@ export const HabitCard = ({
             {habit.categoryLabel ? (
               <Text style={styles.categoryMeta} numberOfLines={1}>
                 {habit.categoryLabel}
-                {habit.frequency === 'weekly' ? ' · Weekly' : ''}
+                {habit.frequency === 'weekly'
+                  ? ` · ${t('habitDetails.weekly')}`
+                  : ''}
               </Text>
             ) : habit.frequency === 'weekly' ? (
               <Text style={styles.categoryMeta} numberOfLines={1}>
-                Weekly
+                {t('habitDetails.weekly')}
               </Text>
             ) : null}
 
@@ -173,7 +177,10 @@ export const HabitCard = ({
                 </Text>
                 <ProgressBar
                   progress={countProgress}
-                  accessibilityLabel={`Progress ${current} of ${target}`}
+                  accessibilityLabel={t('habitCard.progressA11y', {
+                    current,
+                    target,
+                  })}
                   accentColor={habit.accentColor?.trim()}
                 />
               </>
@@ -183,7 +190,7 @@ export const HabitCard = ({
                   habit.completedToday ? styles.statusDone : styles.statusTodo
                 }
               >
-                {habit.completedToday ? 'Done' : 'Not done'}
+                {habit.completedToday ? t('common.done') : t('common.notDone')}
               </Text>
             )}
           </View>
@@ -195,8 +202,8 @@ export const HabitCard = ({
               accessibilityRole="button"
               accessibilityLabel={
                 habit.completedToday
-                  ? 'Mark habit as not done today'
-                  : 'Mark habit as done today'
+                  ? t('homeSwipe.markUndoneA11y')
+                  : t('homeSwipe.markDoneA11y')
               }
               accessibilityState={{ selected: habit.completedToday }}
               onPress={() => onToggleDone(habit.id)}

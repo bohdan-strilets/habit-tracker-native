@@ -1,9 +1,11 @@
-import { APP_LOCALE } from '@constants/locale';
+import { localeTagForAppLanguage } from '@i18n/localeTag';
 import { PRESS_SPRING } from '@constants/pressSpring';
 import { parseLocalDateKey } from '@utils/heatmapCalendarDates';
 import { heatmapIntensityColor } from '@utils/heatmapIntensityColor';
 import { hapticHeatmapDayPress } from '@utils/safeHaptics';
-import { memo, useCallback } from 'react';
+import type { AppLanguage } from '@/types/Language';
+import { memo, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -39,14 +41,10 @@ type DayProps = {
   isToday: boolean;
   onDayPress: (dateKey: string) => void;
   todayRingColor: string;
+  localeKey: string;
 };
 
 export type HeatmapCellProps = PadProps | DayProps;
-
-const displayDayFormatter = new Intl.DateTimeFormat(APP_LOCALE, {
-  month: 'short',
-  day: 'numeric',
-});
 
 type HeatmapDayCellProps = {
   dateKey: string;
@@ -55,6 +53,7 @@ type HeatmapDayCellProps = {
   isToday: boolean;
   onDayPress: (dateKey: string) => void;
   todayRingColor: string;
+  localeKey: string;
 };
 
 const HeatmapDayCell = memo(function HeatmapDayCell({
@@ -64,11 +63,29 @@ const HeatmapDayCell = memo(function HeatmapDayCell({
   isToday,
   onDayPress,
   todayRingColor,
+  localeKey,
 }: HeatmapDayCellProps) {
+  const { t } = useTranslation();
   const bg = heatmapIntensityColor(completed, total);
-  const when = displayDayFormatter.format(parseLocalDateKey(dateKey));
+  const when = useMemo(() => {
+    const locale = localeTagForAppLanguage(localeKey as AppLanguage);
+    const displayDayFormatter = new Intl.DateTimeFormat(locale, {
+      month: 'short',
+      day: 'numeric',
+    });
+    return displayDayFormatter.format(parseLocalDateKey(dateKey));
+  }, [dateKey, localeKey]);
   const ratioLabel =
-    total > 0 ? `${Math.round((completed / total) * 100)}%` : 'no habits';
+    total > 0
+      ? `${Math.round((completed / total) * 100)}%`
+      : t('heatmap.cellNoHabits');
+
+  const a11yLabel = t('heatmap.dayCellA11y', {
+    date: when,
+    completed,
+    total,
+    ratio: ratioLabel,
+  });
 
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({
@@ -95,7 +112,7 @@ const HeatmapDayCell = memo(function HeatmapDayCell({
       onPress={onPress}
       hitSlop={4}
       accessibilityRole="button"
-      accessibilityLabel={`${when}, ${completed} of ${total} habits completed, ${ratioLabel}`}
+      accessibilityLabel={a11yLabel}
       style={styles.pressableSlot}
     >
       <Animated.View
@@ -124,7 +141,8 @@ function areDayCellPropsEqual(
     a.total === b.total &&
     a.isToday === b.isToday &&
     a.todayRingColor === b.todayRingColor &&
-    a.onDayPress === b.onDayPress
+    a.onDayPress === b.onDayPress &&
+    a.localeKey === b.localeKey
   );
 }
 
@@ -163,6 +181,7 @@ function HeatmapCellInner(props: HeatmapCellProps) {
       isToday={props.isToday}
       onDayPress={props.onDayPress}
       todayRingColor={props.todayRingColor}
+      localeKey={props.localeKey}
     />
   );
 }
@@ -180,7 +199,8 @@ function propsEqual(a: HeatmapCellProps, b: HeatmapCellProps): boolean {
       a.total === b.total &&
       a.isToday === b.isToday &&
       a.todayRingColor === b.todayRingColor &&
-      a.onDayPress === b.onDayPress
+      a.onDayPress === b.onDayPress &&
+      a.localeKey === b.localeKey
     );
   }
   return false;

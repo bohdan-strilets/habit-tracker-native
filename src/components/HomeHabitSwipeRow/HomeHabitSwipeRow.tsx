@@ -14,6 +14,7 @@ import {
   hapticSwipeSnapDone,
 } from '@utils/safeHaptics';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -41,6 +42,7 @@ export const HomeHabitSwipeRow = ({
   onBeginReorder,
   reorderLifted = false,
 }: HomeHabitSwipeRowProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
   const { activeRowId, setActiveRowId } = useHomeSwipe();
 
@@ -165,16 +167,14 @@ export const HomeHabitSwipeRow = ({
     <View
       style={styles.rowWrap}
       accessibilityHint={
-        onBeginReorder
-          ? 'Swipe left to show Done, swipe right for edit and delete. Hold on the card about one second to reorder active habits.'
-          : 'Swipe left to show Done, swipe right for edit and delete'
+        onBeginReorder ? t('homeSwipe.hintReorder') : t('homeSwipe.hint')
       }
     >
       <View style={styles.track}>
         <View style={[styles.leftStrip, { width: LEFT_OPEN }]}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Edit habit"
+            accessibilityLabel={t('homeSwipe.editA11y')}
             style={({ pressed }) => [
               styles.leftAction,
               styles.leftActionEdit,
@@ -187,11 +187,11 @@ export const HomeHabitSwipeRow = ({
               size={22}
               color={theme.colors.text.inverse}
             />
-            <Text style={styles.actionLabel}>Edit</Text>
+            <Text style={styles.actionLabel}>{t('homeSwipe.stripEdit')}</Text>
           </Pressable>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Delete habit"
+            accessibilityLabel={t('homeSwipe.deleteA11y')}
             style={({ pressed }) => [
               styles.leftAction,
               styles.leftActionDelete,
@@ -204,7 +204,7 @@ export const HomeHabitSwipeRow = ({
               size={22}
               color={theme.colors.text.inverse}
             />
-            <Text style={styles.actionLabel}>Delete</Text>
+            <Text style={styles.actionLabel}>{t('homeSwipe.stripDelete')}</Text>
           </Pressable>
         </View>
 
@@ -220,8 +220,8 @@ export const HomeHabitSwipeRow = ({
             accessibilityRole="button"
             accessibilityLabel={
               habit.completedToday
-                ? 'Mark habit as not done today'
-                : 'Mark habit as done today'
+                ? t('homeSwipe.markUndoneA11y')
+                : t('homeSwipe.markDoneA11y')
             }
             accessibilityState={{ selected: habit.completedToday }}
             onPress={onPressDoneInStrip}

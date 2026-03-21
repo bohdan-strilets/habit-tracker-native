@@ -1,4 +1,4 @@
-import { APP_LOCALE } from '@constants/locale';
+import { localeTagForAppLanguage } from '@i18n/localeTag';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 import {
@@ -19,6 +19,7 @@ import {
   useMemo,
   useRef,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Animated,
   Pressable,
@@ -30,12 +31,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createDayDetailsSheetStyles } from './DayDetailsSheet.styles';
 import type { DayDetailsSheetProps } from './DayDetailsSheet.types';
 
-const SNAP_POINTS: (string | number)[] = ['35%', '60%'];
+import type { AppLanguage } from '@/types/Language';
 
-const headerDateFormatter = new Intl.DateTimeFormat(APP_LOCALE, {
-  month: 'short',
-  day: 'numeric',
-});
+const SNAP_POINTS: (string | number)[] = ['35%', '60%'];
 
 type SheetStyles = ReturnType<typeof createDayDetailsSheetStyles>;
 
@@ -86,6 +84,7 @@ const DayDetailsHabitRow = memo(function DayDetailsHabitRow({
   iconTintDone,
   iconTintTodo,
 }: HabitRowProps) {
+  const { t } = useTranslation();
   const accentShell = useMemo(() => {
     const hex = accentColor?.trim();
     if (!hex) {
@@ -131,7 +130,7 @@ const DayDetailsHabitRow = memo(function DayDetailsHabitRow({
               {title}
             </Text>
             <Text style={completed ? rowStyles.statusDone : rowStyles.statusTodo}>
-              {completed ? 'Done' : 'Not done'}
+              {completed ? t('common.done') : t('common.notDone')}
             </Text>
           </View>
           <View style={rowStyles.trailingIconSlot}>
@@ -152,6 +151,7 @@ const DayDetailsHabitRow = memo(function DayDetailsHabitRow({
 }, areHabitRowEqual);
 
 export const DayDetailsSheet = ({ date, onClose }: DayDetailsSheetProps) => {
+  const { t, i18n } = useTranslation();
   const { theme } = useAppTheme();
   const { habits } = useHabit();
   const insets = useSafeAreaInsets();
@@ -193,15 +193,19 @@ export const DayDetailsSheet = ({ date, onClose }: DayDetailsSheetProps) => {
     [habits, date],
   );
 
-  const headerTitle = useMemo(
-    () => headerDateFormatter.format(parseLocalDateKey(date)),
-    [date],
-  );
+  const headerTitle = useMemo(() => {
+    const locale = localeTagForAppLanguage(i18n.language as AppLanguage);
+    const formatter = new Intl.DateTimeFormat(locale, {
+      month: 'short',
+      day: 'numeric',
+    });
+    return formatter.format(parseLocalDateKey(date));
+  }, [date, i18n.language]);
 
   const headerSubtitle = useMemo(() => {
     if (total === 0) return null;
-    return `${String(percent)}% completion`;
-  }, [percent, total]);
+    return t('daySheet.completion', { pct: percent });
+  }, [percent, total, t]);
 
   const contentOpacity = useRef(new Animated.Value(0)).current;
 
@@ -274,7 +278,9 @@ export const DayDetailsSheet = ({ date, onClose }: DayDetailsSheetProps) => {
                 <Text style={styles.headerCompletionBig}>
                   {String(completed)} / {String(total)}
                 </Text>
-                <Text style={styles.headerCompletedLabel}>completed</Text>
+                <Text style={styles.headerCompletedLabel}>
+                  {t('daySheet.completedLabel')}
+                </Text>
                 {headerSubtitle != null ? (
                   <Text style={styles.headerSubtitle}>{headerSubtitle}</Text>
                 ) : null}
@@ -284,9 +290,9 @@ export const DayDetailsSheet = ({ date, onClose }: DayDetailsSheetProps) => {
 
           {total === 0 ? (
             <View style={styles.emptyWrap}>
-              <Text style={styles.emptyTitle}>No habits tracked</Text>
+              <Text style={styles.emptyTitle}>{t('daySheet.emptyTitle')}</Text>
               <Text style={styles.emptySubtitle}>
-                Start building your routine 💪
+                {t('daySheet.emptySubtitle')}
               </Text>
             </View>
           ) : (

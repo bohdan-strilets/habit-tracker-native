@@ -8,6 +8,7 @@ import { getCurrentLocalDateString } from '@utils/getCurrentLocalDateString';
 import { getHabitCategoryLabel } from '@utils/getHabitCategoryLabel';
 import { hexToRgba } from '@utils/hexToRgba';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -23,6 +24,7 @@ export const HabitDetailsOverviewCard = ({
   badgeTextAnimatedStyle,
   statPulseStyle,
 }: HabitDetailsOverviewCardProps) => {
+  const { t, i18n } = useTranslation();
   const { theme } = useAppTheme();
   const styles = useMemo(
     () => createHabitDetailsOverviewCardStyles(theme.colors),
@@ -50,18 +52,17 @@ export const HabitDetailsOverviewCard = ({
 
   const categoryLabel = habit.category
     ? getHabitCategoryLabel(habit.category)
-    : '—';
+    : t('common.dash');
+
   const freqLabel =
     habit.frequency === 'weekly'
-      ? 'Weekly'
-      : habit.frequency === 'daily'
-        ? 'Daily'
-        : 'Daily';
+      ? t('habitDetails.weekly')
+      : t('habitDetails.daily');
 
   const trackingLine =
     kind === 'count'
-      ? `Number goal · ${target} per day`
-      : 'Checklist · once per day';
+      ? t('habitDetails.numberGoal', { target })
+      : t('habitDetails.checklist');
 
   const heroShellStyle = useMemo(() => {
     const hex = habit.accentColor?.trim();
@@ -77,7 +78,7 @@ export const HabitDetailsOverviewCard = ({
 
   const reminderDetails = useMemo(
     () => formatHabitReminderDetailsText(habit),
-    [habit],
+    [habit, i18n.language],
   );
 
   return (
@@ -112,22 +113,28 @@ export const HabitDetailsOverviewCard = ({
           <Animated.Text style={[styles.statusText, badgeTextAnimatedStyle]}>
             {isDoneToday
               ? kind === 'count'
-                ? 'Goal met today'
-                : 'Done today'
+                ? t('habitDetails.goalMet')
+                : t('habitDetails.doneToday')
               : kind === 'count'
-                ? 'Goal not met yet today'
-                : 'Not done yet today'}
+                ? t('habitDetails.goalNotMet')
+                : t('habitDetails.notDoneYet')}
           </Animated.Text>
         </Animated.View>
 
         {kind === 'count' ? (
           <View style={styles.todayRow}>
             <Text style={styles.todayCaption}>
-              Today · {todayCount} / {target}
+              {t('habitDetails.todayCaption', {
+                count: todayCount,
+                target,
+              })}
             </Text>
             <ProgressBar
               progress={countProgress}
-              accessibilityLabel={`Today ${todayCount} of ${target}`}
+              accessibilityLabel={t('habitDetails.todayA11y', {
+                count: todayCount,
+                target,
+              })}
               accentColor={habit.accentColor?.trim()}
             />
           </View>
@@ -137,26 +144,28 @@ export const HabitDetailsOverviewCard = ({
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>{streak}</Text>
-              <Text style={styles.statLabel}>Day streak</Text>
+              <Text style={styles.statLabel}>{t('habitDetails.dayStreak')}</Text>
             </View>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>{completionRate}%</Text>
-              <Text style={styles.statLabel}>Log completion</Text>
+              <Text style={styles.statLabel}>
+                {t('habitDetails.logCompletion')}
+              </Text>
             </View>
           </View>
         </Animated.View>
       </Card>
 
       <Card>
-        <Text style={shared.sectionHeading}>About</Text>
+        <Text style={shared.sectionHeading}>{t('habitDetails.about')}</Text>
 
-        <Text style={styles.blockTitle}>How you track it</Text>
+        <Text style={styles.blockTitle}>{t('habitDetails.howYouTrack')}</Text>
         <Text style={styles.trackingValue}>{trackingLine}</Text>
 
         {habit.notes ? (
           <>
             <Text style={[styles.blockTitle, styles.blockTitleSpaced]}>
-              Notes
+              {t('habitDetails.notes')}
             </Text>
             <View style={styles.notesBox}>
               <Text style={styles.notesText}>{habit.notes}</Text>
@@ -165,7 +174,7 @@ export const HabitDetailsOverviewCard = ({
         ) : null}
 
         <Text style={[styles.blockTitle, styles.blockTitleSpaced]}>
-          Notifications
+          {t('habitDetails.notifications')}
         </Text>
         {reminderDetails ? (
           reminderDetails.map((line, i) => (
@@ -181,21 +190,22 @@ export const HabitDetailsOverviewCard = ({
           ))
         ) : (
           <Text style={styles.reminderMuted}>
-            Reminders are off, or no times are set. Turn them on under Edit
-            habit.
+            {t('habitDetails.remindersMuted')}
           </Text>
         )}
 
         <View style={styles.metaFoot}>
           <View style={styles.metaRow}>
             <View style={styles.metaCell}>
-              <Text style={styles.metaLabel}>Created</Text>
+              <Text style={styles.metaLabel}>{t('habitDetails.created')}</Text>
               <Text style={styles.metaValue}>
-                {habit.createdAt ? formatYyyyMmDdLong(habit.createdAt) : '—'}
+                {habit.createdAt
+                  ? formatYyyyMmDdLong(habit.createdAt)
+                  : t('common.dash')}
               </Text>
             </View>
             <View style={styles.metaCell}>
-              <Text style={styles.metaLabel}>Log entries</Text>
+              <Text style={styles.metaLabel}>{t('habitDetails.logEntries')}</Text>
               <Text style={styles.metaValue}>{checkInsTotal}</Text>
             </View>
           </View>

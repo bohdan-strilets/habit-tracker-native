@@ -1,6 +1,6 @@
 import type { HeatmapCalendarStyles } from '@components/HeatmapCalendar/HeatmapCalendar.styles';
 import { HEATMAP_CELL_SIZE, HeatmapCell } from '@components/HeatmapCell';
-import { APP_LOCALE } from '@constants/locale';
+import { localeTagForAppLanguage } from '@i18n/localeTag';
 import {
   type HeatmapCellModel,
   type HeatmapColumnModel,
@@ -9,25 +9,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
-const WEEKDAY_SHORT_MON0: readonly string[] = (() => {
-  const fmt = new Intl.DateTimeFormat(APP_LOCALE, { weekday: 'short' });
+import type { AppLanguage } from '@/types/Language';
+
+function buildSparseWeekdayLabels(localeKey: string): readonly (string | null)[] {
+  const locale = localeTagForAppLanguage(localeKey as AppLanguage);
+  const fmt = new Intl.DateTimeFormat(locale, { weekday: 'short' });
   const monday = new Date(2024, 0, 1);
-  return Array.from({ length: 7 }, (_, i) => {
+  const week = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
     return fmt.format(d);
   });
-})();
-
-const SPARSE_DAY_LABELS: readonly (string | null)[] = [
-  WEEKDAY_SHORT_MON0[0],
-  null,
-  WEEKDAY_SHORT_MON0[2],
-  null,
-  WEEKDAY_SHORT_MON0[4],
-  null,
-  null,
-];
+  return [week[0], null, week[2], null, week[4], null, null];
+}
 
 type HeatmapWeekColumnProps = {
   column: HeatmapColumnModel;
@@ -35,6 +29,7 @@ type HeatmapWeekColumnProps = {
   onDayPress: (dateKey: string) => void;
   todayKey: string;
   todayRingColor: string;
+  localeKey: string;
 };
 
 function areWeekColumnPropsEqual(
@@ -46,7 +41,8 @@ function areWeekColumnPropsEqual(
     a.gridStyles === b.gridStyles &&
     a.onDayPress === b.onDayPress &&
     a.todayKey === b.todayKey &&
-    a.todayRingColor === b.todayRingColor
+    a.todayRingColor === b.todayRingColor &&
+    a.localeKey === b.localeKey
   );
 }
 
@@ -56,6 +52,7 @@ const HeatmapWeekColumn = memo(function HeatmapWeekColumn({
   onDayPress,
   todayKey,
   todayRingColor,
+  localeKey,
 }: HeatmapWeekColumnProps) {
   return (
     <View style={gridStyles.weekColumn}>
@@ -85,6 +82,7 @@ const HeatmapWeekColumn = memo(function HeatmapWeekColumn({
               isToday={cell.dateKey === todayKey}
               onDayPress={onDayPress}
               todayRingColor={todayRingColor}
+              localeKey={localeKey}
             />
           );
         })}
@@ -103,6 +101,8 @@ export type HeatmapCalendarGridProps = {
   /** Mirrors prior scroll effect deps: data identity + column count. */
   scrollDependency: unknown;
   columnsLength: number;
+  /** `i18n.language` — refreshes weekday labels and cell date formatting. */
+  localeKey: string;
 };
 
 export const HeatmapCalendarGrid = ({
@@ -114,8 +114,14 @@ export const HeatmapCalendarGrid = ({
   fadeSurfaceColor,
   scrollDependency,
   columnsLength,
+  localeKey,
 }: HeatmapCalendarGridProps) => {
   const scrollRef = useRef<ScrollView>(null);
+
+  const sparseDayLabels = useMemo(
+    () => buildSparseWeekdayLabels(localeKey),
+    [localeKey],
+  );
 
   const scrollToEnd = useCallback(() => {
     scrollRef.current?.scrollToEnd({ animated: false });
@@ -140,7 +146,7 @@ export const HeatmapCalendarGrid = ({
     <View style={gridStyles.row}>
       <View style={gridStyles.dayLabelColumn}>
         <View style={dayLabelsStackStyle}>
-          {SPARSE_DAY_LABELS.map((label, idx) => (
+          {sparseDayLabels.map((label, idx) => (
             <View key={`dl-${String(idx)}`} style={gridStyles.dayLabelCell}>
               {label ? (
                 <Text style={gridStyles.dayLabelText} numberOfLines={1}>
@@ -171,6 +177,7 @@ export const HeatmapCalendarGrid = ({
                 onDayPress={onDayPress}
                 todayKey={todayKey}
                 todayRingColor={todayRingColor}
+                localeKey={localeKey}
               />
             ))}
           </View>

@@ -3,22 +3,27 @@ import { getDayTimeline, getProgressDaysSummary } from '@domain/habitActivity';
 import { useAppTheme } from '@theme';
 import { formatYyyyMmDdDateOnly } from '@utils/date';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { createHabitProgressSectionStyles } from './HabitProgressSection.styles';
 import type { HabitProgressSectionProps } from './HabitProgressSection.types';
 
 export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
+  const { t, i18n } = useTranslation();
   const { theme } = useAppTheme();
   const styles = useMemo(
     () => createHabitProgressSectionStyles(theme.colors),
     [theme.colors],
   );
 
-  const progressDays = useMemo(() => getProgressDaysSummary(habit), [habit]);
+  const progressDays = useMemo(
+    () => getProgressDaysSummary(habit),
+    [habit, i18n.language],
+  );
   const timeline = useMemo(
     () => getDayTimeline(habit, HABIT_DETAILS_TIMELINE_DAYS),
-    [habit],
+    [habit, i18n.language],
   );
 
   const kind = habit.kind ?? 'boolean';
@@ -27,14 +32,11 @@ export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.sectionTitle}>
-        Last {HABIT_DETAILS_TIMELINE_DAYS} days
+        {t('habitProgress.lastDays', { days: HABIT_DETAILS_TIMELINE_DAYS })}
       </Text>
       <Text style={styles.sectionHint}>
-        Oldest on the left, today on the right. Solid dot = goal met that day.
-        Ring = part of your current streak.
-        {kind === 'count' && target > 1
-          ? ' Under the dot: progress toward today’s target.'
-          : ''}
+        {t('habitProgress.hint')}
+        {kind === 'count' && target > 1 ? t('habitProgress.hintCount') : ''}
       </Text>
 
       <View style={styles.timelineRow}>
@@ -49,7 +51,9 @@ export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
                 style={[styles.weekday, isToday && styles.weekdayTodayLabel]}
                 numberOfLines={1}
               >
-                {isToday ? 'Today' : cell.weekdayShort.replace(/\.$/, '')}
+                {isToday
+                  ? t('habitProgress.today')
+                  : cell.weekdayShort.replace(/\.$/, '')}
               </Text>
               <Text style={styles.dayNum}>{cell.dayOfMonth}</Text>
               <View
@@ -74,16 +78,16 @@ export const HabitProgressSection = ({ habit }: HabitProgressSectionProps) => {
       </View>
 
       <Text style={[styles.sectionTitle, styles.secondTitle]}>
-        Saved log entries
+        {t('habitProgress.savedLogs')}
       </Text>
       <Text style={styles.sectionHint}>
         {kind === 'count'
-          ? 'Newest first. Each row is a day you logged progress; the value is your count toward the daily goal.'
-          : 'Newest first. Each row is a day you marked this habit done.'}
+          ? t('habitProgress.hintLogsCount')
+          : t('habitProgress.hintLogsBool')}
       </Text>
 
       {progressDays.length === 0 ? (
-        <Text style={styles.emptyList}>No check-ins yet</Text>
+        <Text style={styles.emptyList}>{t('habitProgress.noCheckIns')}</Text>
       ) : (
         <View style={styles.list}>
           {progressDays.map((row) => (

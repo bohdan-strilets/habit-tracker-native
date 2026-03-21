@@ -1,6 +1,7 @@
 import { ProgressBar } from '@components/ProgressBar';
 import { useAppTheme } from '@theme';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, Text } from 'react-native';
 
 import { createHomeTodayProgressSectionStyles } from './HomeTodayProgressSection.styles';
@@ -12,6 +13,7 @@ export const HomeTodayProgressSection = ({
   total,
   onOutsidePress,
 }: HomeTodayProgressSectionProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
   const styles = useMemo(
     () => createHomeTodayProgressSectionStyles(theme),
@@ -27,13 +29,19 @@ export const HomeTodayProgressSection = ({
       onPress={onOutsidePress}
       disabled={!onOutsidePress}
     >
-      <Text style={styles.progressTitle}>{"Today's progress"}</Text>
+      <Text style={styles.progressTitle}>{t('home.progressTitle')}</Text>
       <ProgressBar
         progress={progress}
-        accessibilityLabel={`${completedCount} of ${total} habits completed`}
+        accessibilityLabel={t('home.progressA11y', {
+          completed: completedCount,
+          total,
+        })}
       />
       <Text style={styles.progressSummary}>
-        {completedCount} of {total} habits completed
+        {t('home.progressSummary', {
+          completed: completedCount,
+          total,
+        })}
       </Text>
     </Pressable>
   );

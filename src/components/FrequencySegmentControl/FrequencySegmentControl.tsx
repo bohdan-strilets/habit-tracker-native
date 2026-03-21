@@ -1,5 +1,6 @@
 import { PRESS_SPRING } from '@constants/pressSpring';
 import { useAppTheme } from '@theme';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LayoutChangeEvent, Pressable, View } from 'react-native';
 import Animated, {
@@ -25,6 +26,7 @@ export const FrequencySegmentControl = ({
   value,
   onChange,
 }: FrequencySegmentControlProps) => {
+  const { t } = useTranslation();
   const { theme } = useAppTheme();
   const styles = useMemo(
     () => createFrequencySegmentStyles(theme.colors),
@@ -78,7 +80,7 @@ export const FrequencySegmentControl = ({
   return (
     <View
       accessibilityRole="radiogroup"
-      accessibilityLabel="Frequency"
+      accessibilityLabel={t('frequency.groupA11y')}
       style={styles.track}
       onLayout={onTrackLayout}
     >
@@ -87,7 +89,7 @@ export const FrequencySegmentControl = ({
         <Pressable
           accessibilityRole="radio"
           accessibilityState={{ selected: value === 'daily' }}
-          accessibilityLabel="Daily"
+          accessibilityLabel={t('frequency.dailyA11y')}
           onPress={() => onChange('daily')}
           style={({ pressed }) => [
             styles.segment,
@@ -95,13 +97,13 @@ export const FrequencySegmentControl = ({
           ]}
         >
           <Animated.Text style={[styles.label, dailyTextStyle]}>
-            Daily
+            {t('frequency.daily')}
           </Animated.Text>
         </Pressable>
         <Pressable
           accessibilityRole="radio"
           accessibilityState={{ selected: value === 'weekly' }}
-          accessibilityLabel="Weekly"
+          accessibilityLabel={t('frequency.weeklyA11y')}
           onPress={() => onChange('weekly')}
           style={({ pressed }) => [
             styles.segment,
@@ -109,7 +111,7 @@ export const FrequencySegmentControl = ({
           ]}
         >
           <Animated.Text style={[styles.label, weeklyTextStyle]}>
-            Weekly
+            {t('frequency.weekly')}
           </Animated.Text>
         </Pressable>
       </View>

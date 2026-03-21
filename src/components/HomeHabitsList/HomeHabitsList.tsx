@@ -1,10 +1,6 @@
 import { HomeHabitReorderLift } from '@components/HomeHabitReorderLift';
 import { HomeHabitSwipeRow } from '@components/HomeHabitSwipeRow';
-import {
-  LIST_REORDER_SPRING,
-  SECTION_ACTIVE,
-  SECTION_COMPLETED,
-} from '@constants/homeHabitsList';
+import { LIST_REORDER_SPRING } from '@constants/homeHabitsList';
 import { useHomeSwipe } from '@hooks/useHomeSwipe';
 import { radii, useAppTheme } from '@theme';
 import { hapticReorderLift, hapticReorderRelease } from '@utils/safeHaptics';
@@ -34,14 +30,26 @@ export const HomeHabitsList = ({
     [theme.colors],
   );
 
-  const { active, completed } = useMemo(() => {
+  const { active, completed, activeTitle, completedTitle } = useMemo(() => {
     let activeRows: HomeScreenHabit[] = [];
     let completedRows: HomeScreenHabit[] = [];
+    let activeHeader = '';
+    let completedHeader = '';
     for (const s of sections) {
-      if (s.title === SECTION_ACTIVE) activeRows = s.data;
-      else if (s.title === SECTION_COMPLETED) completedRows = s.data;
+      if (s.key === 'active') {
+        activeRows = s.data;
+        activeHeader = s.title;
+      } else if (s.key === 'completed') {
+        completedRows = s.data;
+        completedHeader = s.title;
+      }
     }
-    return { active: activeRows, completed: completedRows };
+    return {
+      active: activeRows,
+      completed: completedRows,
+      activeTitle: activeHeader,
+      completedTitle: completedHeader,
+    };
   }, [sections]);
 
   const renderActiveItem = useCallback(
@@ -116,7 +124,7 @@ export const HomeHabitsList = ({
       {active.length > 0 ? (
         <>
           <Pressable onPress={dismissOpenSwipe}>
-            <Text style={styles.sectionHeader}>{SECTION_ACTIVE}</Text>
+            <Text style={styles.sectionHeader}>{activeTitle}</Text>
           </Pressable>
           <NestableDraggableFlatList
             data={active}
@@ -135,7 +143,7 @@ export const HomeHabitsList = ({
       {completed.length > 0 ? (
         <>
           <Pressable onPress={dismissOpenSwipe}>
-            <Text style={styles.sectionHeader}>{SECTION_COMPLETED}</Text>
+            <Text style={styles.sectionHeader}>{completedTitle}</Text>
           </Pressable>
           {completed.map((habit) => (
             <HomeHabitSwipeRow
