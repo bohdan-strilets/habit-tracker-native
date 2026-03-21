@@ -1,7 +1,18 @@
 import { HabitCard } from '@components/HabitCard';
+import {
+  DRAG_OVERSHOOT_LEFT,
+  DRAG_OVERSHOOT_RIGHT,
+  LEFT_OPEN,
+  REVEAL_FRACTION,
+  RIGHT_OPEN,
+} from '@constants/homeHabitSwipeRow';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useHomeSwipe } from '@hooks/useHomeSwipe';
 import { layout, useAppTheme } from '@theme';
+import {
+  hapticSwipeSnapActions,
+  hapticSwipeSnapDone,
+} from '@utils/safeHaptics';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -12,13 +23,6 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-import {
-  DRAG_OVERSHOOT_LEFT,
-  DRAG_OVERSHOOT_RIGHT,
-  LEFT_OPEN,
-  REVEAL_FRACTION,
-  RIGHT_OPEN,
-} from './HomeHabitSwipeRow.constants';
 import { createHomeHabitSwipeRowStyles } from './HomeHabitSwipeRow.styles';
 import type { HomeHabitSwipeRowProps } from './HomeHabitSwipeRow.types';
 
@@ -34,6 +38,8 @@ export const HomeHabitSwipeRow = ({
   onEditHabit,
   onToggleDone,
   onDelete,
+  onBeginReorder,
+  reorderLifted = false,
 }: HomeHabitSwipeRowProps) => {
   const { theme } = useAppTheme();
   const { activeRowId, setActiveRowId } = useHomeSwipe();
@@ -96,6 +102,7 @@ export const HomeHabitSwipeRow = ({
 
   const panGesture = useMemo(() => {
     return Gesture.Pan()
+      .enabled(!reorderLifted)
       .activeOffsetX([-14, 14])
       .onBegin(() => {
         startX.value = translateX.value;
@@ -110,6 +117,7 @@ export const HomeHabitSwipeRow = ({
         const x = translateX.value;
 
         if (x < -RIGHT_OPEN * REVEAL_FRACTION) {
+          runOnJS(hapticSwipeSnapDone)();
           translateX.value = withSpring(
             -RIGHT_OPEN,
             SNAP_SPRING,
@@ -121,6 +129,7 @@ export const HomeHabitSwipeRow = ({
         }
 
         if (x > LEFT_OPEN * REVEAL_FRACTION) {
+          runOnJS(hapticSwipeSnapActions)();
           translateX.value = withSpring(LEFT_OPEN, SNAP_SPRING, (finished) => {
             if (finished) runOnJS(onOpenedLeft)();
           });
@@ -131,7 +140,7 @@ export const HomeHabitSwipeRow = ({
           if (finished) runOnJS(onClosedSnap)();
         });
       });
-  }, [onClosedSnap, onOpenedLeft, onOpenedRight]);
+  }, [onClosedSnap, onOpenedLeft, onOpenedRight, reorderLifted]);
 
   const slideStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
@@ -155,7 +164,11 @@ export const HomeHabitSwipeRow = ({
   return (
     <View
       style={styles.rowWrap}
-      accessibilityHint="Swipe left to show Done, swipe right for edit and delete"
+      accessibilityHint={
+        onBeginReorder
+          ? 'Swipe left to show Done, swipe right for edit and delete. Hold on the card about one second to reorder active habits.'
+          : 'Swipe left to show Done, swipe right for edit and delete'
+      }
     >
       <View style={styles.track}>
         <View style={[styles.leftStrip, { width: LEFT_OPEN }]}>
@@ -254,6 +267,9 @@ export const HomeHabitSwipeRow = ({
               showInlineDone={false}
               onOpenDetails={handleCardOpenDetails}
               onToggleDone={onToggleDone}
+              onLongPressReorder={
+                onBeginReorder && !reorderLifted ? onBeginReorder : undefined
+              }
             />
           </Animated.View>
         </GestureDetector>

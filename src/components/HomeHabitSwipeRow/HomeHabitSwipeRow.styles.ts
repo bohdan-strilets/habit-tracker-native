@@ -1,8 +1,7 @@
+import { HOME_SWIPE_ACTION_WIDTH } from '@constants/homeHabitSwipeRow';
 import type { ColorPalette } from '@theme';
 import { fontSize, fontWeight, radii, space } from '@theme';
 import { StyleSheet } from 'react-native';
-
-import { HOME_SWIPE_ACTION_WIDTH } from './HomeHabitSwipeRow.constants';
 
 export const createHomeHabitSwipeRowStyles = (colors: ColorPalette) =>
   StyleSheet.create({
