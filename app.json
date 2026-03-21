@@ -11,6 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#e3f2fd"
     },
-    "plugins": ["expo-notifications"]
+    "plugins": [
+      "expo-notifications",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Allow Bloom to use the microphone for voice input when you hold the dictation button.",
+          "speechRecognitionPermission": "Allow Bloom to transcribe your speech into habit fields."
+        }
+      ]
+    ]
   }
 }
