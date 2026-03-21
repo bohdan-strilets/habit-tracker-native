@@ -11,10 +11,15 @@ import { StyleSheet } from 'react-native';
 
 export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
   StyleSheet.create({
+    cardsColumn: {
+      alignSelf: 'stretch',
+      gap: space['5xl'],
+    },
+
     heroShell: {
       borderRadius: radii.lg,
       padding: space.base,
-      marginBottom: space.xl,
+      marginBottom: space.none,
       overflow: 'hidden',
     },
 
@@ -70,12 +75,6 @@ export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
       color: colors.text.secondary,
     },
 
-    sectionDivider: {
-      height: StyleSheet.hairlineWidth,
-      backgroundColor: colors.border.hairline,
-      marginVertical: space.lg,
-    },
-
     blockTitle: {
       fontSize: fontSize.sm,
       fontWeight: fontWeight.semibold,
@@ -83,6 +82,10 @@ export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
       letterSpacing: letterSpacing.label,
       color: colors.text.hint,
       marginBottom: space.sm,
+    },
+
+    blockTitleSpaced: {
+      marginTop: space['6xl'],
     },
 
     trackingValue: {
@@ -93,7 +96,7 @@ export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
     },
 
     todayRow: {
-      marginTop: space.sm,
+      marginTop: space.lg,
     },
 
     todayCaption: {
@@ -135,6 +138,13 @@ export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
       color: colors.text.hint,
     },
 
+    metaFoot: {
+      marginTop: space['6xl'],
+      paddingTop: space.lg,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: colors.border.hairline,
+    },
+
     metaRow: {
       flexDirection: 'row',
       gap: space.base,
@@ -164,8 +174,8 @@ export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       gap: space.base,
-      marginTop: space.xl,
-      marginBottom: space.lg,
+      marginTop: space['5xl'],
+      marginBottom: space.none,
       paddingTop: space.lg,
       borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: colors.border.hairline,
@@ -196,6 +206,7 @@ export const createHabitDetailsOverviewCardStyles = (colors: ColorPalette) =>
 
     statusBadge: {
       alignSelf: 'flex-start',
+      marginTop: space.lg,
       paddingHorizontal: space.mdPlus,
       paddingVertical: space.smPlus,
       borderRadius: radii.pill,
