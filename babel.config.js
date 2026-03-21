@@ -19,6 +19,7 @@ module.exports = function (api) {
             '@store': './src/store',
             '@theme': './src/theme',
             '@utils': './src/utils',
+            '@i18n': './src/i18n',
           },
           extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
         },

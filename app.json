@@ -19,7 +19,8 @@
           "microphonePermission": "Allow Bloom to use the microphone for voice input when you hold the dictation button.",
           "speechRecognitionPermission": "Allow Bloom to transcribe your speech into habit fields."
         }
-      ]
+      ],
+      "expo-localization"
     ]
   }
 }
