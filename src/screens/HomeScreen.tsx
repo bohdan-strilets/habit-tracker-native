@@ -8,6 +8,7 @@ import { HomeTodayProgressSection } from '@components/HomeTodayProgressSection';
 import { useHomeScreen } from '@hooks/useHomeScreen';
 import { useHomeSwipe } from '@hooks/useHomeSwipe';
 import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
 export const HomeScreen = () => {
@@ -35,6 +36,8 @@ export const HomeScreen = () => {
 
   const { dismissOpenSwipe } = useHomeSwipe();
 
+  const hasHabits = habits.length > 0;
+
   const onOpenDetailsDismissSwipe = (id: string) => {
     dismissOpenSwipe();
     onOpenDetails(id);
@@ -43,8 +46,8 @@ export const HomeScreen = () => {
   return (
     <HomeScreenFrame>
       <NestableScrollContainer
-        style={{ flex: 1 }}
-        contentContainerStyle={{ flexGrow: 1 }}
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         onScrollBeginDrag={dismissOpenSwipe}
@@ -54,35 +57,41 @@ export const HomeScreen = () => {
           userName={userName}
           dateLine={dateLine}
           globalStreak={globalStreak}
+          showStreak={hasHabits}
           onOutsidePress={dismissOpenSwipe}
         />
-        <HeatmapCalendar
-          data={heatmapData}
-          endDate={heatmapEndDate}
-          onDayPress={setSelectedDate}
-        />
-        <HomeTodayProgressSection
-          progress={progress}
-          completedCount={completedCount}
-          total={total}
-          onOutsidePress={dismissOpenSwipe}
-        />
-        {habits.length === 0 ? (
-          <EmptyState
-            title="No habits yet"
-            buttonLabel="Create your first habit"
-            onPress={onCreateFirstHabit}
-          />
+        {hasHabits ? (
+          <>
+            <HeatmapCalendar
+              data={heatmapData}
+              endDate={heatmapEndDate}
+              onDayPress={setSelectedDate}
+            />
+            <HomeTodayProgressSection
+              progress={progress}
+              completedCount={completedCount}
+              total={total}
+              onOutsidePress={dismissOpenSwipe}
+            />
+            <HomeHabitsList
+              sections={sections}
+              habitsSnapshot={habits}
+              onOpenDetails={onOpenDetailsDismissSwipe}
+              onEditHabit={onEditHabit}
+              onToggleDone={onToggleDone}
+              onDeleteHabit={onDeleteHabit}
+              onReorderActiveHabits={onReorderActiveHabits}
+            />
+          </>
         ) : (
-          <HomeHabitsList
-            sections={sections}
-            habitsSnapshot={habits}
-            onOpenDetails={onOpenDetailsDismissSwipe}
-            onEditHabit={onEditHabit}
-            onToggleDone={onToggleDone}
-            onDeleteHabit={onDeleteHabit}
-            onReorderActiveHabits={onReorderActiveHabits}
-          />
+          <View style={styles.emptyRegion}>
+            <EmptyState
+              title="No habits yet"
+              subtitle="Add your first habit to track progress, build streaks, and see your activity on the calendar."
+              buttonLabel="Create your first habit"
+              onPress={onCreateFirstHabit}
+            />
+          </View>
         )}
       </NestableScrollContainer>
       {selectedDate != null ? (
@@ -95,3 +104,18 @@ export const HomeScreen = () => {
     </HomeScreenFrame>
   );
 };
+
+const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  /** Fills space below the header so the empty state is centered in the remainder, not the full screen. */
+  emptyRegion: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: 32,
+  },
+});
