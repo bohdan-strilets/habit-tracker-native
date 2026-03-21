@@ -4,6 +4,9 @@ import type { ViewStyle } from 'react-native';
 
 export type ColorScheme = 'light' | 'dark';
 
+/** User-facing choice; `system` follows OS light/dark via `useColorScheme`. */
+export type ThemePreference = 'light' | 'dark' | 'system';
+
 export type ColorPalette = typeof colorsLight;
 
 export type ThemeGradients = typeof gradientsLight;

@@ -1,9 +1,8 @@
-import type { ColorScheme } from '@theme/types';
+import type { ThemePreference } from '@theme/types';
 
 export type ThemeStore = {
-  scheme: ColorScheme;
+  preference: ThemePreference;
   ready: boolean;
-  setScheme: (s: ColorScheme) => void;
-  toggleScheme: () => void;
+  setPreference: (p: ThemePreference) => void;
   hydrateFromStorage: () => Promise<void>;
 };

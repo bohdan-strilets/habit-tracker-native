@@ -29,6 +29,7 @@ export type {
   ColorPalette,
   ColorScheme,
   ThemeGradients,
+  ThemePreference,
   ThemeShadows,
 } from './types';
 export { THEME_STORAGE_KEY } from '@constants/storageKeys';

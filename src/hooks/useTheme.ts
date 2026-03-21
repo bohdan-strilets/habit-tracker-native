@@ -4,10 +4,9 @@ import { useShallow } from 'zustand/react/shallow';
 export function useTheme() {
   return useThemeStore(
     useShallow((s) => ({
-      scheme: s.scheme,
+      preference: s.preference,
       ready: s.ready,
-      setScheme: s.setScheme,
-      toggleScheme: s.toggleScheme,
+      setPreference: s.setPreference,
       hydrateFromStorage: s.hydrateFromStorage,
     })),
   );
