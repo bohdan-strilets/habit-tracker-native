@@ -21,7 +21,6 @@ export const AddHabitScreen = () => {
     setTrackAsCount,
     targetStr,
     setTargetStr,
-    entranceKey,
     submitNewHabit,
     reminderEnabled,
     changeReminderEnabled,
@@ -68,7 +67,6 @@ export const AddHabitScreen = () => {
           reminderWeekdays={reminderWeekdays}
           onToggleReminderWeekday={toggleReminderWeekday}
           onSave={submitNewHabit}
-          entrancePlayKey={entranceKey}
         />
       </AddHabitScreenScroll>
     </AddHabitScreenFrame>

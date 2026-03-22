@@ -13,7 +13,7 @@ import {
 } from '@constants/habitReminders';
 import type { MainTabParamList } from '@navigation/types';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { generateId } from '@utils/generateId';
 import { getCurrentLocalDateString } from '@utils/getCurrentLocalDateString';
 import {
@@ -26,7 +26,7 @@ import {
   reminderFieldsToTimes,
   sanitizeReminderTimeDigitInput,
 } from '@utils/habitReminderTimes';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import type { Habit, HabitCategoryId, HabitFrequency } from '@/types/Habit';
 
@@ -60,8 +60,6 @@ export const useAddHabitScreen = () => {
   const [reminderWeekdays, setReminderWeekdays] = useState<number[]>([
     ...ALL_REMINDER_WEEKDAYS,
   ]);
-  const [entranceKey, setEntranceKey] = useState(0);
-  const skipEntranceBump = useRef(true);
 
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
   const { addHabit } = useHabit();
@@ -171,16 +169,6 @@ export const useAddHabitScreen = () => {
     [],
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      if (skipEntranceBump.current) {
-        skipEntranceBump.current = false;
-        return;
-      }
-      setEntranceKey((k) => k + 1);
-    }, []),
-  );
-
   const submitNewHabit = useCallback(() => {
     const name = title.trim();
     if (!name) return;
@@ -264,7 +252,6 @@ export const useAddHabitScreen = () => {
     setTrackAsCount,
     targetStr,
     setTargetStr,
-    entranceKey,
     submitNewHabit,
     reminderEnabled,
     changeReminderEnabled,
