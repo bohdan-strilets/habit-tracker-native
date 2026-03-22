@@ -20,7 +20,8 @@
           "speechRecognitionPermission": "Allow Bloom to transcribe your speech into habit fields."
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-font"
     ]
   }
 }
