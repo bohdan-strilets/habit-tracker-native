@@ -1,6 +1,7 @@
 import { Surface } from '@components/Surface';
 import { localeTagForAppLanguage } from '@i18n/localeTag';
 import { radii, space, useAppTheme } from '@theme';
+import { hexToRgb } from '@utils/hexToRgba';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, useWindowDimensions, View } from 'react-native';
@@ -10,15 +11,6 @@ import type { AppLanguage } from '@/types/Language';
 
 import { createStatsChartStyles } from './StatsChart.styles';
 import type { StatsChartProps } from './StatsChart.types';
-
-function hexToRgb(hex: string): { r: number; g: number; b: number } {
-  const h = hex.replace('#', '');
-  return {
-    r: parseInt(h.slice(0, 2), 16),
-    g: parseInt(h.slice(2, 4), 16),
-    b: parseInt(h.slice(4, 6), 16),
-  };
-}
 
 function formatAxisDay(
   yyyyMmDd: string,
