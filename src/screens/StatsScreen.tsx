@@ -1,4 +1,5 @@
 import { DayDetailsSheet } from '@components/DayDetailsSheet';
+import { FadeSlideIn } from '@components/FadeSlideIn';
 import { HeatmapCalendar } from '@components/HeatmapCalendar';
 import { ScreenBackground } from '@components/ScreenBackground';
 import { StatsCard } from '@components/StatsCard';
@@ -57,56 +58,64 @@ export const StatsScreen = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {showDemoHint ? (
-          <Text
-            style={{
-              fontSize: fontSize.sm,
-              color: theme.colors.text.hint,
-            }}
-          >
-            {t('stats.demoDataHint')}
-          </Text>
-        ) : null}
+        <FadeSlideIn index={0}>
+          <View>
+            {showDemoHint ? (
+              <Text
+                style={{
+                  fontSize: fontSize.sm,
+                  color: theme.colors.text.hint,
+                }}
+              >
+                {t('stats.demoDataHint')}
+              </Text>
+            ) : null}
 
-        <View style={{ gap: space.sm }}>
-          <View style={styles.kpiRow}>
-            <StatsCard
-              style={styles.kpiItem}
-              icon="🔥"
-              value={String(bestStreak)}
-              label={t('stats.kpiBestStreak')}
-            />
-            <StatsCard
-              style={styles.kpiItem}
-              icon="📈"
-              value={`${completionPct}%`}
-              label={t('stats.kpiCompletionRate')}
-            />
-            <StatsCard
-              style={styles.kpiItem}
-              icon="📅"
-              value={String(totalDone)}
-              label={t('stats.kpiTotalCompleted')}
-            />
+            <View style={{ gap: space.sm }}>
+              <View style={styles.kpiRow}>
+                <StatsCard
+                  style={styles.kpiItem}
+                  icon="🔥"
+                  value={String(bestStreak)}
+                  label={t('stats.kpiBestStreak')}
+                />
+                <StatsCard
+                  style={styles.kpiItem}
+                  icon="📈"
+                  value={`${completionPct}%`}
+                  label={t('stats.kpiCompletionRate')}
+                />
+                <StatsCard
+                  style={styles.kpiItem}
+                  icon="📅"
+                  value={String(totalDone)}
+                  label={t('stats.kpiTotalCompleted')}
+                />
+              </View>
+              <Text
+                style={{
+                  fontSize: fontSize.xs,
+                  lineHeight: fontSize.xs * 1.45,
+                  color: theme.colors.text.hint,
+                }}
+              >
+                {t('stats.kpiPeriodHint')}
+              </Text>
+            </View>
           </View>
-          <Text
-            style={{
-              fontSize: fontSize.xs,
-              lineHeight: fontSize.xs * 1.45,
-              color: theme.colors.text.hint,
-            }}
-          >
-            {t('stats.kpiPeriodHint')}
-          </Text>
-        </View>
+        </FadeSlideIn>
 
-        <HeatmapCalendar
-          data={heatmapDays}
-          endDate={heatmapEndDate}
-          onDayPress={setSelectedDate}
-        />
+        <FadeSlideIn index={1}>
+          <HeatmapCalendar
+            data={heatmapDays}
+            endDate={heatmapEndDate}
+            onDayPress={setSelectedDate}
+          />
+        </FadeSlideIn>
 
-        <StatsChart days={chartDays} />
+        <FadeSlideIn index={2}>
+          <StatsChart days={chartDays} />
+        </FadeSlideIn>
       </ScrollView>
       {selectedDate != null ? (
         <DayDetailsSheet

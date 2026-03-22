@@ -1,4 +1,5 @@
 import { EmptyState } from '@components/EmptyState';
+import { FadeSlideIn } from '@components/FadeSlideIn';
 import { HomeHabitsList } from '@components/HomeHabitsList';
 import { HomeScreenFrame } from '@components/HomeScreenFrame';
 import { HomeScreenHeader } from '@components/HomeScreenHeader';
@@ -48,41 +49,49 @@ export const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
         onScrollBeginDrag={dismissOpenSwipe}
       >
-        <HomeScreenHeader
-          greeting={greeting}
-          userName={userName}
-          dateLine={dateLine}
-          globalStreak={globalStreak}
-          showStreak={hasHabits}
-          onOutsidePress={dismissOpenSwipe}
-        />
+        <FadeSlideIn index={0}>
+          <HomeScreenHeader
+            greeting={greeting}
+            userName={userName}
+            dateLine={dateLine}
+            globalStreak={globalStreak}
+            showStreak={hasHabits}
+            onOutsidePress={dismissOpenSwipe}
+          />
+        </FadeSlideIn>
         {hasHabits ? (
           <>
-            <HomeTodayProgressSection
-              progress={progress}
-              completedCount={completedCount}
-              total={total}
-              onOutsidePress={dismissOpenSwipe}
-            />
-            <HomeHabitsList
-              sections={sections}
-              habitsSnapshot={habits}
-              onOpenDetails={onOpenDetailsDismissSwipe}
-              onEditHabit={onEditHabit}
-              onToggleDone={onToggleDone}
-              onDeleteHabit={onDeleteHabit}
-              onReorderActiveHabits={onReorderActiveHabits}
-            />
+            <FadeSlideIn index={1}>
+              <HomeTodayProgressSection
+                progress={progress}
+                completedCount={completedCount}
+                total={total}
+                onOutsidePress={dismissOpenSwipe}
+              />
+            </FadeSlideIn>
+            <FadeSlideIn index={2}>
+              <HomeHabitsList
+                sections={sections}
+                habitsSnapshot={habits}
+                onOpenDetails={onOpenDetailsDismissSwipe}
+                onEditHabit={onEditHabit}
+                onToggleDone={onToggleDone}
+                onDeleteHabit={onDeleteHabit}
+                onReorderActiveHabits={onReorderActiveHabits}
+              />
+            </FadeSlideIn>
           </>
         ) : (
-          <View style={styles.emptyRegion}>
-            <EmptyState
-              title={t('home.emptyTitle')}
-              subtitle={t('home.emptySubtitle')}
-              buttonLabel={t('home.emptyButton')}
-              onPress={onCreateFirstHabit}
-            />
-          </View>
+          <FadeSlideIn index={1}>
+            <View style={styles.emptyRegion}>
+              <EmptyState
+                title={t('home.emptyTitle')}
+                subtitle={t('home.emptySubtitle')}
+                buttonLabel={t('home.emptyButton')}
+                onPress={onCreateFirstHabit}
+              />
+            </View>
+          </FadeSlideIn>
         )}
       </NestableScrollContainer>
     </HomeScreenFrame>
