@@ -15,6 +15,7 @@ export const HomeScreen = () => {
 
   const {
     userName,
+    focusLine,
     greeting,
     dateLine,
     globalStreak,
@@ -53,6 +54,7 @@ export const HomeScreen = () => {
           <HomeScreenHeader
             greeting={greeting}
             userName={userName}
+            focusLine={focusLine}
             dateLine={dateLine}
             globalStreak={globalStreak}
             showStreak={hasHabits}

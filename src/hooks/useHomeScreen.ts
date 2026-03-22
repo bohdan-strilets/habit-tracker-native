@@ -1,20 +1,21 @@
-import { localeTagForAppLanguage } from '@i18n/localeTag';
 import { getStreak } from '@domain/habit';
+import { localeTagForAppLanguage } from '@i18n/localeTag';
 import type { HomeStackParamList, MainTabParamList } from '@navigation/types';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useOnboardingProfileStore } from '@store/useOnboardingProfileStore';
 import { habitToHomeScreenHabit } from '@utils/habitToHomeScreenHabit';
-import type { AppLanguage } from '@/types/Language';
-import type { HomeScreenHabitSection } from '@/types/homeScreen';
+import { onboardingGoalLabel } from '@utils/onboardingGoalLabel';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
 
-import { useHabit } from './useHabit';
+import type { HomeScreenHabitSection } from '@/types/homeScreen';
+import type { AppLanguage } from '@/types/Language';
 
-const USER_NAME = 'Bohdan';
+import { useHabit } from './useHabit';
 
 type HomeNav = CompositeNavigationProp<
   NativeStackNavigationProp<HomeStackParamList, 'Home'>,
@@ -31,6 +32,8 @@ export const useHomeScreen = () => {
     removeHabit,
     reorderActiveHabits,
   } = useHabit();
+
+  const onboardingProfile = useOnboardingProfileStore((s) => s.profile);
 
   useEffect(() => {
     if (
@@ -56,6 +59,17 @@ export const useHomeScreen = () => {
     if (hour < 17) return t('greeting.afternoon');
     return t('greeting.evening');
   }, [now, t]);
+
+  const userName = useMemo(() => {
+    const n = onboardingProfile?.name?.trim();
+    return n && n.length > 0 ? n : t('home.userNameFallback');
+  }, [onboardingProfile?.name, t]);
+
+  const focusLine = useMemo(() => {
+    const gid = onboardingProfile?.goalId;
+    if (!gid) return undefined;
+    return onboardingGoalLabel(gid, t);
+  }, [onboardingProfile?.goalId, t]);
 
   const rows = useMemo(() => habits.map(habitToHomeScreenHabit), [habits]);
 
@@ -148,7 +162,8 @@ export const useHomeScreen = () => {
   );
 
   return {
-    userName: USER_NAME,
+    userName,
+    focusLine,
     greeting,
     dateLine,
     globalStreak,

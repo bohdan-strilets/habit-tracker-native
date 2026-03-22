@@ -25,6 +25,12 @@ export const createHomeScreenHeaderStyles = (theme: AppTheme) =>
       color: theme.colors.text.display,
       letterSpacing: letterSpacing.headline,
     },
+    focusLine: {
+      marginTop: space.xs,
+      fontSize: fontSize.lg,
+      fontWeight: fontWeight.medium,
+      color: theme.colors.text.muted,
+    },
     date: {
       marginTop: space.xs,
       fontSize: fontSize.lg,

@@ -9,6 +9,7 @@ import type { HomeScreenHeaderProps } from './HomeScreenHeader.types';
 export const HomeScreenHeader = ({
   greeting,
   userName,
+  focusLine,
   dateLine,
   globalStreak,
   showStreak = true,
@@ -31,6 +32,11 @@ export const HomeScreenHeader = ({
           <Text style={styles.greeting}>
             {greeting}, {userName}
           </Text>
+          {focusLine ? (
+            <Text style={styles.focusLine} numberOfLines={2}>
+              {focusLine}
+            </Text>
+          ) : null}
           <Text style={styles.date}>{dateLine}</Text>
         </View>
         {showStreak ? (
