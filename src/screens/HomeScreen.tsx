@@ -1,20 +1,16 @@
-import { DayDetailsSheet } from '@components/DayDetailsSheet';
 import { EmptyState } from '@components/EmptyState';
-import { HeatmapCalendar } from '@components/HeatmapCalendar';
 import { HomeHabitsList } from '@components/HomeHabitsList';
 import { HomeScreenFrame } from '@components/HomeScreenFrame';
 import { HomeScreenHeader } from '@components/HomeScreenHeader';
 import { HomeTodayProgressSection } from '@components/HomeTodayProgressSection';
 import { useHomeScreen } from '@hooks/useHomeScreen';
 import { useHomeSwipe } from '@hooks/useHomeSwipe';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
 export const HomeScreen = () => {
   const { t } = useTranslation();
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const {
     userName,
@@ -22,8 +18,6 @@ export const HomeScreen = () => {
     dateLine,
     globalStreak,
     habits,
-    heatmapData,
-    heatmapEndDate,
     sections,
     progress,
     completedCount,
@@ -64,11 +58,6 @@ export const HomeScreen = () => {
         />
         {hasHabits ? (
           <>
-            <HeatmapCalendar
-              data={heatmapData}
-              endDate={heatmapEndDate}
-              onDayPress={setSelectedDate}
-            />
             <HomeTodayProgressSection
               progress={progress}
               completedCount={completedCount}
@@ -96,13 +85,6 @@ export const HomeScreen = () => {
           </View>
         )}
       </NestableScrollContainer>
-      {selectedDate != null ? (
-        <DayDetailsSheet
-          key={selectedDate}
-          date={selectedDate}
-          onClose={() => setSelectedDate(null)}
-        />
-      ) : null}
     </HomeScreenFrame>
   );
 };
@@ -114,7 +96,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
   },
-  /** Fills space below the header so the empty state is centered in the remainder, not the full screen. */
   emptyRegion: {
     flexGrow: 1,
     justifyContent: 'center',

@@ -18,15 +18,35 @@ export default {
   },
   tabs: {
     home: 'Home',
+    stats: 'Statistics',
     addHabit: 'Add habit',
     settings: 'Settings',
   },
   header: {
     newHabit: 'New habit',
+    statistics: 'Statistics',
     settings: 'Settings',
     goBack: 'Go back',
     habitFallback: 'Habit',
     habitNameA11y: 'Habit name {{name}}',
+  },
+  stats: {
+    kpiBestStreak: 'Best streak',
+    kpiCompletionRate: 'Completion rate',
+    kpiTotalCompleted: 'Total completed',
+    kpiPeriodHint:
+      'Summary cards use the last 90 days. The chart below shows the last 30 days.',
+    chartTitle: 'Last 30 days',
+    chartDescription:
+      'Number of habits you marked done each day (out of those scheduled that day).',
+    chartMetricAvg: 'Daily average',
+    chartMetricMax: 'Best day',
+    chartMetricActive: 'Active days',
+    chartMetricActiveValue: '{{active}} / {{total}}',
+    chartFootnote:
+      'Vertical axis: habits completed that day. Flat segments mean no progress that day.',
+    chartEmpty: 'No activity in this period yet.',
+    demoDataHint: 'Sample data — add habits to see your real statistics.',
   },
   habitSummary: {
     streak: 'Streak',

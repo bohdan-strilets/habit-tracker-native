@@ -18,15 +18,36 @@ export default {
   },
   tabs: {
     home: 'Start',
+    stats: 'Statystyki',
     addHabit: 'Dodaj nawyk',
     settings: 'Ustawienia',
   },
   header: {
     newHabit: 'Nowy nawyk',
+    statistics: 'Statystyki',
     settings: 'Ustawienia',
     goBack: 'Wstecz',
     habitFallback: 'Nawyk',
     habitNameA11y: 'Nazwa nawyku {{name}}',
+  },
+  stats: {
+    kpiBestStreak: 'Najdłuższa seria',
+    kpiCompletionRate: 'Wskaźnik realizacji',
+    kpiTotalCompleted: 'Łącznie ukończono',
+    kpiPeriodHint:
+      'Karty podsumowania: ostatnie 90 dni. Wykres poniżej: ostatnie 30 dni.',
+    chartTitle: 'Ostatnie 30 dni',
+    chartDescription:
+      'Ile nawyków oznaczyłeś jako zrobione każdego dnia (spośród zaplanowanych).',
+    chartMetricAvg: 'Średnio dziennie',
+    chartMetricMax: 'Najlepszy dzień',
+    chartMetricActive: 'Dni z postępem',
+    chartMetricActiveValue: '{{active}} / {{total}}',
+    chartFootnote:
+      'Oś pionowa: ukończone nawyki danego dnia. Poziomy odcinek = brak postępu.',
+    chartEmpty: 'Brak aktywności w tym okresie.',
+    demoDataHint:
+      'Przykładowe dane — dodaj nawyki, aby zobaczyć prawdziwe statystyki.',
   },
   habitSummary: {
     streak: 'Seria',

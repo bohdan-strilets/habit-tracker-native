@@ -18,15 +18,36 @@ export default {
   },
   tabs: {
     home: 'Головна',
+    stats: 'Статистика',
     addHabit: 'Додати звичку',
     settings: 'Налаштування',
   },
   header: {
     newHabit: 'Нова звичка',
+    statistics: 'Статистика',
     settings: 'Налаштування',
     goBack: 'Назад',
     habitFallback: 'Звичка',
     habitNameA11y: 'Назва звички {{name}}',
+  },
+  stats: {
+    kpiBestStreak: 'Найкраща серія',
+    kpiCompletionRate: 'Відсоток виконання',
+    kpiTotalCompleted: 'Усього виконано',
+    kpiPeriodHint:
+      'Картки зверху: останні 90 днів. Графік нижче: останні 30 днів.',
+    chartTitle: 'Останні 30 днів',
+    chartDescription:
+      'Скільки звичок ви позначили виконаними щодня (з тих, що заплановані на цей день).',
+    chartMetricAvg: 'Середнє за день',
+    chartMetricMax: 'Найкращий день',
+    chartMetricActive: 'Дні з прогресом',
+    chartMetricActiveValue: '{{active}} / {{total}}',
+    chartFootnote:
+      'Вісь Y: виконані звички за день. Рівна лінія — день без виконань.',
+    chartEmpty: 'Поки немає активності за цей період.',
+    demoDataHint:
+      'Приклад даних — додайте звички, щоб бачити справжню статистику.',
   },
   habitSummary: {
     streak: 'Серія',

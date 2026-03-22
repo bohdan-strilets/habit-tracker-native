@@ -2,7 +2,7 @@ import { AppHeader } from '@components/AppHeader';
 import { AppTabBar } from '@components/AppTabBar';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AddHabitScreen, SettingsScreen } from '@screens';
+import { AddHabitScreen, SettingsScreen, StatsScreen } from '@screens';
 import {
   getTabBarContainerStyle,
   layout,
@@ -50,6 +50,23 @@ export const MainTabNavigator = () => {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
+              size={layout.tabIconSize}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Stats"
+        component={StatsScreen}
+        options={{
+          headerShown: true,
+          header: () => <AppHeader subtitle={t('header.statistics')} />,
+          title: t('tabs.stats'),
+          tabBarAccessibilityLabel: t('tabs.stats'),
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'stats-chart' : 'stats-chart-outline'}
               size={layout.tabIconSize}
               color={color}
             />

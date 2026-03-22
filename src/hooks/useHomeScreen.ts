@@ -5,7 +5,6 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { buildHeatmapDaysFromHabits } from '@utils/buildHeatmapDaysFromHabits';
 import { habitToHomeScreenHabit } from '@utils/habitToHomeScreenHabit';
 import type { AppLanguage } from '@/types/Language';
 import type { HomeScreenHabitSection } from '@/types/homeScreen';
@@ -89,14 +88,6 @@ export const useHomeScreen = () => {
 
   const progress = total > 0 ? completedCount / total : 0;
 
-  const { heatmapData, heatmapEndDate } = useMemo(() => {
-    const end = new Date();
-    return {
-      heatmapData: buildHeatmapDaysFromHabits(habits, end, 90),
-      heatmapEndDate: end,
-    };
-  }, [habits]);
-
   const onToggleDone = useCallback(
     (id: string) => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -162,8 +153,6 @@ export const useHomeScreen = () => {
     dateLine,
     globalStreak,
     habits,
-    heatmapData,
-    heatmapEndDate,
     sections,
     progress,
     completedCount,
