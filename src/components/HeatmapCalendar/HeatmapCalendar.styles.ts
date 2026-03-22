@@ -32,10 +32,6 @@ export const createHeatmapCalendarStyles = (
   metrics: HeatmapLayoutMetrics,
 ) =>
   StyleSheet.create({
-    outer: {
-      marginHorizontal: space.base,
-      marginBottom: space.base,
-    },
     title: {
       fontSize: fontSize.sm,
       fontWeight: fontWeight.semibold,

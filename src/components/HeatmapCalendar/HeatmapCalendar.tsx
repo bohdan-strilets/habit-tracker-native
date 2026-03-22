@@ -84,43 +84,41 @@ export const HeatmapCalendar = ({
   const fadeSurfaceColor = theme.colors.background.surface;
 
   return (
-    <View style={gridStyles.outer}>
-      <Card padding={space.base} radius={radii.md}>
-        <Text style={gridStyles.title}>{t('heatmap.title')}</Text>
-        <Text style={gridStyles.subtitle}>{t('heatmap.subtitle')}</Text>
-        <HeatmapCalendarGrid
-          columns={columns}
-          gridStyles={gridStyles}
-          todayKey={todayKey}
-          todayRingColor={todayRingColor}
-          onDayPress={handleDayPress}
-          fadeSurfaceColor={fadeSurfaceColor}
-          scrollDependency={data}
-          columnsLength={columns.length}
-          localeKey={i18n.language}
-        />
+    <Card padding={space.xl} radius={radii.lg}>
+      <Text style={gridStyles.title}>{t('heatmap.title')}</Text>
+      <Text style={gridStyles.subtitle}>{t('heatmap.subtitle')}</Text>
+      <HeatmapCalendarGrid
+        columns={columns}
+        gridStyles={gridStyles}
+        todayKey={todayKey}
+        todayRingColor={todayRingColor}
+        onDayPress={handleDayPress}
+        fadeSurfaceColor={fadeSurfaceColor}
+        scrollDependency={data}
+        columnsLength={columns.length}
+        localeKey={i18n.language}
+      />
 
-        <View style={gridStyles.legendBlock}>
-          <View style={gridStyles.legendRow}>
-            <Text style={gridStyles.legendLabel}>{t('heatmap.legendLess')}</Text>
-            <Text style={gridStyles.legendArrow} accessibilityElementsHidden>
-              →
-            </Text>
-            <View style={gridStyles.legendSwatches}>
-              {LEGEND_SWATCH_KEYS.map((k) => (
-                <View
-                  key={k}
-                  style={[gridStyles.legendSwatch, gridStyles[k]]}
-                />
-              ))}
-            </View>
-            <Text style={gridStyles.legendArrow} accessibilityElementsHidden>
-              →
-            </Text>
-            <Text style={gridStyles.legendLabel}>{t('heatmap.legendMore')}</Text>
+      <View style={gridStyles.legendBlock}>
+        <View style={gridStyles.legendRow}>
+          <Text style={gridStyles.legendLabel}>{t('heatmap.legendLess')}</Text>
+          <Text style={gridStyles.legendArrow} accessibilityElementsHidden>
+            →
+          </Text>
+          <View style={gridStyles.legendSwatches}>
+            {LEGEND_SWATCH_KEYS.map((k) => (
+              <View
+                key={k}
+                style={[gridStyles.legendSwatch, gridStyles[k]]}
+              />
+            ))}
           </View>
+          <Text style={gridStyles.legendArrow} accessibilityElementsHidden>
+            →
+          </Text>
+          <Text style={gridStyles.legendLabel}>{t('heatmap.legendMore')}</Text>
         </View>
-      </Card>
-    </View>
+      </View>
+    </Card>
   );
 };
