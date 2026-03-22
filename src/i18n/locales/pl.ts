@@ -6,7 +6,7 @@ export default {
     continue: 'Kontynuuj',
     tryAgain: 'Spróbuj ponownie',
     back: 'Wstecz',
-    loading: 'Wczytywanie zapisanych nawyków',
+    loading: 'Wczytywanie nawyków…',
     done: 'Zrobione',
     notDone: 'Niezrobione',
     optional: 'Opcjonalne',
@@ -32,22 +32,22 @@ export default {
   },
   stats: {
     kpiBestStreak: 'Najdłuższa seria',
-    kpiCompletionRate: 'Wskaźnik realizacji',
-    kpiTotalCompleted: 'Łącznie ukończono',
+    kpiCompletionRate: 'Realizacja',
+    kpiTotalCompleted: 'Łącznie zrobione',
     kpiPeriodHint:
-      'Karty podsumowania: ostatnie 90 dni. Wykres poniżej: ostatnie 30 dni.',
+      'Karty: ostatnie 90 dni. Wykres: ostatnie 30 dni.',
     chartTitle: 'Ostatnie 30 dni',
     chartDescription:
-      'Ile nawyków oznaczyłeś jako zrobione każdego dnia (spośród zaplanowanych).',
+      'Zaplanowane nawyki ukończone każdego dnia.',
     chartMetricAvg: 'Średnio dziennie',
     chartMetricMax: 'Najlepszy dzień',
     chartMetricActive: 'Dni z postępem',
     chartMetricActiveValue: '{{active}} / {{total}}',
     chartFootnote:
-      'Oś pionowa: ukończone nawyki danego dnia. Poziomy odcinek = brak postępu.',
-    chartEmpty: 'Brak aktywności w tym okresie.',
+      'Wysokość = liczba ukończonych nawyków. Poziomy odcinek = brak postępu.',
+    chartEmpty: 'Na razie nic w tym okresie.',
     demoDataHint:
-      'Przykładowe dane — dodaj nawyki, aby zobaczyć prawdziwe statystyki.',
+      'To podgląd — dodaj nawyki, aby zobaczyć swoje dane.',
   },
   habitSummary: {
     streak: 'Seria',
@@ -55,7 +55,7 @@ export default {
   },
   habitCard: {
     openDetailsReorderHint:
-      'Otwiera szczegóły nawyku. Lekkie sygnały przy przytrzymaniu oznaczają, że zmiana kolejności jest prawie gotowa; trzymaj dalej, aby podnieść i przenieść.',
+      'Otwiera szczegóły. Przytrzymaj, aż karta się podniesie, potem przeciągnij, by zmienić kolejność.',
     openDetails: 'Otwiera szczegóły nawyku',
     progressA11y: 'Postęp {{current}} z {{target}}',
   },
@@ -69,18 +69,18 @@ export default {
     sectionCompleted: 'Dziś ukończone',
     emptyTitle: 'Brak nawyków',
     emptySubtitle:
-      'Dodaj pierwszy nawyk, aby śledzić postęp, serie i aktywność w kalendarzu.',
-    emptyButton: 'Utwórz pierwszy nawyk',
+      'Dodaj nawyk, aby śledzić postęp, serie i wypełniać mapę aktywności.',
+    emptyButton: 'Dodaj pierwszy nawyk',
     progressTitle: 'Dzisiejszy postęp',
     progressSummary: '{{completed}} z {{total}} nawyków ukończonych',
     progressA11y: '{{completed}} z {{total}} nawyków ukończonych',
     deleteTitle: 'Usuń nawyk',
-    deleteMessage: 'Tej operacji nie można cofnąć.',
+    deleteMessage: 'Nawyk i jego historia zostaną usunięte z tego urządzenia.',
   },
   heatmap: {
     title: 'Ostatnie 90 dni',
     subtitle:
-      'Wiersze to dni tygodnia (pon–nd), kolumny to tygodnie. Ciemniejszy zielony — większy udział ukończonych nawyków tego dnia. Dotknij pola, aby zobaczyć liczby.',
+      'Każde pole to dzień. Wiersze pon–nd, kolumny to tygodnie. Ciemniejszy zielony — więcej ukończeń. Dotknij, by zobaczyć liczby.',
     legendLess: 'Mniej',
     legendMore: 'Więcej',
     dayCellA11y:
@@ -89,22 +89,22 @@ export default {
   },
   homeHabitsHeader: {
     headline: 'Moje nawyki',
-    lead: 'Dotknij nawyk, aby zobaczyć szczegóły, {{days}}-dniową oś czasu i oznaczyć dziś. Przycisk poniżej dodaje kolejny.',
+    lead: 'Dotknij nawyk — szczegóły i ostatnie {{days}} dni. Przycisk poniżej dodaje kolejny.',
     addButton: '+ Dodaj nawyk',
   },
   storageGate: {
-    errorTitle: 'Nie udało się wczytać zapisanych nawyków',
+    errorTitle: 'Nie udało się wczytać nawyków',
   },
   settings: {
     remindersTitle: 'Przypomnienia',
     remindersLead:
-      'Przypomnienia są wysyłane lokalnie na tym urządzeniu o wybranych porach. Wymagane jest pozwolenie na powiadomienia systemowe.',
+      'Przypomnienia pojawiają się na tym urządzeniu o ustawionych porach. Zezwól na powiadomienia, gdy system poprosi.',
     status: 'Status',
     allowNotifications: 'Zezwól na powiadomienia',
     openSystemSettings: 'Otwórz ustawienia systemowe…',
     openSystemSettingsA11y: 'Otwórz ustawienia systemowe',
     globalRulesHint:
-      'Te opcje dotyczą każdego nawyku z włączonymi przypomnieniami.',
+      'Dotyczy wszystkich nawyków z włączonymi przypomnieniami.',
     turnOffAll: 'Wyłącz wszystkie przypomnienia',
     sameTimeAll: 'Ta sama godzina dla wszystkich nawyków',
     time24h: 'Godzina (24h)',
@@ -118,11 +118,11 @@ export default {
     themeSystem: 'Systemowy',
     dataTitle: 'Dane',
     dataLead:
-      'Trwale usuń wszystkie nawyki i historię ukończeń z tego urządzenia.',
+      'Usuwa wszystkie nawyki i historię na tym urządzeniu. Tego nie cofniesz.',
     deleteAllHabits: 'Usuń wszystkie nawyki',
     aboutTitle: 'O aplikacji',
     versionLine: '{{name}} · wersja {{version}}',
-    aboutFoot: 'Dane są przechowywane lokalnie na urządzeniu.',
+    aboutFoot: 'Dane tylko na urządzeniu — konto nie jest potrzebne.',
     deleteAllTitle: 'Usuń wszystkie nawyki',
     deleteAllMessage:
       'Tej operacji nie można cofnąć. Wszystkie nawyki i historia zostaną usunięte.',
@@ -152,9 +152,9 @@ export default {
     headlineNew: 'Nowy nawyk',
     headlineEdit: 'Edytuj nawyk',
     leadNew:
-      'Wymagana jest tylko nazwa. Ikona, kolor, kategoria, notatki, częstotliwość i cel liczbowy mają wartości domyślne lub są opcjonalne — odznaki to pokazują.',
+      'Zacznij od nazwy — to jedyne wymagane pole. Reszta ma sensowne domyślne; odznaki oznaczają opcjonalne.',
     leadEdit:
-      'Zaktualizuj nazwę, wygląd lub harmonogram. Historia i wpisy pozostają.',
+      'Zmień nazwę, wygląd lub harmonogram. Poprzednie wpisy zostają.',
     appearance: 'Wygląd',
     icon: 'Ikona',
     iconA11y: 'Ikona {{emoji}}',
@@ -162,20 +162,20 @@ export default {
     colorA11y: 'Kolor {{label}}',
     basics: 'Podstawy',
     habitName: 'Nazwa nawyku',
-    namePlaceholder: 'np. Rozciąganie rano, Czytaj 10 minut',
+    namePlaceholder: 'np. Rozciąganie, Czytaj 10 min',
     nameA11y: 'Nazwa nawyku',
     voiceNameA11y: 'Przytrzymaj, aby dyktować nazwę',
     details: 'Szczegóły',
     category: 'Kategoria',
     notes: 'Notatki',
-    notesPlaceholder: 'Dlaczego to ważne, wyzwalacze, wskazówki…',
+    notesPlaceholder: 'Dlaczego to ważne, co przypomina, wskazówki…',
     notesA11y: 'Notatki do nawyku',
     voiceNotesA11y: 'Przytrzymaj, aby dyktować notatki',
     scheduleGoal: 'Harmonogram i cel',
     frequency: 'Częstotliwość',
     dailyGoal: 'Dzienny cel liczbowy',
     countHint:
-      'Włącz dla celu liczbowego (np. szklanki wody, kroki).',
+      'Dla celów mierzalnych (szklanki, kroki, strony…).',
     enableTarget: 'Włącz cel',
     trackCountA11y: 'Śledź jako liczbę w kierunku dziennego celu',
     targetPerDay: 'Cel na dzień',
@@ -184,12 +184,12 @@ export default {
     reminders: 'Przypomnienia',
     pushNotifications: 'Powiadomienia push',
     remindersHint:
-      'Lokalne powiadomienia o ustawionych porach. Dla nawyków tygodniowych możesz wybrać dni.',
+      'Powiadomienia o wybranych porach. Dla nawyków tygodniowych wybierz dni.',
     enableReminders: 'Włącz przypomnienia',
     enableRemindersA11y: 'Włącz przypomnienia o nawyku',
     reminderTimes: 'Godziny przypomnień',
     reminderTimesHint:
-      'Do {{max}} razy dziennie, zegar 24h (czas lokalny urządzenia). Tylko cyfry; puste pole — godzina 09, minuty 00.',
+      'Do {{max}} razy dziennie, zegar 24h (czas urządzenia). Tylko cyfry. Puste pole → 09:00.',
     reminderHourA11y: 'Godzina przypomnienia {{n}}',
     reminderMinuteA11y: 'Minuty przypomnienia {{n}}',
     removeReminderA11y: 'Usuń godzinę przypomnienia {{n}}',
@@ -197,19 +197,19 @@ export default {
     addAnotherTimeA11y: 'Dodaj kolejną godzinę przypomnienia',
     reminderDays: 'Dni przypomnień',
     reminderDaysHint:
-      'Nawyk tygodniowy: wybierz dni przypomnień (co najmniej jeden).',
+      'Wybierz co najmniej jeden dzień tygodnia na przypomnienia.',
     saveSection: 'Zapisz',
-    hintNeedNameNew: 'Wpisz nazwę w Podstawach, potem dotknij Utwórz nawyk.',
-    hintNeedNameEdit: 'Wpisz nazwę w Podstawach, potem zapisz zmiany.',
+    hintNeedNameNew: 'Dodaj nazwę w Podstawach, potem Utwórz nawyk.',
+    hintNeedNameEdit: 'Dodaj nazwę w Podstawach, potem zapisz.',
     createHabit: 'Utwórz nawyk',
     saveChanges: 'Zapisz zmiany',
     tipsTitle: 'Szybkie wskazówki',
     tip1:
-      '• Na liście głównej dotknij nawyk, aby przełączyć dziś lub otworzyć szczegóły z {{days}}-dniową osią.',
+      '• Na starcie dotknij nawyk — oznacz dziś lub zobacz ostatnie {{days}} dni.',
     tip2:
-      '• Na ekranie szczegółów użyj „Oznacz jako ukończone” na dziś. Po oznaczeniu przycisk jest nieaktywny do jutra.',
+      '• W szczegółach: Oznacz jako zrobione. Do jutra przycisk będzie nieaktywny.',
     tip3:
-      '• Częstotliwość (dziennie vs tygodniowo) jest zapisana w nawyku; oznaczenie dziś działa tak samo.',
+      '• Dziennie vs tygodniowo zmienia tylko harmonogram; oznaczanie dziś jest takie samo.',
     categories: {
       health: 'Zdrowie',
       fitness: 'Fitness',
@@ -257,11 +257,11 @@ export default {
     undoToday: 'Cofnij dziś',
     delete: 'Usuń nawyk',
     deleteTitle: 'Usuń nawyk',
-    deleteMessage: 'Tej operacji nie można cofnąć.',
-    notFound: 'Nie znaleziono nawyku',
+    deleteMessage: 'Nawyk i jego historia zostaną usunięte z tego urządzenia.',
+    notFound: 'Tego nawyku już nie ma',
     history: 'Historia',
     about: 'O nawyku',
-    howYouTrack: 'Jak śledzisz',
+    howYouTrack: 'Typ śledzenia',
     numberGoal: 'Cel liczbowy · {{target}} dziennie',
     checklist: 'Lista · raz dziennie',
     goalMet: 'Cel osiągnięty dziś',
@@ -275,7 +275,7 @@ export default {
     notes: 'Notatki',
     notifications: 'Powiadomienia',
     remindersMuted:
-      'Przypomnienia wyłączone lub brak godzin. Włącz w Edytuj nawyk.',
+      'Przypomnienia wyłączone lub brak godzin — włącz w Edytuj nawyk.',
     created: 'Utworzono',
     logEntries: 'Wpisy',
     weekly: 'Tygodniowo',
@@ -284,13 +284,13 @@ export default {
   habitProgress: {
     lastDays: 'Ostatnie {{days}} dni',
     hint:
-      'Najstarsze po lewej, dziś po prawej. Pełna kropka — cel osiągnięty. Obręcz — część bieżącej serii.',
+      'Starsze po lewej, dziś po prawej. Pełna kropka — cel zrobiony; obręcz — jesteś w serii.',
     hintCount: ' Pod kropką: postęp w kierunku dzisiejszego celu.',
     savedLogs: 'Zapisane wpisy',
     hintLogsCount:
-      'Od najnowszych. Każdy wiersz to dzień z postępem; wartość to licznik do dziennego celu.',
+      'Od najnowszych. Każdy wiersz to jeden dzień; liczba to postęp wobec celu.',
     hintLogsBool:
-      'Od najnowszych. Każdy wiersz to dzień, w którym oznaczono nawyk.',
+      'Od najnowszych. Każdy wiersz to dzień oznaczony jako zrobiony.',
     noCheckIns: 'Brak wpisów',
     today: 'Dziś',
   },
@@ -312,16 +312,15 @@ export default {
     habitBody: 'Otwórz Bloom i oznacz wykonanie na dziś.',
   },
   daySheet: {
-    completion: '{{pct}}% ukończenia',
-    completedLabel: 'ukończone',
-    emptyTitle: 'Brak nawyków do pokazania',
-    emptySubtitle: 'Zacznij budować rutynę 💪',
+    completion: '{{pct}}% zrobione',
+    completedLabel: 'zrobione',
+    emptyTitle: 'Brak nawyków na ten dzień',
+    emptySubtitle: 'Dodaj nawyki na starcie — pojawią się tutaj.',
   },
   homeSwipe: {
     hintReorder:
-      'Przesuń w lewo — Zrobione, w prawo — edycja i usuń. Przytrzymaj kartę ~1 s, aby zmienić kolejność aktywnych.',
-    hint:
-      'Przesuń w lewo — Zrobione, w prawo — edycja i usuń',
+      'W lewo: Zrobione · w prawo: edycja lub usuń. Przytrzymaj kartę ~1 s, by zmienić kolejność.',
+    hint: 'W lewo: Zrobione · w prawo: edycja lub usuń',
     stripEdit: 'Edytuj',
     stripDelete: 'Usuń',
     editA11y: 'Edytuj nawyk',
@@ -336,18 +335,18 @@ export default {
     devBuildA11yHint:
       'Dyktowanie głosowe wymaga wersji deweloperskiej z natywnym rozpoznawaniem mowy.',
     multilineHint:
-      'Przytrzymaj mikrofon, aby mówić; puść, aby zatrzymać.',
+      'Przytrzymaj mikrofon, mów; puść, aby zatrzymać.',
     unavailable:
-      'Rozpoznawanie mowy jest niedostępne w tej wersji (np. Expo Go). Zbuduj wersję deweloperską z kodem natywnym — npx expo run:ios lub npx expo run:android po dodaniu wtyczki expo-speech-recognition.',
+      'Niedostępne w Expo Go. Potrzebna wersja dev: npx expo run:ios lub run:android z expo-speech-recognition.',
     permission:
       'Wymagane jest pozwolenie na mikrofon i rozpoznawanie mowy, aby dyktować tekst.',
     failed: 'Rozpoznawanie mowy nie powiodło się.',
-    startFailed: 'Nie udało się uruchomić rozpoznawania na tym urządzeniu.',
+    startFailed: 'Nie udało się uruchomić rozpoznawania tutaj.',
   },
   editHabit: {
-    changeKindTitle: 'Zmienić typ nawyku?',
+    changeKindTitle: 'Zmienić typ śledzenia?',
     changeKindMessage:
-      'Już ukończone dni zostaną przeliczone na nowy styl (proste zaznaczenie vs licznik dzienny). Tego nie cofniesz.',
+      'Dotychczasowe dni zostaną przeliczone między odhaczeniem a licznikiem. Tego nie cofniesz.',
   },
   stack: {
     back: 'Wstecz',

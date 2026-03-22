@@ -6,7 +6,7 @@ export default {
     continue: 'Continue',
     tryAgain: 'Try again',
     back: 'Back',
-    loading: 'Loading saved habits',
+    loading: 'Loading your habits…',
     done: 'Done',
     notDone: 'Not done',
     optional: 'Optional',
@@ -18,35 +18,35 @@ export default {
   },
   tabs: {
     home: 'Home',
-    stats: 'Statistics',
+    stats: 'Stats',
     addHabit: 'Add habit',
     settings: 'Settings',
   },
   header: {
     newHabit: 'New habit',
-    statistics: 'Statistics',
+    statistics: 'Stats',
     settings: 'Settings',
     goBack: 'Go back',
     habitFallback: 'Habit',
     habitNameA11y: 'Habit name {{name}}',
   },
   stats: {
-    kpiBestStreak: 'Best streak',
-    kpiCompletionRate: 'Completion rate',
-    kpiTotalCompleted: 'Total completed',
+    kpiBestStreak: 'Longest streak',
+    kpiCompletionRate: 'Completion',
+    kpiTotalCompleted: 'Total done',
     kpiPeriodHint:
-      'Summary cards use the last 90 days. The chart below shows the last 30 days.',
+      'Summary cards: last 90 days. Line chart: last 30 days.',
     chartTitle: 'Last 30 days',
     chartDescription:
-      'Number of habits you marked done each day (out of those scheduled that day).',
+      'Scheduled habits you completed each day.',
     chartMetricAvg: 'Daily average',
     chartMetricMax: 'Best day',
-    chartMetricActive: 'Active days',
+    chartMetricActive: 'Days with progress',
     chartMetricActiveValue: '{{active}} / {{total}}',
     chartFootnote:
-      'Vertical axis: habits completed that day. Flat segments mean no progress that day.',
-    chartEmpty: 'No activity in this period yet.',
-    demoDataHint: 'Sample data — add habits to see your real statistics.',
+      'Height shows how many habits you completed. Flat stretches mean no completions that day.',
+    chartEmpty: 'Nothing logged in this range yet.',
+    demoDataHint: 'Preview data — add habits to see your own stats.',
   },
   habitSummary: {
     streak: 'Streak',
@@ -54,7 +54,7 @@ export default {
   },
   habitCard: {
     openDetailsReorderHint:
-      'Opens habit details. Light ticks while holding mean reorder is almost ready; keep holding to lift and move.',
+      'Opens details. Keep holding until the card lifts, then drag to reorder.',
     openDetails: 'Opens habit details',
     progressA11y: 'Progress {{current}} of {{target}}',
   },
@@ -68,18 +68,18 @@ export default {
     sectionCompleted: 'Completed today',
     emptyTitle: 'No habits yet',
     emptySubtitle:
-      'Add your first habit to track progress, build streaks, and see your activity on the calendar.',
-    emptyButton: 'Create your first habit',
+      'Add one to mark progress, grow streaks, and fill your activity map.',
+    emptyButton: 'Add your first habit',
     progressTitle: "Today's progress",
     progressSummary: '{{completed}} of {{total}} habits completed',
     progressA11y: '{{completed}} of {{total}} habits completed',
     deleteTitle: 'Delete habit',
-    deleteMessage: 'This cannot be undone.',
+    deleteMessage: 'This removes the habit and its history from this device.',
   },
   heatmap: {
     title: 'Last 90 days',
     subtitle:
-      'Rows are weekdays (Mon–Sun), columns are weeks. Greener means you completed a larger share of your habits that day. Tap a square for exact numbers.',
+      'Each cell is one day. Rows Mon–Sun, columns are weeks. Darker green = more habits done. Tap for the exact count.',
     legendLess: 'Less',
     legendMore: 'More',
     dayCellA11y:
@@ -88,22 +88,22 @@ export default {
   },
   homeHabitsHeader: {
     headline: 'My habits',
-    lead: 'Tap a habit to see details, your {{days}}-day timeline, and mark today complete. Use the button below to add another.',
+    lead: 'Tap a habit for details and your last {{days}} days. Use the button to add another.',
     addButton: '+ Add habit',
   },
   storageGate: {
-    errorTitle: "Couldn't load saved habits",
+    errorTitle: "Couldn't load your habits",
   },
   settings: {
     remindersTitle: 'Reminders',
     remindersLead:
-      'Habit reminders are delivered locally on this device at the times you choose. System notification permission is required.',
+      'Reminders appear on this device at the times you set. Allow notifications when the system asks.',
     status: 'Status',
     allowNotifications: 'Allow notifications',
     openSystemSettings: 'Open system settings…',
     openSystemSettingsA11y: 'Open system settings',
     globalRulesHint:
-      'These options apply to every habit that has reminders turned on.',
+      'Applies to every habit that has reminders enabled.',
     turnOffAll: 'Turn off all reminders',
     sameTimeAll: 'Same time for every habit',
     time24h: 'Time (24h)',
@@ -117,11 +117,11 @@ export default {
     themeSystem: 'System',
     dataTitle: 'Data',
     dataLead:
-      'Permanently delete all habits and completion history from this device.',
+      'Deletes every habit and all completions on this device. You cannot undo this.',
     deleteAllHabits: 'Delete all habits',
     aboutTitle: 'About',
     versionLine: '{{name}} · version {{version}}',
-    aboutFoot: 'Your data is stored locally on this device.',
+    aboutFoot: 'Data stays on this device — no account required.',
     deleteAllTitle: 'Delete all habits',
     deleteAllMessage:
       'This cannot be undone. All habits and completion history will be removed.',
@@ -151,9 +151,9 @@ export default {
     headlineNew: 'New habit',
     headlineEdit: 'Edit habit',
     leadNew:
-      'Only habit name is required. Icon, color, category, notes, frequency, and number goal all have defaults or are optional — badges show which is which.',
+      'Start with a name — it is the only required field. Other fields have defaults; badges mark what is optional.',
     leadEdit:
-      'Update name, appearance, or schedule. Your history and check-ins stay as they are.',
+      'Change the name, look, or schedule. Past check-ins are kept.',
     appearance: 'Appearance',
     icon: 'Icon',
     iconA11y: 'Icon {{emoji}}',
@@ -161,20 +161,20 @@ export default {
     colorA11y: 'Color {{label}}',
     basics: 'Basics',
     habitName: 'Habit name',
-    namePlaceholder: 'e.g. Morning stretch, Read 10 minutes',
+    namePlaceholder: 'e.g. Stretch, Read 10 min',
     nameA11y: 'Habit name',
     voiceNameA11y: 'Hold to dictate habit name',
     details: 'Details',
     category: 'Category',
     notes: 'Notes',
-    notesPlaceholder: 'Why it matters, triggers, tips…',
+    notesPlaceholder: 'Why it matters, cues, tips…',
     notesA11y: 'Habit notes',
     voiceNotesA11y: 'Hold to dictate notes',
     scheduleGoal: 'Schedule & goal',
     frequency: 'Frequency',
     dailyGoal: 'Daily number goal',
     countHint:
-      'Turn on for a count target (e.g. glasses of water, steps).',
+      'Use for countable goals (glasses, steps, pages, …).',
     enableTarget: 'Enable target',
     trackCountA11y: 'Track as count toward a daily goal',
     targetPerDay: 'Target per day',
@@ -183,12 +183,12 @@ export default {
     reminders: 'Reminders',
     pushNotifications: 'Push notifications',
     remindersHint:
-      'Local notifications at the times you set below. For weekly habits you can also pick which days apply.',
+      'Alerts at the times below. Weekly habits can use specific weekdays.',
     enableReminders: 'Enable reminders',
     enableRemindersA11y: 'Enable habit reminder notifications',
     reminderTimes: 'Reminder times',
     reminderTimesHint:
-      'Up to {{max}} times per day, 24-hour clock (device local time). Digits only — you can clear a field to retype; when you leave it empty, hour defaults to 09 and minute to 00.',
+      'Up to {{max}} per day, 24h clock (device time). Digits only. Empty hour/minute defaults to 09:00.',
     reminderHourA11y: 'Reminder {{n}} hour',
     reminderMinuteA11y: 'Reminder {{n}} minute',
     removeReminderA11y: 'Remove reminder time {{n}}',
@@ -196,19 +196,19 @@ export default {
     addAnotherTimeA11y: 'Add another reminder time',
     reminderDays: 'Reminder days',
     reminderDaysHint:
-      'Weekly habit: pick which days you want a nudge (at least one).',
+      'Pick at least one weekday for reminders.',
     saveSection: 'Save',
-    hintNeedNameNew: 'Enter a name in Basics, then tap Create habit.',
-    hintNeedNameEdit: 'Enter a name in Basics, then save your changes.',
+    hintNeedNameNew: 'Add a name under Basics, then tap Create habit.',
+    hintNeedNameEdit: 'Add a name under Basics, then save.',
     createHabit: 'Create habit',
     saveChanges: 'Save changes',
     tipsTitle: 'Quick tips',
     tip1:
-      '• Tap a habit on the home list to toggle today, or open details for the {{days}}-day timeline.',
+      '• On Home, tap a habit to mark today or open its {{days}}-day history.',
     tip2:
-      '• On the details screen, use "Mark as completed" for today. After you\'ve marked today, the button stays disabled until tomorrow.',
+      '• In details, use Mark done for today. After that, it unlocks again tomorrow.',
     tip3:
-      '• Frequency is saved on the habit (daily vs weekly) so you can filter or remind yourself later; marking today works the same either way.',
+      '• Daily vs weekly only changes the schedule; marking today works the same.',
     categories: {
       health: 'Health',
       fitness: 'Fitness',
@@ -256,11 +256,11 @@ export default {
     undoToday: 'Undo today',
     delete: 'Delete habit',
     deleteTitle: 'Delete habit',
-    deleteMessage: 'This cannot be undone.',
-    notFound: 'Habit not found',
+    deleteMessage: 'This removes the habit and its history from this device.',
+    notFound: 'This habit is no longer here',
     history: 'History',
     about: 'About',
-    howYouTrack: 'How you track it',
+    howYouTrack: 'Tracking type',
     numberGoal: 'Number goal · {{target}} per day',
     checklist: 'Checklist · once per day',
     goalMet: 'Goal met today',
@@ -274,7 +274,7 @@ export default {
     notes: 'Notes',
     notifications: 'Notifications',
     remindersMuted:
-      'Reminders are off, or no times are set. Turn them on under Edit habit.',
+      'Reminders off or no times set — enable them in Edit habit.',
     created: 'Created',
     logEntries: 'Log entries',
     weekly: 'Weekly',
@@ -283,14 +283,14 @@ export default {
   habitProgress: {
     lastDays: 'Last {{days}} days',
     hint:
-      'Oldest on the left, today on the right. Solid dot = goal met that day. Ring = part of your current streak.',
+      'Older days on the left, today on the right. Solid dot = goal met; ring = inside your streak.',
     hintCount: ' Under the dot: progress toward today’s target.',
     savedLogs: 'Saved log entries',
     hintLogsCount:
-      'Newest first. Each row is a day you logged progress; the value is your count toward the daily goal.',
+      'Newest first. Each row is one day; the number is your count toward the daily goal.',
     hintLogsBool:
-      'Newest first. Each row is a day you marked this habit done.',
-    noCheckIns: 'No check-ins yet',
+      'Newest first. Each row is a day you marked done.',
+    noCheckIns: 'No entries yet',
     today: 'Today',
   },
   habitActivity: {
@@ -308,19 +308,18 @@ export default {
   notifications: {
     channelName: 'Habit reminders',
     habitTitle: 'Time for "{{title}}"',
-    habitBody: 'Open Bloom to check it off for today.',
+    habitBody: 'Open Bloom and mark it done for today.',
   },
   daySheet: {
-    completion: '{{pct}}% completion',
-    completedLabel: 'completed',
-    emptyTitle: 'No habits tracked',
-    emptySubtitle: 'Start building your routine 💪',
+    completion: '{{pct}}% done',
+    completedLabel: 'done',
+    emptyTitle: 'No habits for this day',
+    emptySubtitle: 'Add habits on Home — they will show up here.',
   },
   homeSwipe: {
     hintReorder:
-      'Swipe left to show Done, swipe right for edit and delete. Hold on the card about one second to reorder active habits.',
-    hint:
-      'Swipe left to show Done, swipe right for edit and delete',
+      'Swipe left: Done · swipe right: edit or delete. Hold ~1s on a card to reorder.',
+    hint: 'Swipe left: Done · swipe right: edit or delete',
     stripEdit: 'Edit',
     stripDelete: 'Delete',
     editA11y: 'Edit habit',
@@ -334,18 +333,18 @@ export default {
     recordA11yHint: 'Hold to record speech. Release to stop.',
     devBuildA11yHint:
       'Voice dictation needs a development build with native speech recognition.',
-    multilineHint: 'Hold the mic to speak, release to stop.',
+    multilineHint: 'Hold the mic to talk, release to stop.',
     unavailable:
-      'Speech recognition is not available in this build (for example Expo Go). Create a development build with native code — run npx expo run:ios or npx expo run:android after adding the expo-speech-recognition plugin.',
+      'Not available in Expo Go. Use a dev build: npx expo run:ios or run:android with expo-speech-recognition.',
     permission:
       'Microphone and speech recognition permission is required to dictate text.',
     failed: 'Speech recognition failed.',
-    startFailed: 'Could not start speech recognition on this device.',
+    startFailed: 'Could not start speech recognition here.',
   },
   editHabit: {
-    changeKindTitle: 'Change habit type?',
+    changeKindTitle: 'Switch tracking type?',
     changeKindMessage:
-      'Days you already completed will be converted for the new style (simple check-off vs daily count). This cannot be undone.',
+      'Past days will be converted between check-off and count modes. This cannot be undone.',
   },
   stack: {
     back: 'Back',

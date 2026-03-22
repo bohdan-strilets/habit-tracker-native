@@ -132,8 +132,7 @@ export const StatsChart = ({ days }: StatsChartProps) => {
   }, [scheme, theme.colors]);
 
   const chartDescriptionText = t('stats.chartDescription', {
-    defaultValue:
-      'Number of habits you marked done each day (out of those scheduled that day).',
+    defaultValue: 'Scheduled habits you completed each day.',
   });
 
   if (data.length === 0) {
