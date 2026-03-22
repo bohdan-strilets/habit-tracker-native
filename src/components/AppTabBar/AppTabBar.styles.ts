@@ -1,9 +1,10 @@
 import { Platform, StyleSheet } from 'react-native';
 
+/** Помірний blur: панель виглядає частиною інтерфейсу, а не окремим «склом». */
 export const APP_TAB_BAR_BLUR_INTENSITY = Platform.select({
-  ios: 88,
-  android: 40,
-  default: 80,
+  ios: 78,
+  android: 36,
+  default: 70,
 });
 
 export const appTabBarStyles = StyleSheet.create({
@@ -11,14 +12,7 @@ export const appTabBarStyles = StyleSheet.create({
     position: 'relative',
     overflow: 'hidden',
     backgroundColor: 'transparent',
-  },
-
-  androidFallbackLight: {
-    backgroundColor: 'rgba(250, 250, 252, 0.97)',
-  },
-
-  androidFallbackDark: {
-    backgroundColor: 'rgba(28, 28, 30, 0.97)',
+    flexGrow: 0,
   },
 
   hairline: {

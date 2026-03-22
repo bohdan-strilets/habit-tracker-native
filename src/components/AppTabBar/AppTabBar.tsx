@@ -19,9 +19,7 @@ export const AppTabBar = (props: AppTabBarProps) => {
         <View
           style={[
             StyleSheet.absoluteFill,
-            scheme === 'dark'
-              ? styles.androidFallbackDark
-              : styles.androidFallbackLight,
+            { backgroundColor: theme.colors.background.screen },
           ]}
         />
       ) : null}

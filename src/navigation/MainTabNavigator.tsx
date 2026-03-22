@@ -1,12 +1,11 @@
 import { AppHeader } from '@components/AppHeader';
-import { AppTabBar } from '@components/AppTabBar';
+import { AppTabBar, HapticTabBarButton } from '@components/AppTabBar';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AddHabitScreen, SettingsScreen, StatsScreen } from '@screens';
 import {
   getTabBarContainerStyle,
   layout,
-  tabBarIconStyle,
   tabBarItemStyle,
   useAppTheme,
 } from '@theme';
@@ -28,8 +27,9 @@ export const MainTabNavigator = () => {
       tabBarInactiveTintColor: theme.colors.tab.inactive,
       tabBarShowLabel: false,
       tabBarItemStyle,
-      tabBarIconStyle,
       tabBarStyle: getTabBarContainerStyle(theme.colors),
+      tabBarButton: (props) => <HapticTabBarButton {...props} />,
+      tabBarHideOnKeyboard: true,
     }),
     [theme.colors],
   );

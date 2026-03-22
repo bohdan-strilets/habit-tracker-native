@@ -9,7 +9,6 @@ export {
 } from './model/navigationTheme';
 export {
   getTabBarContainerStyle,
-  tabBarIconStyle,
   tabBarItemStyle,
 } from './model/tabBarStyles';
 export { colorsDark } from './palettes/dark';
