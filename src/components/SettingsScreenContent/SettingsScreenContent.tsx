@@ -2,12 +2,14 @@ import { Card } from '@components/Card';
 import { FadeSlideIn } from '@components/FadeSlideIn';
 import { createHabitDetailsSharedStyles } from '@components/HabitDetailsShared';
 import { PrimaryButton } from '@components/PrimaryButton';
+import { SettingsProfileCard } from '@components/SettingsProfileCard';
 import { Stack } from '@components/Stack';
 import { TextField } from '@components/TextField';
 import { APP_DISPLAY_NAME } from '@constants/branding';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettingsScreen } from '@hooks/useSettingsScreen';
 import { useLanguageStore } from '@store/useLanguageStore';
+import { useOnboardingProfileStore } from '@store/useOnboardingProfileStore';
 import { fontSize, space, useAppTheme } from '@theme';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +22,7 @@ import { createSettingsScreenContentStyles } from './SettingsScreenContent.style
 export const SettingsScreenContent = () => {
   const { t } = useTranslation();
   const { theme } = useAppTheme();
+  const hasOnboardingProfile = useOnboardingProfileStore((s) => s.profile != null);
   const language = useLanguageStore((s) => s.language);
   const setLanguage = useLanguageStore((s) => s.setLanguage);
 
@@ -338,7 +341,13 @@ export const SettingsScreenContent = () => {
           </Card>
         </FadeSlideIn>
 
-        <FadeSlideIn index={3}>
+        {hasOnboardingProfile ? (
+          <FadeSlideIn index={3}>
+            <SettingsProfileCard />
+          </FadeSlideIn>
+        ) : null}
+
+        <FadeSlideIn index={4}>
           <Card>
             <Text style={shared.sectionHeading}>{t('settings.dataTitle')}</Text>
             <Text style={styles.body}>{t('settings.dataLead')}</Text>
@@ -350,7 +359,7 @@ export const SettingsScreenContent = () => {
           </Card>
         </FadeSlideIn>
 
-        <FadeSlideIn index={4}>
+        <FadeSlideIn index={5}>
           <Card variant="muted">
             <Text style={shared.sectionHeading}>{t('settings.aboutTitle')}</Text>
             <Text style={styles.versionLine}>

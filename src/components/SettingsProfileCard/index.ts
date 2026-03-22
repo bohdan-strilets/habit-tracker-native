@@ -1,0 +1,1 @@
+export { SettingsProfileCard } from './SettingsProfileCard';
