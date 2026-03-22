@@ -75,6 +75,7 @@ export default {
     progressA11y: '{{completed}} of {{total}} habits completed',
     deleteTitle: 'Delete habit',
     deleteMessage: 'This removes the habit and its history from this device.',
+    userNameFallback: 'friend',
   },
   heatmap: {
     title: 'Last 90 days',
@@ -137,6 +138,12 @@ export default {
     languageEnglish: 'English',
     languageUkrainian: 'Ukrainian',
     languagePolish: 'Polish',
+    profileTitle: 'Profile',
+    profileNameLabel: 'Name',
+    profileGoalLabel: 'Main focus',
+    profileEdit: 'Edit profile',
+    profileSave: 'Save',
+    profileSaveError: 'Could not save your profile. Please try again.',
   },
   streak: {
     daysA11y: 'Streak {{days}} days',
@@ -348,5 +355,20 @@ export default {
   },
   stack: {
     back: 'Back',
+  },
+  onboarding: {
+    welcomeTitle: 'Welcome',
+    welcomeSubtitle: 'Build habits that stick — one day at a time.',
+    getStarted: 'Get started',
+    nameTitle: 'What should we call you?',
+    namePlaceholder: 'Your name',
+    goalTitle: 'What matters most right now?',
+    finish: 'Continue',
+    nameA11y: 'Your name',
+    goals: {
+      build: 'Build better habits',
+      consistency: 'Stay consistent every day',
+      focus: 'Feel calmer and more focused',
+    },
   },
 };

@@ -1,6 +1,7 @@
 import { HabitStorageGate } from '@components/HabitStorageGate';
-import { LanguageProvider } from '@i18n';
+import { OnboardingGate } from '@components/OnboardingGate';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { LanguageProvider } from '@i18n';
 import { MainTabNavigator } from '@navigation/MainTabNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { buildNavigationTheme, ThemeProvider, useAppTheme } from '@theme';
@@ -38,9 +39,11 @@ export default function App() {
         <LanguageProvider>
           <ThemeProvider>
             <BottomSheetModalProvider>
-              <HabitStorageGate>
-                <AppNavigation />
-              </HabitStorageGate>
+              <OnboardingGate>
+                <HabitStorageGate>
+                  <AppNavigation />
+                </HabitStorageGate>
+              </OnboardingGate>
             </BottomSheetModalProvider>
           </ThemeProvider>
         </LanguageProvider>

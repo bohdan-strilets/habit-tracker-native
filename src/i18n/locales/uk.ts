@@ -76,6 +76,7 @@ export default {
     progressA11y: '{{completed}} з {{total}} звичок виконано',
     deleteTitle: 'Видалити звичку',
     deleteMessage: 'Звичку та її історію буде видалено з цього пристрою.',
+    userNameFallback: 'друже',
   },
   heatmap: {
     title: 'Останні 90 днів',
@@ -138,6 +139,12 @@ export default {
     languageEnglish: 'Англійська',
     languageUkrainian: 'Українська',
     languagePolish: 'Польська',
+    profileTitle: 'Профіль',
+    profileNameLabel: 'Ім’я',
+    profileGoalLabel: 'Головний фокус',
+    profileEdit: 'Редагувати профіль',
+    profileSave: 'Зберегти',
+    profileSaveError: 'Не вдалося зберегти профіль. Спробуйте ще раз.',
   },
   streak: {
     daysA11y: 'Серія {{days}} днів',
@@ -349,5 +356,20 @@ export default {
   },
   stack: {
     back: 'Назад',
+  },
+  onboarding: {
+    welcomeTitle: 'Вітаємо',
+    welcomeSubtitle: 'Формуй звички, що залишаються — день за днем.',
+    getStarted: 'Почати',
+    nameTitle: 'Як до тебе звертатися?',
+    namePlaceholder: 'Твоє ім’я',
+    goalTitle: 'Що зараз найважливіше?',
+    finish: 'Далі',
+    nameA11y: 'Твоє ім’я',
+    goals: {
+      build: 'Кращі звички',
+      consistency: 'Стабільність щодня',
+      focus: 'Спокій і концентрація',
+    },
   },
 };

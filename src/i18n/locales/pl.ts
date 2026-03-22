@@ -76,6 +76,7 @@ export default {
     progressA11y: '{{completed}} z {{total}} nawyków ukończonych',
     deleteTitle: 'Usuń nawyk',
     deleteMessage: 'Nawyk i jego historia zostaną usunięte z tego urządzenia.',
+    userNameFallback: 'Przyjacielu',
   },
   heatmap: {
     title: 'Ostatnie 90 dni',
@@ -138,6 +139,12 @@ export default {
     languageEnglish: 'Angielski',
     languageUkrainian: 'Ukraiński',
     languagePolish: 'Polski',
+    profileTitle: 'Profil',
+    profileNameLabel: 'Imię',
+    profileGoalLabel: 'Główny cel',
+    profileEdit: 'Edytuj profil',
+    profileSave: 'Zapisz',
+    profileSaveError: 'Nie udało się zapisać profilu. Spróbuj ponownie.',
   },
   streak: {
     daysA11y: 'Seria {{days}} dni',
@@ -350,5 +357,20 @@ export default {
   },
   stack: {
     back: 'Wstecz',
+  },
+  onboarding: {
+    welcomeTitle: 'Witaj',
+    welcomeSubtitle: 'Twórz nawyki, które zostają — dzień po dniu.',
+    getStarted: 'Zaczynamy',
+    nameTitle: 'Jak mamy się do Ciebie zwracać?',
+    namePlaceholder: 'Twoje imię',
+    goalTitle: 'Co jest teraz najważniejsze?',
+    finish: 'Kontynuuj',
+    nameA11y: 'Twoje imię',
+    goals: {
+      build: 'Lepsze nawyki',
+      consistency: 'Codzienna regularność',
+      focus: 'Spokój i skupienie',
+    },
   },
 };
